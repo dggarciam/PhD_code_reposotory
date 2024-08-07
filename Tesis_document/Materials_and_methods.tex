@@ -1,0 +1,1055 @@
+\chapter{Materials and Methods}
+
+
+\section{EEG-based Motor Imagery Datasets}\label{sec:dataset}
+
+We employed three motor-related public databases to appraise the performance of the proposed single-trial KCS-FC, automatic subject-specific EEG representations KCS-FCnet, and the qualitative and quantitative explainability IRKCS-FCnet. These databases are described in detail below.
+
+\subsection{BCI Competition IV Dataset IIa - DBI MI}
+
+\subsubsection{Protocol Design}
+
+BCI Competition IV dataset IIa (DBI MI) is a public dataset \footnote{\url{www.bbci.de/competition/iv}} created by researchers in \cite{brunner2008bci} that contains EEG recordings from nine subjects ($M=9$) who were instructed to perform four MI tasks ($N_y=4$) (left hand, right hand, feet, and tongue). Data were gathered in two days within six runs, yielding three runs per day. One run contains $12$ trials per task, which were recorded by $C=22$ channels, for a total of $R=144$ trials of each label per subject, where each channel was sampled at \changes{$250 Hz$}. To estimate Electro-oculography (EOG) influence, EEG recording with opened, closed, and in-movement eyes lasting five minutes at the beginning of each session as illustrated in \cref{fig:bci2a_schema}.
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=\linewidth]{Figures/preliminaries/BCI2a_schema.pdf}
+  \caption{Schema representing a one-day session of EEG data collection for the DBI MI \label{fig:bci2a_schema}}
+\end{figure}
+
+Subjects were instructed to sit on a comfortable armchair in front of a computer screen. \cref{fig:BCI2aprotocol} shows the seven-second MI protocol. The start was indicated by a short acoustic warning and a cross on a black screen for two seconds, then an arrow pointing left, right, down, or up indicated to the subjects to perform the desired MI task. Furthermore, the subjects were asked to continue the MI task until the cross disappeared \changes{three} seconds later. Afterward, a black screen indicated a short break until the beep and the cross reappeared, and a new trial started.
+
+\begin{figure}[h!]
+\centering
+    \resizebox{0.5\linewidth}{!}{\input{Figures/preliminaries/procedure_BCI2a.tikz}}
+    \caption{Illustration of the seven-second DBI MI protocol used in the study. The protocol commences with a short acoustic warning and a cross shown on a screen for two seconds, followed by an arrow indicating the type of MI task to be performed. The black screen marks a brief break interval between tasks.
+    \label{fig:BCI2aprotocol}}
+\end{figure}
+
+\subsubsection{Data Recording}
+
+Twenty-two Ag/AgCI electrodes with an inter-electrode distance of 3.5cm and an international $10-20$ montage were used to acquire brain activity as shown in \cref{fig:montagebci2a}. All signals were monopolar recorded with the left mastoid electrode serving as a reference and the right one as ground. Activity was sampled at \changes{$250 s$} and bandpass filtered between \changes{$0.5 Hz$} and \changes{$100 Hz$}. The amplifier sensitivity was set to $100 \mu V$. Additionally, a notch filter centered at \changes{$50 Hz$} was applied to diminish electrical line noise. Moreover, three monopolar EOG channels were also included with the same specifications but with amplifier sensitivity set to $1mV$. This was done with the intention of subsequent artifact removal strategies. An expert visually inspected all EEG recordings to mark trials with high noise artifacts.
+
+\begin{figure}[h!]
+\centering
+    \includegraphics[width=0.6\linewidth]{Figures/preliminaries/bcielectrodes.PNG}
+    \caption{Illustration of the electrode montage including the left image adhering to the international 10-20 system used for acquiring brain activity and the right image showing the montage of the three monopolar EOG channels employed for subsequent artifact removal. \textbf{Source:} \cite{brunner2008bci}. \label{fig:montagebci2a}}
+\end{figure}
+
+\subsection{Gamma Motor Execution Database---DBII ME}
+
+\subsubsection{Protocol Design}
+
+We explore the data that are publicly available at (\url{https://gin.g-node.org/robintibor/high-gamma-dataset}); this collection is a dataset collected by authors in \cite{schirrmeister2017deep}, obtained from $14$ healthy subjects ($6$ female, $2$ left-handed, age $27.2\pm 3.6$) with four-second trials of executed movements divided into $13$ runs per subject and ($R = 260$) trials were performed to collect each movement and rest. The four classes were movements of either the left hand, the right hand, both feet, and rest (no movement, but the same type of visual cue as the other classes). Visual cues were presented while using a monitor outside the cabin, which was visible through the shielded window. A fixation point was attached at the center of the screen. The subjects were instructed to relax, fixate on the mark, and keep as still as possible during the motor execution task. The tasks were as follows: Depending on the direction of a gray arrow that was shown on the black background. The subjects had to clench their toes (downward arrow), repetitively, perform sequential finger-tapping of their left (leftward arrow) or right (rightward arrow) hand, or relax (upward arrow). The movements were selected to require little proximal muscular activity while still being complex enough to keep subjects involved. Within the \changes{$4 s$} trials, the subjects performed the repetitive movements at their own pace, which had to be maintained as long as the arrow was showing. Per run, $80$ arrows were displayed for \changes{$4 s$} each, with $3$ to \changes{$4 Hz$} of continuous random inter-trial interval as shown in \cref{fig:gamma_time}
+
+\begin{figure}[h!]
+\centering
+    \resizebox{1.0\linewidth}{!}{\input{Figures/preliminaries/procedure_gamma.tikz}}
+    \caption{Schema representing a one-run session of EEG data collection for the DBII ME
+    \label{fig:gamma_time}}
+\end{figure}
+
+\subsubsection{Data Recording}
+
+The EEG setup for the experiment comprised active electromagnetic shielding, high-resolution low-noise amplifiers, an actively shielded $128$-channel EEG cap, and full optical decoupling. All devices were battery-powered and communicated via optical fibers. Data were collected from $44$ sensors covering the motor cortex as shown in \cref{fig:eeg_gamma}, and were sampled at a rate of \changes{$500 Hz$}. Subjects were accommodated comfortably in a dimly lit Faraday cabin where they received visual cues on a monitor approximately $1$ meter away. A fixation point served as the focal point during the motor execution exercises. Subjects were instructed to stay still, relax, and limit body movements like blinking and swallowing to inter-trial intervals to ensure optimal data collection. The combined effect of the electromagnetic shielding and the comfortable, dimly lit environment helped maintain data coherence.
+
+\begin{figure}[h!]
+\centering
+    \includegraphics[width=0.4\linewidth]{Figures/preliminaries/gammaelectrodes.PNG}
+    \caption{Positioning of the 44 sensors on the EEG cap, covering the motor cortex used for data collection in the motor execution experiment. Source: \cite{borra2019eeg} \label{fig:eeg_gamma}}
+\end{figure}
+
+\subsection{MI BCI EEG Giga Science Database - DBIII MI}
+
+MI BCI EEG Giga Science database (DBIII MI) is an ideal choice for our validation as it has been widely used in the field of MI classification and has been shown to provide a robust benchmark for evaluating the performance of different models \cite{cho2017eeg}.
+However, for the purpose of our study, we will only consider 50 subjects who met the minimum requirement of having at least 100 EEG trials recorded.
+
+\subsubsection{Protocol Design}
+
+This collection, publicly available at \footnote{\url{http://gigadb.org/dataset/100295}} and produced by researchers in \cite{cho2017eeg} holds EEG recordings obtained from 52 subjects ($M=52$), holding 19 females, performing two MI tasks ($N_y=2$) (left and right hand). $50$ were right-handed and $2$ left-handed. Data were gathered in a laboratory with a noise level between $37$ and $39$ decibels during one of the next time slots, T1 (9:30–12:00), T2 (12:30–15:00), T3 (15:30–18:00), or T4 (19:00–21:30).  $R=100$ trials of each label per subject were recorded by $C=64$ channels, where each channel was sampled at \changes{$512 Hz$}. Furthermore, EMG and EEG were recorded simultaneously with the same system and sampling rate to check actual hand movements.
+
+\begin{figure}[h!]
+\centering
+    \includegraphics[width=0.7\linewidth]{Figures/preliminaries/protocol_giga.PNG}
+    \caption{Diagram illustrating the experiment protocol involving motor imagery tasks. The figure shows the sequence of prompting, performing, and break periods in a single run. Source: \cite{cho2017eeg} \label{fig:protocol_giga}}
+\end{figure}
+
+The experiment involved non-motor related and motor imagery tasks, starting with data collected under six different types of noise conditions: eye blinking, eye movements, head movement, chewing, and resting state. Each noise type was recorded twice for five seconds, except for the resting state condition, which was recorded for 60 seconds. Following the noise data collection, subjects performed MI tasks, which were prompted via a monitor and conducted as per a protocol explained in \cref{fig:protocol_giga}. Each trial in this experiment stage started with a 2-second fixation on a cross displayed on a black screen. This was followed by a cue indicating a right or left-hand MI task. During the MI task, subjects were instructed to imagine the sensation of touching each finger of the designated hand with the thumb, beginning from the index finger and proceeding sequentially to the little finger. This emphasis on the kinesthetic rather than the visual aspect ensured that the subjects were indeed imagining the motor task. The MI task continued for 3 seconds, after which a blank screen signaled a rest period. This recovery interval lasted randomly between 2.1 and 2.8 seconds.
+
+This task, break, and recovery cycle was repeated 20 times to form a complete run. Each subject performed between five and six such runs. After each run, a cognitive questionnaire was given to the subjects as an additional data collection point. Data quality was ensured by labeling and excluding trials with high voltage magnitude, classified as "bad trials", from the final analysis. Lastly, to maintain the engagement and motivation of the subjects, they were provided with feedback on the accuracy of their task performance after each run.
+
+
+
+\subsubsection{Data Recording}
+
+For this experiment, EEG data were collected using 64 active Ag/AgCl electrodes, according to a 64-channel montage based on the international 10-10 system and recorded at a sampling rate of \changes{$512 Hz$} as illustrated in Figure \ref{fig:dataset_sensors}. The Biosemi ActiveTwo system was employed for EEG collection, with instructions for left or right-hand motor imagery being presented through the BCI2000 system 3.0.2. EMG was recorded concurrently with EEG to verify actual hand movements, with two electrodes attached to the flexor digitorum profundus and extensor digitorum on each arm. For every participant, the EEG channel locations were recorded with a 3D coordinate digitizer; positions were averaged from three measurements to accommodate for possible hand tremors.
+
+\begin{figure}[h!]
+\centering
+        \resizebox{0.4\linewidth}{!}{\input{Figures/Objective_2/reference_plot_2}}
+    \caption{Sensor positions in a $10${--}$10$ placement electrode system, containing 64 channels. Besides, it highlights in color the main parts of the brain ( \legend{frontal_left} Frontal left, \legend{frontal} Frontal, \legend{frontal_right} Frontal right, \legend{central_right} Central right, \legend{posterior_right} Posterior right, \legend{posterior} Posterior, \legend{posterior_left} Posterior left, \legend{central_left} Central left)}
+    \label{fig:dataset_sensors}
+\end{figure}
+
+
+\section{Theoretical Background}
+
+In this section, we introduce the mathematical formulation of relevant related concepts used throughout this study.
+
+
+\subsection{Motor Imagery Classification from EEG Signals}
+
+\changes{MI involves the neural simulation of a movement that, although not physically executed, activates the same areas of the brain as actual movements. EEGs capture these activations, and machine learning models can be built to interpret these signals, allowing the prediction of human actions purely from the EEGs.}
+
+\changes{From the mathematical perspective, let $\{\mat{X}_r\}_{r=1}^{R}$ be a multi-channel EEG observation from trial $r$, where each element $\mat{X}_r = \{\ve{x}_r^c  \in \Real^{N_t}\}_{c=1}^{N_c} $ contains $N_t \in \Natural$ time instants and $N_c \in \Natural$ number of channels. Moreover, there exists a function $\func{F}$ \eqref{eq:model} that exactly maps each trial $\mat{X}_r$ into the label space $y_r \in \{0, 1, \cdots, N_y\}$ representing the type of motor imagery with $N_y \in \Natural$ denoting the number of classes. The goal of EEG-MI classification is to find the best possible estimation function $\hat{\func{F}}(\cdot; \ve{w})$ that approximates the true function $\func{F}$ in \eqref{eq:model}, depending on a set of trainable parameters denoted as $\ve{w}$}
+
+\begin{equation}\label{eq:model}
+\func{F}: \mat{X}_r \mapsto y_r \quad \forall r \in \{1, \ldots, R\}    
+\end{equation}
+
+
+
+\subsubsection{Performance Measurement}
+
+Performance measurement is necessary to evaluate the effectiveness of an EEG signal MI classification model. There are several commonly used metrics to measure the performance of such models, including Accuracy, Kappa coefficient, and the Area Under the Receiver Operating Characteristic Curve (AUC-ROC).
+
+\textbf{Accuracy}: is the proportion of trials where a model correctly predicts the class label, represented as:
+
+\begin{equation}
+Acc = \frac{1}{R} \sum_{r=1}^{R} \Kronecker{\hat{y}_r}{y_r}
+\end{equation}
+
+
+where $\hat{y}_r$ and $y_r$ are the predicted and actual class labels, respectively, for the $r$-th trial, and $\Kronecker{\cdot}{\cdot}$ is the Kronecker delta function.
+
+\textbf{Kappa Coefficient}: or Cohen’s kappa, measures inter-rater agreement. It considers the agreement occurring by chance, hence, providing a more robust metric than simple accuracy. Given a confusion matrix, the kappa coefficient can be calculated as:
+
+\begin{equation}
+\kappa = \frac{p_o - p_e}{1 - p_e}    
+\end{equation}
+
+where $p_o$ is the relative observed agreement, and $p_e$ is the hypothetical probability of random chance agreement.
+
+\textbf{AUC-ROC curve}: AUC represents the probability that a classifier will rank a randomly chosen positive instance higher than a randomly chosen negative instance. The ROC curve is created by plotting the true positive rate (TPR) against the false positive rate (FPR) at various threshold settings.
+
+For instance, let $\hat{p}_r$ be the predicted probability of the $r$-th trial belonging to the positive class. Then $\hat{p}_r = \sigma(\hat{\func{F}}(\mat{X}_r); \ve{w})$, where $\sigma(x) = 1/(1 + \exp(-x))$ is the logistic function that transforms the model output into a probability. Therefore, The TPR (or sensitivity) and FPR (or 1-specificity) can be defined as follows:
+
+\begin{equation}
+    TPR = \frac{\text{TP}}{\text{P}} = \frac{\sum_{r=1}^{R} \Kronecker{\hat{y}r}{ y_r}\Kronecker{y_r}{1}}{\sum{r=1}^{R} \Kronecker{y_r}{1}}    
+\end{equation}
+
+\begin{equation}
+    FPR = \frac{\text{FP}}{\text{N}} = \frac{\sum_{r=1}^{R} \Kronecker{\hat{y}_r}{ 1}\Kronecker{y_r}{0}}{\sum{r=1}^{R} \Kronecker{y_r}{0}}
+\end{equation}
+
+where TP is the number of true positives, FP is the number of false positives, P is the number of positive instances, and N is the total number of negative ones. Thus, the AUC can be computed by integrating the curve over the interval $[0,1]$. In practice, the integral is estimated by the trapezoidal rule since we only have a finite number of instances from which to construct the ROC curve. In essence, the AUC-ROC measures the model's ability to discriminate positive from negative cases.
+
+\subsection{Stochastic Processes}
+
+A stochastic process, in the context of MI-BCI systems, serves as a robust mathematical construct for characterizing the progression of underlying random systems over distinct periods of time. More specifically, $\ve{\chi}$ outlines the behavior of each signal. 
+
+This process characteristically encompasses a diverse array of random variables specifically designed to mimic the dynamism inherent within these random systems. Each variable in this set is denoted as $X^c_r(t)$, and for simplicity in mathematical representation, it is rewritten as $X^c(t)$. These variables constitute drawn samples corresponding to distinct time instances $t$. Hence, with the entire set identified as $\{{x}^{c}_{t} \in \Real\}_{t=0}^{N_t}$, these sampled variables effectively encapsulate the progression of the stochastic process, from $t=0$ to $t=N_t$.
+
+\subsubsection{Random Process Moments}
+ 
+In the study of random processes, 'moments' are vital quantitative measures that describe data set features, including mean, variance, skewness, and kurtosis. In this context, the focus is on the first and second moments. The first moment relates to the mean, providing a central data point while the second moment relates to the variance and correlation, indicating data dispersion and the relationship between variables, respectively. These moments give a comprehensive view of the dataset's structure and dynamics.
+
+\subsubsection{First Moment}
+
+The first moment, also known as the expectation, of a random variable $\ve{x}^c(t)$, represents the expected value or mean of the variable. It serves as a measure of the center of the data distribution. The expectation can be mathematically defined as follows.
+
+\begin{equation}
+    \mathbb{E}\{X^{c}\} = \mu_{x^{c}} = \int_{-\infty}^{+\infty} x P_d(x^{c}) dx^{c}
+\end{equation}
+
+where $P_d(x^{c})$ is the probability density function.
+
+\subsubsection{Second Moment}
+
+The second moment of a random variable, often referred to as the variance, denoted as $\mathcal{R}_{X^c}$, serves as the measure of how much the potential outcomes of the variable deviate from its mean value. This quantifies the spread or dispersion of the data. The formulation for variance can be computed as follows.
+
+\begin{equation}
+  \begin{split}
+    \mathcal{R}_{X^c} = \mathbb{E}\{(X^{c} - \mu_{x^{c}})^2\} &= \int_{-\infty}^{+\infty} \left( x^{c}-\mu_{x^{c}} \right) ^2 P_d(x^{c}) dx^{c} \\
+    &= \mathbb{E}\{(X^{c})^2\} - (\mathbb{E}\{X^{c}\})^2
+  \end{split}
+\end{equation}
+
+In the context of EEG-based MI-BCI systems, there is a common practice of centering each channel by eliminating the mean value. Consequently, when $\mu_x^{c}=0$, the variance equation can be reformulated as:
+
+\begin{equation}
+  \begin{split}
+    \mathcal{R}_{X^c} = \mathbb{E}\{(X^{c})^2\} &= \int_{-\infty}^{+\infty}  (x^{c})^2 P_d(x^{c}) dx^{c} \\
+    &= \mathbb{E}\{(X^{c})^2\}
+  \end{split}
+\end{equation}
+
+The Covariance, another important concept intertwined with variance, measures the joint variability or spread of two random variables. It determines how much the variables change together and quantifies their dependency. If two signals $X^c$ and $X^{c'}$ are centered, $\mu_X^{c}=0$ and $\mu_X^{c'}=0$, the covariance $Cov(X^{c},^{c'})$ can be computed as follows.
+
+\begin{equation}
+  \begin{split}
+    \mathcal{R}_{X^{c},X^{c'}} = \mathbb{E} \left[ X^{c} X^{c'}  \right] = \mathbb{E} \left[ X^{c} X^{c'} \right]
+  \end{split}
+\end{equation}
+
+Covariance matrices are essential in many strategies used for MI-BCI, as they capture the relationships between different EEG channels $\ve{x}^c$. These relationships, found in the structure of the covariance matrix, contain relevant information regarding neuronal oscillations and synchronization, both of which are crucial aspects of MI tasks. Using covariance matrices is significant in techniques such as Common Spatial Patterns.
+
+\subsubsection{Wide/Weak-Sense Stationarity Stochastic Processes}
+
+A stochastic process is deemed wide-sense stationary (WSS) or weak-sense stationary if it satisfies the following two conditions.
+
+\begin{enumerate}
+    \item The mean function or the first moment of the process is constant. This implies that the expected value or the average value of the process should be constant over time and not rely on the underlying time. Mathematically, it is represented by the equation:
+
+    \begin{equation}
+        \mathbb{E}\{X^{c}(t)\} = \mu_{x^{c}} = \text{constant, for all } t
+    \end{equation}
+
+    where $\mathbb{E}\{X^{c}(t)\}$ denotes the expected value of the random process at any time instance $t$ and $\mu_{x^{c}}$ is the constant mean value.
+
+    \item The autocorrelation function or the second moment of the process depends only on the difference in time and not the actual time. This suggests that the correlation between two variables taken at different periods should only depend on the difference between those periods. It can be mathematically expressed as follows.
+
+    \begin{equation}
+        \mathbb{E}\{(X^{c}(t_1)-\mu_{x^{c}})(X^{c}(t_2)-\mu_{x^{c}})\} = R_{X^{c}}(t_1,t_2) = R_{X^{c}}(t_2-t_1) = R_{X^{c}}(\tau)
+    \end{equation}
+    
+    Where the autocorrelation function $R_{X^{c}}(t_1,t_2) = R_{X^{c}}(\tau)$ between two points at time instances $t_1$ and $t_2$ is only a function of their difference $\tau=(t_2 - t_1)$. 
+\end{enumerate}
+
+\subsubsection{Wiener Khinchin Theorem}
+
+According to the Wiener Khinchin theorem, the autocorrelation function $\mathcal{R}_{X^c}(\tau)$ of a WSS random process is a Fourier transform pair with its power spectral density $P_{X^c}(f)$. This means that the autocorrelation function in the time domain corresponds to the power spectral density in the frequency domain and vice versa. This can be mathematically represented as follows.
+\begin{equation}
+    \mathcal{R}_{X^c}(\tau) = \int_{\Real} P_{X^c}(f) e^{j 2\pi f \tau} df
+\end{equation}
+
+Likewise, the power spectral density is given by the Fourier transform of the autocorrelation function.
+
+\begin{equation}
+    P_{X^c}(f) = \int_{\mathbb{f}} \mathcal{R}_{X^c}(\tau) e^{-j 2\pi f \tau} d\tau
+\end{equation}
+
+In the context of EEG-based MI-BCI systems, the Wiener-Khinchin theorem provides a useful tool for analyzing EEG signals. By transforming from the time domain to the frequency domain and vice versa, we gain insights into the spectral and temporal properties of the underlying stochastic processes, enabling efficient feature extraction and system identification.
+
+
+\subsection{EEG Classical Feature Extraction Techniques}
+
+The extraction of features from EEG signals is a crucial step towards decoding the information hidden within them. This step involves transforming the raw EEG data into a suitable set of features to represent the inherent properties that are key to differentiating different motor imagery classes. Let $\func{G}$ be a feature extraction function that transforms our raw EEG data into feature vectors as follows:
+\begin{equation}
+\ve{z}_r = \func{G}(\mat{X}_r)    
+\end{equation}
+
+where $\ve{z}_r \in \Real^{N_p}$ represents the feature vector for trial $r$ with $N_p \in \Natural$ denoting the feature size. The feature extraction function $\func{G}$ can be defined in various ways based on different feature extraction methods. The objective here is to find an optimal feature extraction function $\func{G}$ such that the features $\mat{Z}_r = \func{G}(\mat{X}_r)$ are discriminative enough for the classification of motor imagery EEG signals. After feature extraction step, the problem essentially becomes a feature-based classification problem, where we want to find a function $\hat{\func{F}}(\cdot,\ve{w})$ such that the estimated class label $\hat{y}_r = \hat{\func{F}}(\hat{\mat{z}}_r; \ve{w})$ matches the true label $y_r$ as accurately as possible.
+
+\subsubsection{Common Spatial Patterns}
+
+Common Spatial Pattern (CSP) is a widely used technique for extracting features from EEG signals, especially for Motor Imagery tasks. CSP helps in identifying spatial filters that maximize the difference of variance between classes, thereby being a powerful tool for classification problems. the core concept of CSP is the simultaneous diagonalization of two covariance matrices. 
+
+For instance, provide an EEG dataset with two class sets, $X^{c}$ and $X^{c'}$, where for each class, the average covariance matrices $\Sigma_{C1}$ and $\Sigma_{C2}$ are calculated as follows. First, take the sum of the covariance matrices of each trial for the class and divide by the total number of trials in that class. If we have a total of $R_{C1}$ trials in the set $C1$, the covariance matrix for trial $r \in C1$, denoted as $\mat{\Sigma}_{r} \in \Real^{N_c \x N_c}$, can be calculated as:
+
+\begin{equation}
+\mat{\Sigma}_{r} = \frac{1}{N_{t}} \mat{X}_r \mat{X}_{r}^T;\quad \forall r \in C1
+\end{equation}
+
+where $N_{t}$ is the number of time instances and $\mat{X}_{r}^{T}$ is the transpose of the EEG data matrix for trial $r$. Thus, the average covariance matrix for class $C1$, denoted as $\mat{\Sigma}_{C1}$, is then calculated as follows:
+
+\begin{equation}
+\mat{\Sigma}_{C1} = \frac{1}{R_{C1}} \sum_{{r}=1}^{R_{C1}} \mat{\Sigma}_{r};\quad \forall r \in C1     
+\end{equation}
+
+A similar process can be followed to obtain the average covariance matrix for class $C2$.
+
+The goal of CSP is to find a set of projection vectors (spatial filters) that could maximize the variance for one class while minimizing it for the other class as defined in \eqref{eq:CSP}.
+
+\begin{equation}\label{eq:CSP}
+\ve{w}^* = \max_{\ve{w}} \frac{\ve{w}^T \mat{\Sigma}_{C1} \ve{w}}{\ve{w}^T \mat{\Sigma}_{C2} \ve{w}}     
+\end{equation}
+
+The solution to this problem is given by the joint eigenvectors of $\mat{\Sigma}_{C1}$ and $\mat{\Sigma}_{C2}$ corresponding to the maximum and minimum eigenvalues. The transformed EEG is not directly used in classification models. Instead, a common approach is to use the log variance of the transformed signals and often take from the top and bottom few filters. First, compute the transformed signal as:
+
+\begin{equation}
+\mat{S}_r = \ve{w}^* \mat{X}_r     
+\end{equation}
+
+To calculate the final features for the CSP method, we compute the log variance of these transformed signals as follows:
+
+\begin{equation}\label{eq:CSPfeats}
+\ve{z}_r = log \left( \frac{\diag{var({\mat{S}}_{r})}}{\Tr{\diag{var(\mat{S}_{r})}}}  \right)  
+\end{equation}
+
+Where $\Tr{\cdot}$ stands for the trace operator and $\diag{\cdot}$ is the diagonal operator that extracts the elements in the principal diagonal. For instance, if we're using CSP as our feature extraction method, $\func{G}_{CSP}$ will constitute the operations involved in \eqref{eq:CSPfeats}, where the filters corresponding to the highest and lowest eigenvalues are selected, such as the from $\ve{z}_r$ we take the first $N_p/2$ and last $N_p/2$ elements, where $N_p$ is the final desired number of features. Finally, these features $\ve{z}_r$ extracted by applying the CSP technique can now be fed to the classifier for further processing.
+
+Sure, the requested sub-subsection would be as follows:
+
+\subsubsection{Variations of Common Spatial Patterns}
+
+Over time, various adaptations of the CSP method have been developed to address specific issues or improve performance. These include:
+
+\paragraph{Constant regularization:} Where a constant term is added to the sample variance for diminishing the risk of overfitting \cite{park2017filter}.
+
+\begin{equation}
+    \hat{\mathbf{C}}=\{\mathbf{C}+\alpha \mathbf{I}\}
+\end{equation}
+
+\paragraph{Lasso regularization:} This method employs a penalty equal to the absolute value of the magnitude of the coefficients. It aims to simplify the used model by forcing some coefficients to zero in the spatial linear filters \cite{zhang2018new}.
+
+\begin{equation}
+    \arg \max \mathbf{W} \mathbf{C} \mathbf{W}^{\top}-\sum_c\left\|\mathbf{w}_{{c}}\right\|_1
+\end{equation}
+
+\paragraph{Tikhonov regularization:} A squared magnitude of the spatial filter coefficients is employed as a penalty term, preventing coefficients from reaching very high values that could lead to overfitting \cite{fauzi2019energy}
+
+\begin{equation}
+    \arg \max \mathbf{W}\mathbf{C} \mathbf{W}^{\top}-\sum_c\left\|\mathbf{w}_{{c}}\right\|_2
+\end{equation}
+
+\paragraph{Elastic-net regularization:} This technique is a mix of the Lasso and Tikhonov regularizations, using both absolute and squared magnitudes, thus encompassing their benefits \cite{gu2021eeg}.
+
+\begin{equation}
+    \arg \max \mathbf{W}\mathbf{C} \mathbf{W}^{\top}-\sum_c\left\|\mathbf{w}_{{c}}\right\|_1-\sum_c\left\|\mathbf{w}_{{c}}\right\|_2
+\end{equation}
+
+\paragraph{Weighted regularization:} The diagonal of the sample covariance matrix is penalized with distinct weights to differentially shrink their effect on the spatial filters.\cite{deng2020local}
+
+\begin{equation}
+    \hat{\mathbf{C}}=\{\mathbf{C}+\operatorname{diag}(\mathbf{A})\}
+\end{equation}
+
+\paragraph{Lq/p regularization:} A generalization of Lasso and Tikhonov regularizations. It is flexible with $q$ and $p$, which can be any non-negative real numbers, providing more control over the model complexity \cite{cai2021single}.
+
+\begin{equation}
+    \arg \max \mathbf{W}\mathbf{C} \mathbf{W}^{\top}-\sum_c\left\|\mathbf{w}_{\mathbf{c}}\right\|_{p, q}
+\end{equation}
+
+
+
+Each of these versions of CSP can be selected and implemented according to the specific demands and objectives of the dataset and problem at hand.
+
+\subsubsection{Sub-band CSP}
+
+In practice, EEG signals not only differ in spatial patterns but also in frequency bands. Sub-band Common Spatial Pattern (SBCSP) is an extension that considers the frequency components of the EEG signals. First, it decomposes the original EEG signals into various frequency bands before applying the CSP method to each band individually. The generated sub-band CSP features are then concatenated to create a more robust feature vector that includes both spatial and spectral information, resulting in improved performance in classifying motor imagery tasks.
+
+Suppose we define a band-pass filter $\func{H}_f$ that decomposes an EEG signal into the frequency band $f \in \Omega$, where $\Omega$ is a set of filters. Thus, the filter operation can be represented as:
+
+\begin{equation}
+\tilde{\mat{X}}_{r,f} = \func{H}_f(\mat{X}_r)    
+\end{equation}
+
+For each trial $r$, where $\tilde{\mat{X}}_{r,q}$ represents the signal $\mat{X}_r$ in the frequency band $f$. Then, the CSP transformation is performed over the sub-band signals, and the variance of the transformed signals is used to construct the sub-band CSP features as follows:
+
+\begin{equation}
+\tilde{\ve{z}}_{r,f} = \func{G}_{CSP}(\tilde{\mat{X}}_{r,q}; \ve{w}_{f}^{*})    
+\end{equation}
+
+Where $\func{G}_{CSP}$ is the function encapsulating the CSP featurization described in \eqref{eq:CSPfeats}, and $\ve{w}^{*}_{f}$ is the spatial filter for the frequency band $f$. Therefore, to obtain the complete feature vector $\ve{z}_r$ for trial $r$, the sub-band CSP features from all considered frequency bands are concatenated:
+
+\begin{equation}
+\ve{z}_r = [\tilde{\ve{z}}_{r,1}, \tilde{\ve{z}}_{r,2}, ..., \tilde{\ve{z}}_{r,N_f}]   
+\end{equation}
+
+Where $N_f = \Cardinality{\Omega}$ is the total number of frequency bands and $\Cardinality{\cdot}$ stands or the set cardinality.
+
+This method improves classification performance over the traditional CSP by incorporating frequency information. It better captures distinct patterns across different frequency bands to differentiate between motor imagery tasks.
+
+\subsubsection{Time Windowing and Sub-Band CSP}
+
+EEG signals often exhibit different patterns across different time intervals and frequency bands during a predefined time window. Thus, along with the spatial and the frequency domain covered by sub-band CSP, it is also valuable to consider the time domain. We can incorporate information from the time dimension by applying a sliding time window over the continuous EEG signal and extracting sub-band CSP features from each time window. This way, we get a time-frequency (or \textit{t-f}) distribution of CSP features, providing a more comprehensive representation of the signal for motor imagery classification tasks.
+
+Suppose the raw EEG signal from trial $r$ is given by $\mat{X}_r$ and $\Delta_t$ be the time window set. Thus, we can split $\mat{X}_r$ into $\tau = \Cardinality{\Delta_t}$ time windows, each containing $N_{t}'$ time instants. $\mat{X}_{r,t} \in \Real^{N_c \x N_{t}'}$ denotes the signal in the $t$-th window. Next, we perform the sub-band CSP methods for each time-windowed signal. As a result, a sub-band CSP feature $\tilde{\ve{z}}_{r,t,f}$ for the $t$-th time window and $f$-th frequency band is obtained. Finally, to obtain the complete feature vector that incorporates time, frequency, and spatial information, we concatenate all the sub-band CSP features across all time windows and frequency bands as follows:
+
+\begin{equation}
+\ve{z}_r = [\tilde{\ve{z}}_{r,1,1}, \tilde{\mat{z}}_{r,1,2}, \cdots, \tilde{\ve{z}}_{r,\tau,N_f}]    
+\end{equation}
+
+This method is essentially an enhancement of the Sub-band CSP that considers the information encoded in the time, frequency, and spatial domains simultaneously. By viewing the time dimension, it extracts more comprehensive features, which can lead to improved classification performance on motor imagery tasks.
+
+
+\subsection{Functional Connectivity Estimators}
+
+In this section, we describe the most important functional connectivity estimators.
+
+\subsubsection{Correlation}
+Correlation (Corr) is a measure often used to represent the linear relationship between two EEG channels~\cite{fagerholm2020dynamic}. For two signals $X^{c}$ and $X^{c'}$ from two channels $c$ and $c'$ such that $c\neq c'$, the correlation is defined as:
+
+\begin{equation}
+    Corr_{X^{c},X^{c'}} =\frac{\mathbb{E}\left[\left(X^{c}-\mu_{X^{c}}\right)\left(X^{c'}-\mu_{X^{c'}}\right)\right]}{\sigma_{X^{c}} \sigma_{X^{c'}}}
+\end{equation}
+
+Where $\mathbb{E}\{\cdot\}$ is the expected value, $\mu_{X^{c}}$ and $\mu_{X^{c'}}$ are the mean values and $\sigma_{X^{c}}$ and $\sigma_{X^{c'}}$ are the standard deviations of $X^{c}$ and $X^{c'}$ time series.
+
+\subsubsection{Cross-Crorrelation}
+
+Cross-correlation (Cross-corr) differs from Corr since it is a function with respect to a time lag $\tau$, which can be expressed as follows \cite{roy2022comparative}.
+
+
+\begin{equation}
+    \operatorname{Corss-corr}_{X^{c},X^{c'}}(\tau)=\frac{\mathbb{E}\left[\left(X^{c}[n]-\mu_{X^{c}}\right)\left(X^{c'}[n+\tau]-\mu_{X^{c'}}\right)\right]}{\sigma_{X^{c}} \sigma_{X^{c'}}}
+\end{equation}
+
+
+\subsubsection{Magnitude Square Coherence}
+The magnitude-squared coherence (MSC) is a measure that, as a function of frequency, estimates how well channel $c$ relates linearly to another channel $c'$~\cite{cattai2021phase}. It is defined by the squared modulus of the cross-spectral density $S_{X^{c}X^{c'}}(f)$ of the two signals, $X^{c}$ and $X^{c'}$, divided by the product of their auto-spectral densities $S_{X^{c}}(f)$ and $S_{X^{c'}}(f)$ as:
+\begin{equation}
+    MSC_{c,c'}(f) = \frac{|S_{X^{c},X^{c'}}(f)|^2}{S_{X^{c}}(f)S_{X^{c'}}(f)}
+\end{equation}
+
+
+\subsubsection{Phase Locking Value}
+
+Phase Locking Value (PLV) is another technique commonly used in EEG analysis. PLV measures the consistency of the phase difference between a pair of channels, which can capture the synchronization activities between different brain regions. Suppose $X^{c}(t)$ is the EEG signal from channel $c$ at time $t$. The instantaneous phase $\phi_{X^{c}}(t)$ can be extracted using the Hilbert transformation. The phase difference between channel $c$ and $c'$ at time $t$ is calculated as follows \cite{cattai2021phase}.
+
+\begin{equation}
+ \Delta \phi_{c,c'}(t) = \phi_{X^{c}}(t) - \phi_{X^{c'}}(t)    
+\end{equation}
+
+The PLV between the two channels is then computed by averaging the phase difference over the time dimension and taking the absolute value:
+
+\begin{equation}
+PLV_{c,c'}=\left| \frac {1}{N_t}\sum_{t=1}^{N_t} e^{j\Delta \phi_{X^{c},X^{c'}}(t)} \right|    
+\end{equation}
+
+Where $j$ is the imaginary unit, values range from $0$ to $1$, with $1$ indicating perfect phase locking (i.e., constant phase difference over time) and $0$ indicating a random phase relationship.
+
+\subsubsection{Phase Lag Index}
+
+The Phase Lag Index (PLI) captures the asymmetry of the distribution of phase differences between two signals and is calculated based on the relative phase difference between the two signals \cite{siviero2023functional}.
+
+\begin{equation}
+    PLI_{c,c'}=|\mathbb{E}[\operatorname{sign}(\Delta \phi_{c,c'})]|    
+\end{equation}
+
+
+The resulting value lies in the interval $[0,1]$, where a higher value indicates more phase synchrony.
+
+\subsubsection{Weighted Phase Lag Index}
+The Weighted Phase Lag Index (WPLI) is a measure of the phase synchronization between two signals~\cite{gonzalez2020network}. It's a modification of PLI but takes the magnitude of the imaginary component of cross-spectrum into account; thus, it is less sensitive to noise. This measure can be expressed mathematically by extending the PLI definition.
+\begin{equation}
+    WPLI_{c, c'} = \frac{| \mathbb{E} \left[ | \Im[ S_{X^{c},X^{c'}} ] | \operatorname{sgn}[\Im[ S_{X^{c},X^{c'}} ] \right] |}{ \mathbb{E} \left[| \Im[ S_{X^{c},X^{c'}} ] | \right]}
+\end{equation}
+where $S_{X^{c},X^{c'}}$ is the cross-spectrum of signals in channels $c$ and $c'$, and $\Im[\cdot]$ denotes the imaginary part of a complex number. 
+
+\subsubsection{Imaginary Part of the Coherence}
+
+Imaginary Part of the Coherence (IPC) uses the imaginary part of the cross-spectrum, discarding any zero-lag interactions, often due to volume conduction, field spread, or common references \cite{cao2022brain}.
+The IPC function can be derived from the cross-spectral density of two signals as follows.
+
+\begin{equation}
+    IPC_{X^{c},X^{c'}}(f) =  \frac{|\Im[S_{X^{c},X^{c'}}(f)]|}{\sqrt{S_{X^{c}}(f)S_{,X^{c'}}(f)}}
+\end{equation}
+
+\subsubsection{Partial Coherence}
+Partial Coherence (PC) quantifies the unique linear relationship between two signals by removing the influence of other signals \cite{gonzalez2020network}. For multichannel signals, this can be understood as the coherence between two signals of interest after linearly regressing out the contributions from all other signals. 
+
+The PC between two signals $X^{c}(t)$ and $X^{c}(t)$ from two channels $c$ and $c'$ can be represented as:
+\begin{equation}
+    PC_{c,c'}(f) = \frac{|S_{X^{c},X^{c'}}(f)|^2 - |\sum_{k\neq c,c'}S_{X^{c},X^{k}}(f)S_{X^{c'},X^{k}}(f)|^2}{(S_{X^{c}}(f)S_{X^{c'}}(f)) - (\sum_{k\neq c}S_{X^{c},X^{k}}(f))^2 (\sum_{k\neq c'}S_{X^{c'},X^{k}}(f))^2}
+\end{equation}
+
+where $S_{X^{c},X^{c'}}(f)$ is the cross-spectral density between two signals $X^{c}(t)$ and $X^{c'}(t)$, $S_{X^{c}}(f)$ and $S_{X^{c'}}(f)$ are the power spectral densities of signals $X^{c}(t)$ and $X^{c'}(t)$ respectively. The sum is taken over all $k$ channels, excluding the channels $c$ and $c'$. 
+
+\subsubsection{Mutual Information}
+
+According to information theory, the Mutual Information, $\operatorname{MI}$, of two random variables $X^{c}$ and $X^{c'}$ shows how a random variable is informative for the other one. Let $P_d(X^{c})$ and $P_d(X^{c'})$ be the probability distributions of random variables $X^{c}$ and $X^{c'}$, respectively. The entropy of $X^{c}$ and $X^{c'}$ is defined as by \cite{gu2023decoding} as follows.
+
+\begin{equation}
+\begin{aligned}
+& H(X^{c})=-\sum_{n=1}^{N_t} P_d\left(X^{c}[n]\right) \log _{b}\left(P_d\left(X^{c}[n]\right)\right) \\
+& H(X^{c'})=-\sum_{n=1}^{N_t} P_d\left(X^{c'}[n]\right) \log _{b}\left(P_d\left(X^{c}[n]\right)\right)
+\end{aligned}
+\end{equation}
+
+where $n$ defines window length. $H(X^{c'} \mid X^{c})$ and $H(X^{c}, X^{c'})$ are conditional entropy and joint entropy between $X^{c}$ and $X^{c'}$, defined respectively as follows.
+
+\begin{equation}
+\begin{aligned}
+& H(X^{c}, X^{c'})=-E_{X^{c}}\left[E_{X^{c'}}\left[\log _{b} P_d(X^{c}, X^{c'})\right]\right] \\
+& H(X^{c'} \mid X^{c})=-E_{X^{c}}\left[E_{X^{c'}}\left[\log _{b} P_d(X^{c'} \mid X^{c})\right]\right]
+\end{aligned}
+\end{equation}
+
+where $E$ is the expected value function. MI of two random variables $X^{c}$ and $X^{c'}$ is computed as 
+
+\begin{equation}
+\operatorname{MI}(X^{c}, X^{c'})=H(X^{c})+H(X^{c'})-H(X^{c}, X^{c'})=H(X^{c'})-H(X^{c'} \mid X^{c})
+\end{equation}
+
+$\operatorname{MI}(X^{c}, X^{c'})=0$ if and only if random variables $X^{c}$ and $X^{c'}$ are statistically independent.
+
+\subsubsection{Granger Causality}
+
+Granger causality (GC) is a mathematical formalization of the Wiener's causality concept. For two stationary time series $X^{c}[t]$ and $X^{c'}[t]$, the linear autoregressive model is defined.
+
+\begin{equation}
+    X^{c'}[t] = \sum_{k=1}^{o} a_k X^{c'}[t-k] + \epsilon[t]
+\end{equation}
+
+Where $o$ is the model order, $a_k$ is the model coefficients, and $\epsilon[t]$ is the error at time $t$. 
+
+Likewise, let define the bivariate autoregressive model as follows.
+
+\begin{equation}
+     X^{c'}[t] = \sum_{k=1}^{o} a_k X^{c'}[t-k] \sum_{k=1}^{o} b_k X^{c}[t-k] + \epsilon'[t]
+\end{equation}
+
+Where $o$ is the model order, $a_k$ and $b_k$ are the model coefficients, and $\epsilon'[t]$ is the error at time $t$. 
+
+The idea behind GC is that $X^{c'}[t]$ will be better defined including information from $X^{c}[t]$, that means $|\ve{\epsilon}'|<|\ve{\epsilon}|$. Thus, the GC can be defined as follows \cite{rezaei2023classification}.
+
+\begin{equation} 
+\operatorname{GC}(X^{c} \rightarrow X^{c'}) = \log \left( \frac{\operatorname{var}{\ve{\epsilon}}}{\operatorname{var}{\ve{\epsilon}'}} \right) 
+\end{equation}
+
+Where $\ve{\epsilon}, \ve{\epsilon}' \in \Real^{N_t-o}$ are vectors holding the epredictions errors, and $\operatorname{var}\{\cdot\}$ stands for the variance operator. If the past of $X^{c}$ does not improve the prediction of $X^{c'}$, then $\operatorname{var}\{\ve{\epsilon}\} \approx \operatorname{var}\{\ve{\epsilon}'\}$ and $\operatorname{GC}(X^{c} \rightarrow X^{c'}) \rightarrow 0 $; if the prediction improves, then $\operatorname{var}\{\ve{\epsilon}\} \gg \operatorname{var}\{\ve{\epsilon}'\}$ and $\operatorname{GC}(X^{c} \rightarrow X^{c'}) \gg 0 $.
+
+
+\subsubsection{Partial Directed Coherence}
+
+Partial directed coherence (PDC) is a method that quantifies the relation between two among $\mathrm{R}$ signals, avoiding volume conduction by estimating the influences of all other signals. PDC improves the concept of Partial Coherence by estimating causal influences. This method is estimated on multivariate autoregressive (MVAR).
+
+$C(t)$ is a set of estimated signals from $N_c$ recording channels:
+
+\begin{equation}
+C=\left[X^{c}(t), X^{c'}(t), \ldots c_{N_c}(t)\right]^{T}
+\end{equation}
+
+The MVAR process is an expressive description of the data set $C$ :
+
+\begin{equation}
+\sum_{r=0}^{R} A(r) X(t-r)=\epsilon(t)
+\end{equation}
+
+In this model $\epsilon(t)$ is a zero-mean multivariate uncorrelated white noise vector. $A(r)$ is the autoregressive coefficients matrix and its elements $a_{i j}(r)$ indicates the influence of $X_{j}(t-r)$ on $X_{i}(t)$ and $p$ represents the border of the model.
+
+PDC from the $i$-th channel to the $j$-th channel at frequency $f$ is defined as follows:
+
+\begin{equation}
+\varepsilon_{i j}(f)=\frac{\bar{A}_{i j}(f)}{\sqrt{\sum_{m=1}^{N} \bar{A}_{m j}(f) \bar{A}_{m j}^{*}(f)}}
+\end{equation}
+
+where $\bar{A}_{i j}(f)$ is a frequency-domain description of $a_{i j}(r)$
+
+\begin{equation}
+\bar{A}_{i j}(f)=\left\{\begin{array}{c}
+1-\sum_{r=1}^{P} a_{i j}(r) e^{-j 2 \pi f r}, \text { if } i=j \\
+-\sum_{r=1}^{P} a_{i j}(r) e^{-j 2 \pi f r}, \text { otherwise }
+\end{array}\right.
+\end{equation}
+
+PDC ranges from $0$ to $1$, providing the degree of a direct influence of one channel on another in frequency domain \cite{gaxiola2017using}.
+
+\subsubsection{Directed Transfer Function}
+
+The Directed Transfer Function (DTF) is based on the concept of Granger causality estimated on MVAR, which models all signals simultaneously \cite{rezaei2023classification}. $C(t)$ is a set of estimated signals from $N_c$ recording channels:
+
+\begin{equation}
+X=\left[x_{1}(t), x_{2}(t), \ldots x_{N}(t)\right]^{T}
+\end{equation}
+
+The MVAR process is an expressive description of the data set $C$ :
+
+\begin{equation}
+\sum_{r=0}^{R} A(r) C(t-r)=\epsilon(t)
+\end{equation}
+
+In this model, $\epsilon(t)$ is a zero-mean multivariate uncorrelated white noise vector with $A(0)=1$. $A(1), A(2), \ldots, A(p)$ is the coefficients matrix, and $p$ represents the border of the model. The previous equation can be transformed into the frequency domain defined as follows.
+
+\begin{equation}
+A(f) X(f)=\epsilon(f)
+\end{equation}
+
+where $A(f)=\sum_{r=0}^{p} A(r) e^{-j 2 \pi f \Delta t r}$
+
+So, $X(f)$ can be obtained by
+
+\begin{equation}
+X(f)=A^{-1}(f) E(f)=H(f) E(f)
+\end{equation}
+
+$H(f)$ is the transfer function of the system, and its elements $H_{i j}(f)$ indicate the causal influence from the $j$-th input to the $i$-th output at frequency $f$.
+
+The DTF is defined as:
+
+\begin{equation}
+\beta_{i j}^{2}=\left|H_{i j}(f)\right|^{2}
+\end{equation}
+
+Normalized DTF is defined as:
+
+\begin{equation}
+\gamma_{i j}^{2}(f)=\frac{\left|H_{i j}(f)\right|^{2}}{\sum_{m=1}^{N}\left|H_{i m}(f)\right|^{2}}
+\end{equation}
+
+where $\gamma_{i j}^{2}(f)$ describes the influence ratio of the $j$-th channel-related cortical area on the $i$-th channel-related cortical area with respect to the influence of all estimated cortical signals. This is an important difference between DTF and PDC since DTF is normalized for the structure that receives the signal, so its values range from $0$ to $1$, with $1$ indicating a perfect one-directional flow of information from one channel to another.
+
+\subsubsection{Transfer Entropy}
+
+Transfer Entropy  (TE) is an alternative measure of direct functional connectivity based on information theory. TE does not require a model of the interaction and is inherently nonlinear. TE for two observed time series $X^{c}(t)$ and $X^{c'}(t)$ can be written as
+
+\begin{equation}
+\resizebox{0.9\textwidth}{!}{$\operatorname{TE}(X^{c} \rightarrow X^{c'})=\sum_{X^{c'} (t+u), X^{c'}(t)^{d_{X^{c'}}}, X^{c}(t)^{d_{X^{c}}}} P\left(X^{c'}(t+u), X^{c'}(t)^{d_{X^{c'}}}, X^{c}(t)^{d_{X^{c}}}\right) \log P\left(\frac{\left.X^{c'}(t+u) \mid X^{c'}(t)^{d_{X^{c'}}}, X^{c}(t)^{d_{X^{c}}}\right)}{P\left(X^{c'}(t+u) \mid X^{c'}(t)^{d_{X^{c'}}}\right)}\right)$}
+\end{equation}
+
+where $t$ is a discrete-valued time-index and $u$ denotes the prediction time, a discrete-valued time-interval. $X^{c'}(t)^{d_{X^{c'}}}$ and $X^{c}(t)^{d_{X^{c}}}$ are $d_{X^{c'}}-$ and $d_{X^{c}}-$ dimensional delay vectors \cite{rezaei2023classification}.
+
+\subsubsection{Synchronization Likelihood}
+
+The Synchronization Likelihood (SL) method is based on the concept of generalized synchronization and can be applied to both linear and nonlinear systems \cite{gonzalez2021network}. It first considers the $m$-dimensional phase space reconstruction of EEG times series from different channels. The phase space vectors $q_{c, n}$ are reconstructed in an $m$-dimensional space for a time series $X^{c}$ as follows.
+
+\begin{equation}
+q^{c}[n] = \left(X^{c}[n], X^{c}[n+\tau], \ldots ,X^{c}[n+(m-1)\tau]\right)
+\end{equation}
+
+where $m$ is the embedding dimension and $\tau$ is a time delay.
+
+SL evaluates the likelihood that states with nearby trajectories in one system have nearby trajectories in another system. For each phase space point $q^{c}[i]$, the distance $\varepsilon^{c}[i]$ is determined for which a fraction $P_{ref}$ of all other phase space points $q^{c}[j]$  with $|i-j| > w_{1}$ lies within this distance. The criterion $|i-j| > w_{1}$ ensures that states are not temporally too close together, thus removing autocorrelation. 
+
+Next, the number of channels $H_{i, j}$ where the embedded vectors $q^{c}[i]$ and $q^{c}[j]$ will be both closer than distance $\varepsilon^{c}[i]$ are counted:
+
+\begin{equation}
+H_{i, j} = \sum_{c=1}^{N_c} \Theta(\varepsilon^{c}[i]- ||q^{c}[i]-q^{c}[j]||)
+\end{equation}
+
+where $\Theta(.)$ is the Heaviside step function. If $||q^{c}[i] - q^{c}[j]|| < \varepsilon^{c}[i]$ for every channel $k$, then the state of the system at time $j$ is considered synchronized with the state at time $i$. The synchronization likelihood $SL_n$ is then the temporal average of such synchronization states:
+
+\begin{equation}
+SL_{n}= \frac{1}{(w_{2}-w_{1})} \sum_{|n-j| = w_1}^{w_2} \left(\frac{H_{n, j}}{N_c}\right)
+\end{equation}
+
+Where $w_2$ is the larger time window determining the number of states with which the synchronization likelihood will be compared. Because the values of $SL_n$ are between $0$ and $1$, they give a good indication of the level of synchronization. If $SL_n$ is equal to $0$, the two signals are completely independent, whereas if $SL_n$ is equal to $1$, the two signals are fully synchronized \cite{gonzalez2021network}.
+
+
+\subsection{Reproducing Kernel Hilbert Spaces for Machine Learning}
+
+The central idea behind RKHS is to use the kernel function to map the input data into a high-dimensional feature space where learning problems become more tractable. In the context of EEG signal classification for motor imagery tasks, the raw EEG data often resides in a high-dimensional and complex space. Traditional linear models might struggle to capture the intricate relationships hidden within accurately. By mapping the raw data into an RKHS via a suitable kernel function, we can transform the complex problem into a simpler one, enabling more effective learning and prediction. Moreover, many kernel methods project data into RKHS implicitly, avoiding the actual high-dimensional mapping and the accompanying computational burden (referred to as the "kernel trick").
+
+\subsubsection{Reproducing Kernel Hilbert Spaces}
+
+Let $\mathscr{X}$ be a set and $\mathscr{F}$ be a vector of functions from $\mathscr{X}$ to the field $\Real$. Then, there exist a reproducing kernel Hilbert space (RKHS) $\mathscr{H}$ on $\mathscr{X}$ over $\Real$ if:
+\begin{itemize}
+    \item $\mathscr{H}$ is a subspace of $\mathscr{F}$
+    \item $\mathscr{H}$ is endowed with an inner product, $<\cdot,\cdot>_{\mathscr{H}}$, and is complete in the metric include by it
+    \item For every $x \in \mathscr{X}$ and $f \in \mathscr{F}$, the linear evaluation functional $F_x:\mathscr{X} \rightarrow \Real$, defined as $F_x(f) = f(x)$
+\end{itemize}
+
+from the Riez theorem, it is known that for any bounded functional $H$ on a Hilbert space $\mathscr{H}$, there exists a unique vector $\mathbf{h} \in \mathscr{H}$ such that $H(f) = <h,f>_{\mathscr{H}}$ for all $f \in \mathscr{H}$. In turn, for each evaluation functional $F_x$, there exists a corresponding vector $k_x \in \mathscr{H}$. The bivariate function is defined by
+
+\begin{equation}
+    k(x,x') = <k_x,k_{x'}>_{\mathscr{H}}
+\end{equation}
+
+It could be verified that $\|F_x\|_{\mathscr{H}}^2 = \|k_x\|_{\mathscr{H}}^2 = <k_x,k_{x'}>_{\mathscr{H}} =k(x,x')$, where $\|\cdot\|$ stands for the norm operator. Let $\mathscr{H}$ be a RKHS on the set $\mathscr{X}$ with kernel $k$. The linear span of $\{k(x,\cdot):x\in \mathscr{X} \}$ is dense in $\mathscr{H}$, this result from the fact that any function $f$ orthogonal to the span must satisfy $<f,k_x>_{\mathscr{H}}$, and thus $f(x)=0$
+
+\begin{lemm}
+    Let $\{f_n\} \subset \mathscr{H}$, with $n \in \Natural$ an index counter. If $lim_{n \rightarrow \infty} \|f_n-f\|_\mathscr{H}=0$, then $f(x)=lim_{n \rightarrow \infty} f_n(x)$ for every $x \in \mathscr{X}$
+\end{lemm}
+
+\begin{proof}
+This is a simple consequence of the reproducing property and Cauchy-Schwarz inequality $|f_n(x)-f_n(x)| = |<f_n-f,k_x>_{\mathscr{H}}| \leq \|f_n-f\|_{\mathscr{H}}\|k_x\|_{\mathscr{H}} \rightarrow 0$
+\end{proof}
+
+\begin{propo}
+Let $\mathscr{H}_1$ and $\mathscr{H}_2$ be RKHS on $\mathscr{X}$ with kernels $k_1$ and $k_2$, respectively. If $k_1(x,x')=k_2(x,x')$ for all $x,x' \in \mathscr{X}$, then $\mathscr{H}_1=\mathscr{H}_2$ and $\|f\|_{\mathscr{H}_1}=\|f\|_{\mathscr{H}_2}$ for every $f$
+\end{propo}
+
+\begin{proof}
+We can take $k(x,x')=k_1(x,x')=k_2(x,x')$ and thus the $M_l=span\{k_x: x\in \mathscr{X} \}$ is dense in $\mathscr{H}_l$, and for $f(x)=\sum_n \alpha_n k_{x_n(x)}$ there is no regard abput wheter $f$ belongs to either $M_l$ or $M_{l'}$. Note that $\|f\|^2_{\mathscr{H}_{l}} = \sum_{n,n'}\alpha_n\alpha_{n'}k(x_n,x_{n'})$,and thus $\|f\|^2_{\mathscr{H}_l}=\|f\|^2_{\mathscr{H}_{l'}}$ for every $\mathscr{H}_l$, then there is a sequence of functions $\{f_n\} \subset M_l$ that converge to $f$ in norm. Since $\{f_n\}$ is Cauchy in $M_l$ is also Cauchy in $M_{l'}$, so by completeness of $\mathscr{H}_{l'}$ there exist $g \in \mathscr{H}_{l'}$ such that $f_n \rightarrow g$.
+\end{proof}
+
+Thus, two different RKHS do not have the same reproduciong kernel. The following theorem shows an alternative way to express the reproducing kernel of a RKHS $\mathscr{H}$
+
+\begin{theorem}
+Let $\mathscr{H}$ have reproducing kernel $k$. If and only if $\{e_\lambda: \lambda \in \Lambda \}$ si an othonormal basis of $\mathscr{H}$, then $k(x,x')=\sum_{\lambda \in \Lambda}e_\lambda(x)e_\lambda(x')$, where the series converges point-wise
+\end{theorem}
+
+\begin{proof}
+ For a fixed set $\{x_n\} \subset \mathscr{X}$, we have
+ \begin{equation}
+     \sum_{n,n'=1}^{N}\alpha_n\alpha_{n'}k(x_n,x_{n'}) = \langle \sum_{n=1}^{N}\alpha_n k_{x_n},\sum_{n'=1}^{N}\alpha_{n'}k_{x_{n'}} \rangle_{\mathscr{H}}=\|\sum_{n=1}^N\alpha_n k_{x_{n}}\|_{\mathscr{H}} \geq 0
+ \end{equation}
+\end{proof}
+
+Added to that, the Moore's theorem is introduced, which is the converse to the above result and provides a characterization of positive definite function to be a sufficient condition for the function to be the reproducing kernel of some RKHS.
+
+\begin{theorem}
+Let $\mathscr{X}$ be a set and $k: \mathscr{X} \times \mathscr{X} \rightarrow \Real$ be a positive definte function. Then, there exits a RKHS $H$ of functions on $\mathscr{X}$, such that, $k$ is the reproducing kernel of $\mathscr{H}$
+\end{theorem}
+
+\begin{proof}
+ Consider the functions $k_x(x')=k(x,x')$ and the space $\mathscr{W}$ spanned by the set $\{k_x: x \in \mathscr{X} \}$. The following belinear map $B: \mathscr{W} \times \mathscr{W} \rightarrow \Real$
+ \begin{equation}
+     B\left( \sum_n \alpha_nk_{x_n}, \sum_n \alpha_{n'}k_{x_{n'}}\right)=\sum_{n,n'}\alpha_n\alpha_{n'}k(x_{n},x_{n'})
+ \end{equation}
+ where $\alpha_n, \alpha_{n'} \in \Real$, are well defined on $\mathscr{W}$. To support the above claim, notice that if $f(x)=\sum_n\alpha_nk_{x_n}(x)$ is zero for all $x \in \mathscr{X}$, then by definition $B(f,k_x)=0$ for all $x \in \mathscr{X}$. Conversely, if $B(f,w)=0$ for all $w \in \mathscr{W}$, then by taking $w=k_x$ it can be seen taht $f(x)=0$; then $B$ is well defined on $\mathscr{W}$. Since $k$ is positive definite $B(f,f) \geq 0$. Besides, we can see that $B(f,f)=0$ if and only if $B(w,f)=0$ for all $w \in \mathscr{W}$, therefore $f(x)=0$ for all $\mathscr{X}$.
+\end{proof}
+
+It can be shown that $\mathscr{W}$ is a pre-Hilbert space with inner product $B$.
+
+\begin{proof}
+ Let $\mathscr{H}$denote the completion of $\mathscr{W}$, we need to show that every element of $\mathscr{H}$ is funtion on $\mathscr{X}$. If $h \in \mathscr{H}$ is the limit point of a Cauchy sequence $\{f_n\} \subset \mathscr{W}$, by Cauchy-Schwarz inequality
+ \begin{equation}
+     |f_n(x)-f_{n'}(x)|=|B(f_n(x)-f_{n'}(x), k_x)| \leq \|f_n-f_{n'}\|\|k_x\|
+ \end{equation}
+ therefore, the point-wise limit $h(x)=lim_{n \rightarrow \infty} f(x)$ is well defined.
+\end{proof}
+
+Concluding, if $<\cdot,\cdot>_{\mathscr{H}}$ be the inner product on $\mathscr{H}$; then, $<h,k_x>_{\mathscr{H}}=lim_{n\rightarrow\infty}<f_n,k_x>_{\mathscr{H}} = lim_{n\rightarrow\infty}B(f_n,k_x)=h(x)$. Hence, $\mathscr{H}$ is a RKHS with reproducing kernel $k$
+
+
+\subsubsection{Bochner's Theorem}
+
+Bochner’s theorem relates a time stationary kernel $\kappa_{X^c}(\tau)$ with its cross-spectral counterpart $P_{\kappa_{X^c}}(f)$ via the Fourier Transform as defined in \cref{eq:bochner}.
+
+\begin{linenomath*}
+	\begin{equation}\label{eq:bochner}
+		\kappa_{X^c}(\tau) = \int_{\mathscr{F}} \exp{(j2\pi \tau {f})} P_{\kappa_{X^c}}(f)d{f},
+	\end{equation}
+\end{linenomath*}
+
+\begin{theorem}
+Let $\kappa(x, y)=q(x-y)$ be a translation invariant kernel, real-valued and symmetric. Assume that $q$ is continuous. Then the two following are equivalent:
+
+(i) $\kappa$ is positive definite.
+
+(ii) There exists a positive and finite measure $\mu$ on $\mathbb{R}^{p}$ such that $q$ is the Fourier Transform of $\mu$, i.e. for all $x \in \mathbb{R}^{p}$
+
+\begin{equation}
+q(x)=  \int_{\mathbb{R}^{p}} \exp\left({-i u^{\top} x} \right) \mathrm{~d} \mu(u)
+\end{equation}
+\end{theorem}
+
+In the realm of EEG-based MI-BCI systems, Bochner's theorem is a powerful analytical tool. It allows for the transformation of kernels from the time domain to the frequency domain when scrutinizing EEG signals. By providing a profound understanding of the spectral and temporal properties of the underlying stochastic processes, this theorem plays a significant role in unraveling the intricate patterns in EEG data for efficient feature extraction and precise identification of cognitive processes.
+
+\subsection{Information Theoretic Learning from Kernel Matrices}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Information Theoretic Learning (ITL) is a learning framework that harnesses information theory for supervised and unsupervised learning algorithms. Unlike traditional models that use Shannon-based entropy, ITL utilizes Renyi's $\alpha$-order entropy, a more generalized concept \cite{li2020fast}. Shannon entropy is defined as the expected information of the outcomes of a random variable. For a continuous random variable $X$, and using the linear averaging operator, Shannon entropy can be represented as $H(X)=\mathbb{E}\{I(X)\}=\int p(x) I(x) d x$, where $I(x)=-\log (p(x))$. However, the linear mean is only a specific instance of the averaging operator. In general, the expected value connected with a monotonous function $g(x)$, with inverse $g^{-1}(x)$, is denoted as $\mathbb{E}\{x\}=g^{-1}\left(\int p(x) g(x) d x\right)$. Thanks to the additivity postulate for independent events, the possible options for $g(x)$ fall into either $g(x)=c x$ or $g(x)=c 2^{(1-\alpha) x}$, as demonstrated in \cite{renyi1961measures}. The former leads to the linear mean and consequently the Shannon entropy, while the latter results in:
+
+\begin{equation}\label{eq:renyiint}
+    H_{\alpha}(X)=\frac{1}{1-\alpha} \log \left(\int p(x)^{\alpha} d x\right) 
+\end{equation}
+
+This equation relates to Renyi's $\alpha$ entropy where $\alpha \neq 1$ and $\alpha \geq 0$ \cite{principe2010information,renyi1961measures}. It includes Shannon's entropy definition when $\alpha \rightarrow 1$. In cases when one must estimate entropy from discrete data, the probability density function of a discrete random variable $X,\left\{x_{i}\right\}_{i=1}^{n} \subset \mathbb{R}^{d}$, the Parzen density estimator can approximate as $\hat{p}(x)=\frac{1}{n} \sum_{i=1}^{n} \kappa\left(x, x_{i}\right)$, where $\kappa(\cdot, \cdot) \in \mathbb{R}$ is a positive definite kernel function. For the case of $\alpha=2$, the Parzen approximation provides:
+
+\begin{equation}\label{eq:renyisum}
+    \hat{H}_{2}(X)=-\log \left(\frac{1}{n^{2}} \sum_{i, j=1}^{n} \kappa\left(x_{i}, x_{j}\right)\right)
+\end{equation}
+
+The expression in \cref{eq:renyisum} can be reformulated in terms of a Gram matrix $\mathbf{K} \in \mathbb{R}^{n \times n}$ as follows.
+
+\begin{equation}
+    \hat{H}_{2}(X)=-\log \left(\frac{1}{n^{2}} \operatorname{tr}(\mathbf{K K})\right)+C    
+\end{equation}
+where $\mathbf{K}$ has elements $k_{i j}=\kappa\left(x_{i}, x_{j}\right)$. $C \in \mathbb{R}^{+}$ represents the normalization factor of the Parzen window, and $\operatorname{tr}(\cdot)$ is the matrix trace. The Frobenius norm of the Gram matrix $\mathbf{K}$, defined as $\|\mathbf{K}\|_{F}^{2}=\operatorname{tr}(\mathbf{K K})$.
+
+The argument in the $\log(\cdot)$ function is considered the information potential, that seeks to quantify the information contribution of each sample involved in a Parzen approximation and is directly related to Renyi's entropy by a strictly monotonic function,  is defined as the the cross-information potential for the specific case of a positive kernel $\mathbf{K}$ \cite{giraldo2014measures}. They further expanded this to other spectral norms and proposed an entropy-like value possessing properties similar to Renyi's entropy without having to estimate probability distributions. Given a Gram matrix $\mathbf{A} \in \mathbb{R}^{n \times n}$ with elements $a_{i j}=\kappa\left(x_{i}, x_{j}\right)$, a kernel-based formulation of Renyi's $\alpha$-order entropy can be outlined as follow.
+
+\begin{equation}
+    H_{\alpha}(\mathbf{A})=\frac{1}{1-\alpha} \log \left(\operatorname{tr}\left(\mathbf{A}^{\alpha}\right)\right),    
+\end{equation}
+
+which holds that $\operatorname{tr}(\mathbf{A})=1$. The power $\alpha$ of $\mathbf{A}$ can be obtained using the spectral theorem \cite{giraldo2014measures}.
+
+\subsection{EEG Deep Learning Techniques}
+
+DL has brought about remarkable developments in various fields, and EEG signal classification is no exception. It offers the advantage of automatic feature extraction, reducing the need for manual intervention, and often outperforms traditional machine learning classifiers. DL consists of multiple layers of interconnected artificial neurons, or nodes, that work together to predict a given input sample. They can be divided into discriminative, representative, and generative models.
+
+\subsubsection{Discriminative Models in Deep Learning}
+
+These models play a vital role in numerous machine-learning applications, largely due to their extraordinary effectiveness in predicting class labels given the input data. Generally, discriminative models concentrate on learning the conditional probability, $P(y|x)$. In other words, they aim to model the decision boundary between classes. We can categorize discriminative models based on their architecture in the following manner.
+
+\paragraph{Multilayer Perceptron}
+
+Traditional multilayer perceptrons (MLPs), also known as feed-forward neural networks, are the simplest type of artificial neural network. Comprising input, hidden, and output layers, their main goal is to transform the input data into meaningful outputs by adjusting the weights associated with the nodes via a learning algorithm.
+
+Mathematically, the output of each neuron in the neural network can be represented as follows:
+
+\begin{equation}
+h_i = \sigma \left( \sum_{j=1}^{N_h} w_{ji} x_j + b_i \right)
+\end{equation}
+
+Where $x_j$ represents the inputs, $w_{ji}$ the weights, $b_i$ the bias, $h_i$ the $i$-th layer, and $N_h$ is the number of layers. The function $\sigma$ is a nonlinear activation function, which introduces non-linearity into the output of a neuron. This assists in learning complex non-linear patterns within the data. Specifically in the field of MI-BCI classification, $h_0$ is the flattened representation of $\ve{X}_r$, while $h_{N_h}$ is the final layer representing $\ve{z}_r$.
+
+The output $\ve{z}_r$, serves as the input for a classification layer that generates predictions. For binary classification, a function such as a sigmoid could be utilized to constrain the output between $0$ and $1$. In situations involving multi-class classification problems, a softmax function is generally employed.
+
+\paragraph{Convolutional Neural Networks}
+
+A Convolutional Neural Network (CNN) is a specialized architecture that is particularly useful for handling grid-like data, such as a time series or an image. It often consists of convolutional, pooling, and fully connected layers. Its core concept is to apply a set of learnable filters or kernels to the input samples. For instance, a filter $\mat{W}_f$ can be defined for a raw EEG input data $\mat{X}_r$ at trial $r$ to get its filtered version $\hat{\mat{X}}_r$ as follows:
+
+\begin{equation}
+\hat{\mat{X}}_{r,f} = \varphi(\mat{X}_r; \mat{W}_f)  
+\end{equation}
+
+Where $\varphi(\cdot, \mat{W}_f)$ is a convolutional layer and $\mat{W}_f$ are trainable weights. In addition, if $\mat{W}_f$ is set, the CNN is called pooling layers and can perform down-sampling operations to provide an abstracted form of representation and to reduce the computational cost for subsequent layers. 
+
+CNNs can learn to extract hierarchically organized features, where initial layers capture local and generic features (like edges in an image or short-term changes in an EEG signal), and deeper layers capture more global and task-specific features. Through backpropagation and gradient descent, a CNN is trained to optimize the weights of the kernels in the convolutional layers and the weights in the fully connected layers to improve classification performance. In the context of EEG signal classification, convolutional layers can be used to automatically and adaptively extract local and shift-invariant features, and the fully connected layers can learn to differentiate between different classes of motor imagery tasks.
+
+\paragraph{Recurrent Neural Networks}
+
+Recurrent Neural Networks (RNNs) are designed to use sequential information by performing the same task for every element in a sequence, with the output depending on the previous computations. Each neuron or unit in an RNN takes the current and previously received inputs into account to generate the output. Mathematically, the hidden state $h_t$ at time $t$ can be calculated as:
+
+\begin{equation}
+h_t = \sigma(\ve{w}_{h} \ve{h}_{t-1} + \ve{w}_x \ve{x}_{r,t} + \ve{b}_h)
+\end{equation}
+
+The output at time $t$ can be represented as:
+
+\begin{equation}
+y_t = \psi(\ve{w}_{y}\ve{h}_t + \ve{b}_y)
+\end{equation}
+
+Here, $\ve{w}_{h}, \ve{w}_{x}, \ve{w}_{y}$ represent the weight matrices, while $b_t$ denotes the bias terms. $\sigma$ refers to the activation function, while $\psi$ typically represents a softmax function utilized in multi-class classification problems. Due to the consideration of the temporal dynamic behavior of inputs by RNNs, they are extensively used in the processing of sequential data. Furthermore, RRN variants are discussed  below.
+
+\textbf{Gated Recurrent Unit (GRU)} is a variant of the standard RNN that attempts to solve the vanishing gradients problem, making it more efficient in handling longer sequences. It introduces two types of gates: update gates and reset gates. The update gates determine the degree to which the previous state information is kept for the current state, while the reset gates control the amount of past information that is forgotten. Mathematically, the GRU computations are implemented with the following equations:
+
+\begin{equation}
+u_t = \sigma(\ve{w}_{hu}\ve{h}_{t-1} + \ve{w}_{xu}\ve{x}_t + \ve{b}_u)
+\end{equation}
+
+\begin{equation}
+r_t = \sigma(\ve{w}_{hr}\ve{h}_{t-1} + \ve{w}_{xr}\ve{x}_t + \ve{b}_r)
+\end{equation}
+
+\begin{equation}
+\widetilde{h}_t = \tanh(\ve{w}_{h}\ve{h}_{t-1}\odot r_t + \ve{w}_{x}\ve{x}_t + \ve{b}_h)
+\end{equation}
+
+\begin{equation}
+h_t = (1 - u_t) \odot h_{t-1} + u_t \odot \widetilde{h}_t
+\end{equation}
+
+In these equations, $u_t$ is the update gate, $r_t$ is the reset gate, and $\widetilde{h}_t$ is the candidate activation.
+
+Like the GRU, \textbf{Long Short-Term Memory (LSTM)} is designed to address the vanishing gradient problem encountered in standard RNNs. However, LSTMs have a more complex structure. An LSTM introduces a cell state and three gates: an input gate, a forget gate, and an output gate. This additional complexity allows for the modeling of longer context dependencies. The following equations mathematically represent the LSTM computations:
+
+\begin{equation}
+f_t = \sigma(\ve{w}_{hf}\ve{h}_{t-1} + \ve{w}_{xf}\ve{x}_t + \ve{b}_f)
+\end{equation}
+
+\begin{equation}
+i_t = \sigma(\ve{w}_{hi}\ve{h}_{t-1} + \ve{w}_{xi}\ve{x}_t + \ve{b}_i)
+\end{equation}
+
+\begin{equation}
+\widetilde{C}_t = \tanh(\ve{w}_{hC}\ve{h}_{t-1} + \ve{w}_{xC}\ve{x}_t + \ve{b}_C)
+\end{equation}
+
+\begin{equation}
+C_t = f_t \odot C_{t-1} + i_t \odot \widetilde{C}_t
+\end{equation}
+
+\begin{equation}
+o_t = \sigma(\ve{w}_{ho}\ve{h}_{t-1} + \ve{w}_{xo}\ve{x}_t + \ve{b}_o)
+\end{equation}
+
+\begin{equation}
+h_t = o_t \odot \tanh(C_t)
+\end{equation}
+
+In these equations, $f_t$, $i_t$, and $o_t$ correspond to the forget gate, input gate, and output gate, respectively, while $C_t$ denotes the cell state and $h_t$ is the hidden state.
+
+\paragraph{Graph Neural Networks}
+
+Graph Neural Networks (GNNs) represent an innovative shift in neural network architectures, emphasizing the relationships between data rather than treating each data point individually or with a set grid. GNNs are specifically designed for processing graphical data, providing an insightful approach to problems where data are represented as graphs, such as social networks, molecular chemistry, and brain connectivity networks. The fundamental idea in GNNs is the propagation and transformation of features through the vertices of a graph, where the feature of a given vertex is iteratively updated by aggregating features from its neighbors, similar to CNNs. The aggregation function is a critical design choice and can vary significantly per the specific GNN type. The aggregated features are then combined with the original features through a combining function, and a non-linear transformation is typically applied. 
+
+Let us consider Graph Convolutional Networks (GCNs) as an example. In a GCN, the feature representation of each node, $\ve{H}^{(l)} \in \mathbb{R}^{n \times d}$, is updated in every layer $l \in \{0, \ldots, L\}$ by passing through the following propagation rule:
+
+\begin{equation}
+\ve{H}^{(l+1)} = \sigma\left(\widetilde{\ve{D}}^{-1/2}\widetilde{\ve{A}}\widetilde{\ve{D}}^{-1/2} \ve{H}^{(l)}\ve{W}^{(l)}\right)
+\end{equation}
+
+Where $\widetilde{\ve{A}} = \ve{A} + \ve{I}_N $ is the adjacency matrix of the undirected graph $G$ with added self-connections by including the identity matrix $\ve{I}_N$. $\widetilde{D}$ is the diagonal node degree matrix of $\widetilde{\ve{A}}$. $\ve{W}^{(l)}$ is the weight matrix for the $l$-th neural network layer, and $\sigma(\cdot)$ represents a non-linear activation function such as the ReLU. Thus, each node aggregates the features from its neighboring nodes defined by $\widetilde{\ve{A}}$. This creates a form of information exchange among adjacent nodes. Then, the linear transformation $\ve{W}^{(l)}$ is applied, following which it undergoes a non-linear activation function.
+
+Other types of GNNs include Graph Attention Networks (GATs), which introduce an attention mechanism allowing different weights for different nodes in the neighborhood according to their relative importance. While Graph Neural Networks can handle complex graph-structured data, they are computationally expensive as they require passing over all the nodes and their neighbors in the graph.
+
+\subsubsection{EEG-based Deep Learning MI Classification Models}
+
+\paragraph{EEGnet:} is a compact CNN specifically designed for EEG-based BCIs proposed in \cite{lawhern2018eegnet}. It is versatile across various BCI paradigms, can be trained with limited data, and produces interpretable features. The network involves sequenced convolutional steps and utilizes depthwise separable convolutions to reduce the number of parameters that need training, thereby lowering the network's complexity. EEGNet effectively extracts temporal and spatial features and applies batch normalization before the Exponential Linear Unit (ELU) nonlinearity. Dropout and average pooling techniques are used to prevent over-fitting and dimension reduction, respectively. Interestingly, the model eliminates using a dense layer prior to the softmax classification to reduce free parameters; the architecture can be seen in \cref{table:eegnet}. This innovative approach ensures EEGNet's efficacy in capturing significant and diverse time-scale data and enhances the network's accuracy in EEG signal classification.
+
+\begin{table}[h!]
+\caption{EEGnet arquitecture}\label{table:eegnet}
+\centering
+\begin{tabular}{l|c|c|c|c}
+\hline
+\textbf{Layer} & \textbf{Filters} & \textbf{Kernel size} & \textbf{Stride} & \textbf{Extra parameters}\\
+\hline
+Conv2D & 8 & (1,32) & (1,1) & bias=False, padding=same\\ 
+BatchNormalization & $\cdot$ & $\cdot$ & $\cdot$ & momentum=0.99, epsilon=0.001\\ 
+\hline
+DepthwiseConv2D & 16 & ($N_c$,1) & (1,1) & bias=False, $D_m= 2$ , max norm = 1  \\ 
+BatchNormalization & $\cdot$ & $\cdot$ & $\cdot$ & momentum=0.99, epsilon=0.001\\ 
+Elu & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$\\ 
+AveragePooling2D & $\cdot$ & (1,4) & (1,1) & $\cdot$ \\ 
+Dropout & $\cdot$ & $\cdot$ & $\cdot$ & $D_p = 0.5$\\
+\hline
+SeparableConv2D & 16 & (1,16) & (1,1) & bias=False, padding=same\\
+BatchNormalization & $\cdot$ & $\cdot$ & $\cdot$ & momentum=0.99, epsilon=0.001\\
+Elu & $\cdot$ & $\cdot$ & $\cdot$& $\cdot$\\
+AveragePooling2D & $\cdot$ &(1,8) & (1,1)& $\cdot$\\
+Dropout & $\cdot$ & $\cdot$ & $\cdot$ & $D_p = 0.5$\\
+\hline
+Flatten & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$\\
+Dense & $\cdot$ & $\cdot$ & $\cdot$ & units=$N_y$\\
+Softmax & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$\\
+\hline
+\end{tabular}
+\end{table}
+
+\paragraph{Shallowconvnet:} is a convolutional neural network (ConvNet) architecture designed specifically for EEG decoding tasks~\cite{schirrmeister2017deep}. It comprises two main convolutional layers where the first layer is intended to bandpass each EEG channel. Bandpass filtering is a critical process in EEG signal processing that serves to filter unwanted frequency components and retain frequencies of interest. The second layer of the ShallowConvNet operates similar to spatial filters that process the signals in the spatial domain. An average pooling layer is applied in the ShallowConvNet to reduce spatial data and dimensionality, thereby helping curb overfitting. To further mimic the filter bank common spatial pattern (FBCSP) strategy~\cite{ang2008filter}, a broadly accepted approach in building spatial filters for EEG signal classification, a fully connected layer is added to the ShallowConvNet. The activation function used in this model is both square and logarithmic in nature, which aims to introduce non-linearity to the model and help it learn complex patterns. The architecture can be seen in \cref{table:shallownet}
+
+\begin{table}[h!]
+\caption{Shallowconvnet architecture}\label{table:shallownet}
+\centering
+\begin{tabular}{l|c|c|c|c}
+\hline
+\textbf{Layer} & \textbf{Filters} & \textbf{Kernel size} & \textbf{Stride} & \textbf{Extra parameters}\\
+\hline
+Conv2D & 40 & (1,13) & (1,1)&max norm = 2 \\
+Conv2D & 40 & ($N_c$,1) & (1,1)&max norm = 2 \\
+BatchNormalization & $\cdot$ & $\cdot$ & $\cdot$ & momentum=0.99, epsilon=0.001\\ 
+Square activation & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$\\
+AveragePooling2D & $\cdot$ &(1,35) & (1,7)& $\cdot$\\
+log activation & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$\\
+Dropout & $\cdot$ & $\cdot$ & $\cdot$ & $D_p = 0.5$\\
+\hline
+Flatten & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$\\
+Dense & $\cdot$ & $\cdot$ & $\cdot$ & units=$N_y$\\
+Softmax & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$\\
+\hline
+\end{tabular}
+\end{table}
+
+\paragraph{Deepconvnet:} also introduced by~\cite{schirrmeister2017deep}, is built to glean deeper, more intricate features by implementing additional convolutional layers. This model goes beyond the two-layer structure of the ShallowConvNet, incorporating three more convolutional layers, thus creating a five-layer network structure. While this model's complexity possibly aids in unearthing subtle patterns or features not discernible with less sophisticated models, it also poses potential risks. Due to its complexity, DeepConvNet is more susceptible to overfitting, where it could end up learning not the underlying patterns for different neural states but rather, specific variability present in individual trials. As such, when utilizing DeepConvNet, particular care must be taken to monitor and prevent overfitting, which might involve techniques such as regularization or early stopping. The architecture can be seen in \cref{table:deepconvnet}
+
+\begin{table}[h!]
+\caption{Deepconvnet architecture}\label{table:deepconvnet}
+\centering
+\begin{tabular}{l|c|c|c|c}
+\hline
+\textbf{Layer} & \textbf{Filters} & \textbf{Kernel size} & \textbf{Stride} & \textbf{Extra parameters}\\
+\hline
+Conv2D & 25 & (1,5) & (1,1)&max norm = 2 \\
+Conv2D & 25 & ($N_c$,1) & (1,1)&max norm = 2 \\
+BatchNormalization & $\cdot$ & $\cdot$ & $\cdot$ & momentum=0.1, epsilon=1e-5\\ 
+Elu & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$\\
+MaxPooling2D & $\cdot$ &(1,2) & (1,2)& $\cdot$\\
+Dropout & $\cdot$ & $\cdot$ & $\cdot$ & $D_p = 0.5$\\
+\hline
+Conv2D & 50 & (1,5) & (1,1)&max norm = 2 \\
+BatchNormalization & $\cdot$ & $\cdot$ & $\cdot$ & momentum=0.1, epsilon=1e-5\\ 
+Elu & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$\\
+MaxPooling2D & $\cdot$ &(1,2) & (1,2)& $\cdot$\\
+Dropout & $\cdot$ & $\cdot$ & $\cdot$ & $D_p = 0.5$\\
+\hline
+Conv2D & 100 & (1,5) & (1,1)&max norm = 2 \\
+BatchNormalization & $\cdot$ & $\cdot$ & $\cdot$ & momentum=0.1, epsilon=1e-5\\ 
+Elu & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$\\
+MaxPooling2D & $\cdot$ &(1,2) & (1,2)& $\cdot$\\
+Dropout & $\cdot$ & $\cdot$ & $\cdot$ & $D_p = 0.5$\\
+\hline
+Conv2D & 200 & (1,5) & (1,1)&max norm = 2 \\
+BatchNormalization & $\cdot$ & $\cdot$ & $\cdot$ & momentum=0.1, epsilon=1e-5\\ 
+Elu & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$\\
+MaxPooling2D & $\cdot$ &(1,2) & (1,2)& $\cdot$\\
+Dropout & $\cdot$ & $\cdot$ & $\cdot$ & $D_p = 0.5$\\
+\hline
+Flatten & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$\\
+Dense & $\cdot$ & $\cdot$ & $\cdot$ & units=$N_y$\\
+Softmax & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$\\
+\hline
+\end{tabular}
+\end{table}
+
+\paragraph{TCFussionnet:} is a more recent approach proposed by~\cite{musallam2021electroencephalography} that comprises three main parts. Like EEGnet, it includes a temporal component that allows for learning different bandpass frequencies and a depth-wise separable convolution to extract spatial features for each temporal filter. A Temporal Convolutional Network (TCN) block is also applied to extract temporal patterns, which are then concatenated with the output of a separable convolution to alleviate feature loss. These outputs are then flattened and concatenated, followed by a separable convolution. A final dense layer with softmax activation is used to classify the concatenated features into MI classes. Similarly, adversarial learning has been successfully applied in many DL applications; these architectures rely on training a generative model that enforces invariance and generalization. Regardless, adversarial architectures are affected by overfitting, especially with subjects that do not have a similar pattern in each session \cite{ozdenizci2019adversarial}. The architecture can be seen in \cref{table:tcfnet}
+
+\begin{table}[h!]
+\caption{TCFussionnet architecture}\label{table:tcfnet}
+\centering
+\begin{tabular}{l|c|c|c|c}
+\hline
+\textbf{Layer} & \textbf{Filters} & \textbf{Kernel size} & \textbf{Stride} & \textbf{Extra parameters}\\
+\hline
+Permute & $\cdot$ & $\cdot$ & $\cdot$ & (2,1,3)\\
+Conv2D & 24 & (32,1) & (1,1) & bias=False, padding=same \\
+BatchNormalization & $\cdot$ & $\cdot$ & $\cdot$ & momentum=0.99, epsilon=0.001\\ 
+\hline
+DepthwiseConv2D & 16 & (1, $N_c$) & (1,1) & bias=False, $D_m= 2$ , max norm = 1  \\ 
+BatchNormalization & $\cdot$ & $\cdot$ & $\cdot$ & momentum=0.99, epsilon=0.001\\ 
+Elu & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$\\ 
+AveragePooling2D & $\cdot$ & (8,1) & (1,1) & $\cdot$ \\ 
+Dropout & $\cdot$ & $\cdot$ & $\cdot$ & $D_p = 0.5$\\
+\hline
+SeparableConv2D & 48 & (16,1) & (1,1) & bias=False, padding=same\\
+BatchNormalization & $\cdot$ & $\cdot$ & $\cdot$ & momentum=0.99, epsilon=0.001\\
+Elu & $\cdot$ & $\cdot$ & $\cdot$& $\cdot$\\
+AveragePooling2D & $\cdot$ &(8,1) & (1,1)& $\cdot$\\
+Dropout-2 & $\cdot$ & $\cdot$ & $\cdot$ & $D_p = 0.5$\\
+\hline
+TCN-Blocks $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$ & layers=$2$, kernel-s=$4$, filt=$12$ $D_p$=$0.3$, N-residuals=2 \\
+Concatenate $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$ & [TCN-blocks, Dropout-2] \\
+\hline
+Flatten-1 $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$ & [Dropout-2] \\
+Flatten-2 $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$ &  [Concatenate] \\
+Concatenate $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$ & [Flatten-1, Flatten-2] \\
+\hline
+Dense & $\cdot$ & $\cdot$ & $\cdot$ & units=$N_y$\\
+Softmax & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$\\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Explainable AI in MI-BCI}
+
+Explainable Artificial Intelligence (XAI) is a rapidly evolving field that aims to make the decision-making process of complex AI models understandable. In the context of MI-BCI, XAI can provide valuable insights into how predictions are made, thereby enhancing trustworthiness, causality, transferability, confidence, fairness, accessibility, and interactivity \cite{arrieta2020explainable}. XAI techniques can be categorized based on interpretation types, model specificity, explanation scopes, and explanation forms. 
+
+Regarding interpretation types, we have intrinsic and post-hoc techniques. Intrinsic techniques provide an explanation based on the structure or components of the model itself. For instance, in linear regression models, the trained weights can provide an intrinsic interpretation, indicating the contribution of each feature. On the other hand, post-hoc techniques refer to external methods that analyze a trained model, such as Class Activation Maps (CAMs).
+
+In terms of model specificity, we have model-specific and model-agnostic techniques. Model-specific techniques require a unique model structure or property. Therefore, all intrinsic models fall into this category as they rely on the model structure \cite{tjoa2020survey}. Model-agnostic techniques, on the other hand, do not have any special requirements for the model, making them widely used in XAI models.
+
+Explanation scope can be either global or local. Local explanations focus on the variables that contribute to the decision for a single input, providing insights into the main characteristics associated with that input. Global explanations aim to give insights into the model itself, explaining the interactions of the model parameters and answering the question of how the model makes predictions.
+
+Finally, explanation forms can be divided into feature-based and example-based explanations. Feature-based explanations use gradient or feature map values to approximate the input importance, highlighting the parts that impact the final decision the most. An overlay map over the original input sample commonly represents them. Example-based explanations, on the other hand, try to explain models by showing one or more examples similar to the given input, usually extracted at the training step.
+
+\subsubsection{Class Activation Maps}
+
+Class Activation Maps (CAMs) are powerful visualization tools that highlight the input regions important for making predictions in Convolutional Neural Networks (CNNs). They provide a heatmap visualization that indicates the areas in the input image that the model focuses on when making a prediction. CAMs are based on the concept that the spatial information is encoded in the feature maps of convolutional layers in CNNs. By projecting the weights of the output layer back onto the convolutional feature maps, we can generate a coarse heatmap for each class in the output layer. This heatmap, or CAM, indicates the discriminative image regions CNN uses to identify a specific class.
+
+The CAM for a particular class $c$ can be computed as follows:
+
+\begin{equation}
+    L_{CAM} = \sum_k w_{k,c} F_k
+\end{equation}
+
+where $F_k$ are the spatial feature maps of the last convolutional layer, and $w_{k,c}$ are the weights corresponding to class $c$ in the output layer. The CAM $M_c$ is a weighted combination of the feature maps, where the weights are determined by the importance of the feature map for class $c$.
+
+\subsubsection{Gradient Class Activation Maps}
+
+Gradient Class Activation Maps (Grad-CAMs) are an extension of CAMs that aim to provide visual explanations of decisions made by any Convolutional Neural Network (CNN) architecture without requiring any re-training or modification to the original model. Grad-CAMs use the gradient information flowing into the last convolutional layer of the CNN to understand each neuron for a decision of interest. These gradients, flowing backward from the specific class at the output, are global-average-pooled to obtain the neuron importance weights. These are then used to create a coarse localization map highlighting the important regions in the image for predicting the concept.
+
+The Grad-CAM for a particular class $c$ is computed as follows:
+
+\begin{equation}
+    L_{Grad-CAM}^c = ReLU\left(\sum_k \alpha_k^c F_k\right)
+\end{equation}
+
+where $F_k$ are the spatial feature maps of the last convolutional layer, and $\alpha_k^c$ are the neuron importance weights for class $c$, computed as the global average of the gradients of the class score with respect to the feature map. The $ReLU(\cdot)$ function ensures that only the features that positively influence the class of interest are visualized.
+
+\subsubsection{Layer Class Activation Maps}
+
+Layer Class Activation Maps (Layer CAM) is a recent advancement in the field of explainable AI, providing a method to visualize the regions of input that are important for making predictions in Convolutional Neural Networks (CNNs). Layer CAM extends the concept of CAMs and Grad-CAMs by offering a more precise localization of the important regions. Layer CAM leverages the gradient information of the last convolutional layer to generate a heatmap that highlights the discriminative regions in the input image. Unlike Grad-CAM, which uses global average pooling of gradients, Layer CAM directly multiplies the feature maps with the corresponding gradients, followed by a $ReLU$ operation and a channel-wise summation to generate the final heatmap.
+
+The Layer CAM for a particular class $c$ is computed as follows:
+
+\begin{equation}
+    L_{Layer-CAM}^c = ReLU\left(\sum_k F_k \cdot \frac{\partial y^c}{\partial F_k}\right)
+\end{equation}
+
+where $F_k$ are the spatial feature maps of the last convolutional layer, and $\frac{\partial y^c}{\partial F_k}$ are the gradients of the class score concerning the feature map. The $ReLU(\cdot)$ function ensures that only the features that positively influence the class of interest are visualized.
+
+\section{Computing Resources}
+The experiments were carried out on Python-based libraries, including the well-known Scikitlearn, TensorFlow, and Keras. We have used the free tier of Google Colaboratory and Kaggle cloud computing services with the following specifications. 
+
+\begin{itemize}
+    \item \textbf{Google Colaboratory\footnote{\url{https://colab.research.google.com/}}:} provides 2 CPU cores, approximately 12 Gb of RAM, and 12/16 Gb on GPU
+    \item \textbf{Kaggle\footnote{\url{https://www.kaggle.com/}}:} provides 4 CPU cores, 16Gb RAM and 16Gb on GPU
+\end{itemize}
+
+In addition, the research group has as a regional ally the Centro de Bioinformática y Biología Computacional - BIOS, which provides a computer specialized in machine learning with a 32-core processor, 500Gb of RAM, and a 16Gb GPU.

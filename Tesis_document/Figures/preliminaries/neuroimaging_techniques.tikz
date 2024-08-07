@@ -1,0 +1,66 @@
+\begin{tikzpicture}[scale=1.2]
+
+% Draw axes
+% EEG 0.2
+% MEG 0.4
+% fMRI 0.8
+% CT 0.6
+% MRI 0.7
+% PET 0.9
+% SPECT 0.8
+
+\definecolor{eegcolor}{HTML}{00FF00}
+\definecolor{megcolor}{HTML}{66FF33}
+\definecolor{fmricolor}{HTML}{FFFF00}
+\definecolor{ctcolor}{HTML}{FF9900}
+\definecolor{mricolor}{HTML}{FF3300}
+\definecolor{petcolor}{HTML}{FF0000}
+\definecolor{spectcolor}{HTML}{FF3300}
+% X-axis labels
+\draw[->] (0,0) -- (10,0) node[right] {Temporal Resolution $(s)$};
+\draw (0,0.1) -- (0,-0.1) node[below] {$0$};
+\draw (1,0.1) -- (1,-0.1) node[below] {$10^{-3}$};
+\draw (2,0.1) -- (2,-0.1) node[below] {$10^{-2}$};
+\draw (3,0.1) -- (3,-0.1) node[below] {$0.1$};
+\draw (4,0.1) -- (4,-0.1) node[below] {$1$};
+\draw (5,0.1) -- (5,-0.1) node[below] {$10$};
+\draw (6,0.1) -- (6,-0.1) node[below] {$10^2$};
+\draw (7,0.1) -- (7,-0.1) node[below] {$10^3$};
+
+% Y-axis labels
+\draw[->] (0,0) -- (0,6.3) node[above] {Spatial Resolution $(mm)$};
+\draw (0.1,0) -- (-0.1,0) node[left] {$0$};
+\draw (0.1,1) -- (-0.1,1) node[left] {$2$};
+\draw (0.1,2) -- (-0.1,2) node[left] {$4$};
+\draw (0.1,3) -- (-0.1,3) node[left] {$6$};
+\draw (0.1,4) -- (-0.1,4) node[left] {$8$};
+\draw (0.1,5) -- (-0.1,5) node[left] {$10$};
+\draw (0.1,6) -- (-0.1,6) node[left] {$12$};
+
+\fill[left color=eegcolor!80, right color=petcolor!80] (1,-1) rectangle ++(9,0.2);
+
+\draw (9,-1.1) node[align=center] {Expensive};
+\draw (1,-1.1) node[align=center] {Affordable};
+
+% EEG (x,y)
+\draw[fill=eegcolor!80] (0.3,4) rectangle (1.8,6) node[pos=.5] {EEG};
+
+% MEG
+\draw[fill=megcolor!80] (0.3,2) rectangle (1.8,3.6) node[pos=.5] {MEG};
+
+% fMRI
+\draw[fill=fmricolor!80] (3.3,0.6) rectangle (4.6,1.9) node[pos=.5] {fMRI};
+
+% CT
+\draw[fill=ctcolor!80] (3.4,0.2) rectangle (4.2,0.55) node[pos=.5] {CT};
+
+% MRI
+\draw[fill=mricolor!80] (6.4,0.2) rectangle (7.5,1) node[pos=.5] {MRI};
+
+% PET
+\draw[fill=petcolor!80] (5.4,1) rectangle (7,2) node[pos=.5] {PET};
+
+% SPECT
+\draw[fill=spectcolor!80] (7,4) rectangle (8,5) node[pos=.5] {SPECT};
+
+\end{tikzpicture}

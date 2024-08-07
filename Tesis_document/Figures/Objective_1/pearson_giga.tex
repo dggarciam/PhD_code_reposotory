@@ -1,0 +1,86 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\begin{document}
+\begin{tikzpicture}
+
+\begin{axis}[
+tick align=outside,
+x grid style={white!69.0196078431373!black},
+xmin=-0.5, xmax=49.5,
+xtick pos=both,
+width=1\textwidth,
+height=.4\textwidth,
+xticklabel style={rotate=90,font=\tiny},
+xtick style={color=black},
+xtick={0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49},
+xticklabels={
+  1,
+  27,
+  33,
+  35,
+  36,
+  22,
+  37,
+  20,
+  18,
+  14,
+  13,
+  43,
+  30,
+  50,
+  49,
+  48,
+  9,
+  5,
+  46,
+  12,
+  6,
+  32,
+  44,
+  41,
+  42,
+  31,
+  45,
+  38,
+  47,
+  25,
+  16,
+  3,
+  4,
+  10,
+  11,
+  15,
+  28,
+  52,
+  19,
+  21,
+  23,
+  17,
+  39,
+  8,
+  7,
+  24,
+  51,
+  2,
+  40,
+  26
+},
+y dir=reverse,
+y grid style={white!69.0196078431373!black},
+ymin=-0.5, ymax=3.5,
+ytick pos=left,
+ytick style={color=black},
+ytick={0,1,2,3},
+yticklabels={
+ $\tau$=2,
+$\tau$=1.5,
+$\tau$=1,
+$\tau$=0.5
+}
+]
+\addplot graphics [includegraphics cmd=\pgfimage,xmin=-0.5, xmax=49.5, ymin=3.5, ymax=-0.5] {pearson_giga-000.png};
+\end{axis}
+
+\end{tikzpicture}
+\end{document}

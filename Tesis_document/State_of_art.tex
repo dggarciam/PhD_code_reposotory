@@ -1,0 +1,122 @@
+\section{State of the art}
+
+TODO... short description of each subsection
+
+\subsection{Single-trial functional connectivity}
+
+Commonly, single-trial functional connectivity (FC) is calculated base on CSD/PSD, which is fed with brain signals, to understand underlining brain connections and cluster similar subjects to design \textcolor{black}{ more robust methods \cite{seghier2018interpreting}.}  For example, in \cite{shamsi2021early}, single-trial phase-locking value estimates subject-specific frequency FC features to discriminate left and right hand MI tasks. Another work uses single-trial coherence FC to characterize tasks-specific FC networks \cite{rodrigues2019space}. \textcolor{black}{Authors in \cite{stefano2018can} model graphs using interactions among EEG electrodes, measuring different graph metrics as features for the classification task. Another work in \cite{ai2019feature} combines graph measures with channels-baed time/frequency domain features for the classification of MI tasks. Authors in \cite{shamsi2021early} postulate the potential of acquiring useful information from FC for discriminating various motor-related tasks.} For example, in \cite{gonuguntla2016event} phase-locking value was used to estimate FC patterns from EEG data, aiming to discriminate between resting state and MI tasks. Specifically, they used the subject-specific frequency band selection method, in which features are extracted to discriminate right and left hand with $64.27\%$ of accuracy performance. Another work uses a partial directed coherence metric to codify task-specific patterns, obtaining an average accuracy of $78.76\%$ for discriminating right hand vs. right foot \cite{gaxiola2017using}. \textcolor{black}{FC with channel-based time-frequency domain features is used to distinguish 4-class MI tasks, obtaining an average accuracy of $79.69\%$ \cite{ai2019feature}}. In \cite{daly2012brain} empirical mode decomposition phase-locking approach together with time-frequency features are used to model a dynamic FC that can codify different BCI tasks.\textcolor{black}{Single-trial FC (such as phase-locking value, phase lag index, and weighted phase lag index) captures short-time connectivity changes in specific frequency bands during motor imagery \cite{shamsi2021early}}
+
+
+\begin{table}[h]
+\caption{Relevant research strategies of single trial connectivity in EEG-BCI}
+\scalebox{0.8}{
+\begin{tabular}{|m{0.37\textwidth}|c|c|c|c|}
+\hline
+\begin{tabular}{l}\textbf{Single trial functional} \\ \textbf{connectivity estimator}\end{tabular} & \textbf{Model} & \textbf{Linear}    &  \textbf{Application (\%Accuracy)}
+
+\\ \hline
+Correlation                                                                     &  $\frac{cov(x,x')}{\sigma_x\sigma_x'}$     & \checkmark &\begin{tabular}{l}Speech categorization (90\%) \cite{al2020decoding} \\ {Motor imagery (78.68\%)} \cite{gaur2021automatic}\\  Class patient or control (87.6\%) \cite{buchanan2021elevated}\end{tabular} \\ \hline
+Cross correlation                                                                & $\sum_{m=-\infty}^{\infty} x[m]x'[m+n]$       & \checkmark &\begin{tabular}{l} {Motor imagery (89.73\%)} \cite{yu2021cross} \\ 
+Vowel decoding (85\%) \cite{parhi2021classifying}\\
+Emotional states (94.13\%) \cite{duan2020machine}
+\end{tabular} \\ \hline
+Coherence                                                                      &    $\frac{|\mathbb{E}[S_{xx'}]|}{\sqrt{\mathbb{E}[S_{xx}]\mathbb{E}[S_{x'x'}]}} $        & \checkmark &\begin{tabular}{l}Pain quantification (86\%) \cite{modares2021quantification} \\ 
+Schizophrenia (95.16\%) \cite{zhao2021classification}\\
+Emotional states (78.78\%) \cite{wang2021time}
+\end{tabular}
+\\ \hline
+Phase locking value                                                          &   $|\mathbb{E}[\frac{S_{xx'}}{|S_{xx'}|}]|$         &           &\begin{tabular}{l}Epileptic seizure (98.79\%) \cite{anupallavi2020novel} \\ 
+Motor Imagery (74.44\%) \cite{benzy2020motor}\\
+Emotional states (86.67\%) \cite{sun2020emotion}
+\end{tabular}
+
+\\ \hline
+Phase Lag index                                                                  &  $|\mathbb{E}[sign(Im(S_{xx'}))]|$           &            &\begin{tabular}{l}Major depressive disorder (93.31\%) \cite{zhang2020brain} \\ Motor imagery (85\%) \cite{feng2020functional}\\  Emotional states (65.55\%) \cite{zhu2020eeg}\end{tabular}\\ \hline
+Weighted phase lag index                                                        &   $ \frac{|\mathbb{E}[Im(S_{xx'})]|}{\mathbb{E}[|Im(S_{xx'})|]}$ &           &\begin{tabular}{l}Consciousness states (83.7\%) \cite{duclos2021differential} \\ Motor imagery (73\%) \cite{hrisca2021multi}\\  Action intention (70\%) \cite{xiong2020weighted}\end{tabular}                \\ \hline
+Mutual information                                                               &  $\mathrm{H}(\mathrm{X})-\mathrm{H}(\mathrm{X} \mid \mathrm{X}')$       &          &\begin{tabular}{l}Emotional states (77.54\%) \cite{grilo2019artifact} \\ Motor imagery (86\%) \cite{al2021motor}\\  Dyslexia (70\%) \cite{shali2020impact}\end{tabular}                   \\ \hline
+\end{tabular}}
+\label{table1:relevant}
+\end{table}
+
+In table \ref{table1:relevant}, relevant single-trial strategies are shown, and orange highlighted text corresponds to motor-related research that uses public databases. Many studies involve motor-related tasks; however, just two of the six works listed use public data. Hence, many strategies in state-of-the-art can not be easily compared. Besides, source algorithms are not open to the public, generating poor reproducibility. As we mentioned before, using complex nonlinear models does not ensure higher performance; the method that shows the highest performance is linear-based. However, since databases used to measure performance are not the same, we could not guarantee that each contains similar artifacts, noise, and a number of subjects.
+
+\subsection{Subject sub-band dependent modeling}
+
+In general, EEG-BCI systems lead to large data due to the high sampling rate, electrodes, and multiple sub-band frequencies. Dimensionality reduction techniques are used to avoid overfitting by providing the classification step with fewer features and thus simpler models \cite{van2009dimensionality}. Linear algorithms get a lower dimension space by the combination of the original dimensions \cite{gupta2015performance}. For example, singular value decomposition, principal component analysis, wavelet transform, linear discriminant analysis, independent component analysis, factor analysis, and non-negative \textcolor{black}{matrix factorization.} Nonlinear algorithms non-linearly mapped a high-dimensional space into lower space and divided it into Global, and local \cite{singh2021comprehensive}. Global ones provide a data point global structure, such as multi-dimensional scaling, kernel PCA, and isometric mapping \cite{iturralde2012motor,gramfort2007low}. Local ones \textcolor{black}{produce better performance in manifolds where the local geometry is considered euclidean, for example}, Autoencoder, Laplacian eigenmaps, kernel Fisher discriminant analysis, locally-linear-embedding, and t-distributed stochastic neighbor embedding \cite{lee2004feature,li2016applying}. Regularization techniques are widely used in EEG-based BCI systems due to the high dimensional feature space and limited samples. Specifically, Lasso regularization, group lasso, and sparse group lasso are used in \cite{tibshirani1996regression,simon2013sparse,yeh2012novel}, aiming to approximate high-dimensional features and improve the accuracy performance of BCI systems. An EEG signal power spectral density-based artificial neural network is used in \cite{coelho2012automatic}, genetic algorithms are proposed in \cite{rejer2013genetic}, empirical mode decomposition in \cite{noshadi2014selection}, maximized Rayleigh coefficient in \cite{he2013channel}, common spatial patterns finds spatial filters (CSP) that intent to obtain more distinctive features, but CSP is sensitive to noise and overfitting. Different regularized CSP approaches have been proposed to overcome these issues \cite{arvaneh2011optimizing}. Specifically, we can divide them into cost function and covariance regularization. \textcolor{black}{On the one hand}, L2-norm is used in the optimization problem (e.g., Tikhonov regularization CSP and Weighted Tikhonov regularized CSP), but outlier data and artifacts may have negative effects as they have large amplitude in brain signals. Hence, L1-norm is included for solving this issue (e.g., CSPL1 and SFBCSP), trying to find more representative sparse spatial features \cite{anowar2021conceptual}. On the other hand, shrinkage strategies are used to accurately estimate covariance matrices, especially under small sample sizes situations; the simplest way to reduce the variance of covariance estimator is to apply diagonal loading $\alpha$, \textcolor{black}{a more sophisticated}  strategy is proposed in \cite{ledoit2004well} where a shrinkage estimator asymptotically minimizes the MSE, it is well conditioned for small sample sizes and can be applied to high dimensional problems. \textcolor{black}{Despite there exist different and efficient algorithms; no one can deal successfully with every situation in real-life data.}
+
+
+\tikzstyle{abstract}=[rectangle, draw=black, rounded corners,
+        text centered, anchor=north, text=black, text width=5cm]
+\tikzstyle{transform}=[rectangle, draw=black, rounded corners, 
+        text centered, anchor=north, text=black, text width=5cm]
+\tikzstyle{transformchild}=[rectangle, draw=black, rounded corners, 
+        text centered, anchor=north, text=black, text width=8cm]
+\tikzstyle{covariance}=[rectangle, draw=black, rounded corners, 
+        text centered, anchor=north, text=black, text width=5cm]
+\tikzstyle{covariancechild}=[rectangle, draw=black, rounded corners, 
+text centered, anchor=north, text=black, text width=8cm]
+\tikzstyle{funccc}=[rectangle, draw=black, rounded corners,
+        text centered, anchor=north, text=black, text width=5cm]
+\tikzstyle{funcccchild}=[rectangle, draw=black, rounded corners, 
+        text centered, anchor=north, text=black, text width=9cm]
+\tikzstyle{deepl}=[rectangle, draw=black, rounded corners,
+        text centered, anchor=north, text=black, text width=5cm]
+\tikzstyle{deeplchild}=[rectangle, draw=black, rounded corners, 
+        text centered, anchor=north, text=black, text width=9cm]
+\tikzstyle{textf}=[text centered, anchor=north, text=red, text width=9cm]
+\tikzstyle{myarrow}=[->, >=open triangle 90, thick]
+\tikzstyle{line}=[-, thick]
+
+\begin{figure}
+\centering
+  \scalebox{0.5}{% Adjust the scaling factor as needed
+\input{Figures/state_of_art/cov_strategies}
+}
+\caption{Common covariance-based strategies to face overfitting}\label{fig1covar}
+\end{figure}
+
+\textcolor{black}{Figure \ref{fig1covar} shows a mind map of the most common covariance-based strategies used to reduce overfitting. As displayed before, CSP strategies are the most used; however, they become less effective against severe covariance changes within the same brain state. Graph methods were the first used in classification since they are intuitive and easy to implement, but their performance relies on the assumption that functional connectivity estimator can codify the most relevant connections between brain areas. Riemann geometry in the semidefinite positive matrix spaces used a tangent space (considered euclidean) to measure similarities/differences between two projected covariance matrices. Thus, using the minimum mean difference strategy, new covariance matrices can be classified. However, small sample scenarios affect performance, and few reliable libraries are available in python. Deep learning methods have an incredible performance with high noisy and complex data but usually require a high number of trials to retrieve such results.}
+
+Kernel methods have been widely used in EEG-based BCI. However, those methods are limited by their scalability in large datasets.  Kernel approximation is a powerful approach that can make kernel methods scalable and retain the expressive power of nonlinear methods. In general, one solution is to decompose the whole problem into several smaller ones; another solution is to use random projections to find a lower dimension feature approximation, either data-dependent or data-independent. The first ones approximate the kernel matrix by basis selection techniques \cite{smola2000sparse}, incomplete Cholesky decomposition \cite{fine2001efficient}, or Nystrom methods \cite{williams2001using}; however, the performance is reduced when dealing with a large amount of data, so they have scalability issues. In data-independent techniques, the kernel function is directly approximated by an explicit map sampled from a distribution. Most of these approaches are based on random Fourier features (RFF) and have obtained significant attention. Bochner´s theorem states that any bounded, continuous, shift-invariant, and positive defined kernel function can be expressed as the Fourier transform of a non-negative function. Besides,  the kernel function may have two properties: 1) shift-invariance $\kappa(x,y)=\kappa(x-y)$ and 2) positive definiteness. The polynomial kernel does not satisfy the shift-invariance condition, so not all semidefinite kernels can be expressed using this theorem. Gaussian kernel satisfies both conditions, and researchers use it to approximate other kernels, \textcolor{black}{like authors of \cite{roweis1999unifying}} that empirically use ten Gaussian kernels to approximate the polynomial kernel with spherical random features, employing a grid-search scheme for parameter tuning. Despite the success of the solutions mentioned above, they still lack generalization, so new deep learning architectures arise to capture higher-level representations of EEG features \cite{li2021fft}. However, they generate difficult and non-convex optimization problems, inducing several suboptimal solutions.
+
+Regarding deep learning methods, different strategies have been developed. For example, authors in \cite{chao2020emotion} use a deep belief network together with a conditional random field to recognize emotions; deep belief networks are strong feature extractors since they can learn complex nonlinear functions. Nevertheless, those networks usually require an unsupervised pre-training stage, which is sensitive to the small training set. A convolutional neural network (CNN) is used to codify both raw EEG signals and topographic plots (TGP), showing high-performance accuracy. In raw EEG signals, CNN uses two 1D temporal and spatial filters that can extract adaptive temporal-frequency features involving spatial information \cite{li2019channel}.
+Nonetheless, this strategy is complex and requires tuning more hyper-parameters that can affect the generalization performance. In TGP, 2D filters are used to codify spatial information over a fixed bank of TGP calculated with different time windows and frequency filters \cite{pandey2021brain2depth}. However, CNN filters get local information depending on their size, so they can be affected when information is not centered in a spatial location. Furthermore, temporal dependency of EEG channels has been decoded using long-short term memory (LSTM), such as authors in \cite{tortora2020deep}. LSTMs can find an implicit representation of temporal sequences, but their training stage requires exhaustive fine-tuning and an expensive computational burden. Complex deep learning (DL) models are particularly prone to capture trial-specific variability rather than neural states. Besides, DL relies on the hypothesis that architectures will learn invariant, generalizable features, which are several constrained with the number of available data \cite{ozdenizci2019adversarial}. Adversarial learning has been successfully applied in many DL applications; these architectures rely on training a generative model that enforces invariance and generalization. However, adversarial architectures are several affected by overfitting, especially with subjects that do not have a similar pattern in each session \cite{ozdenizci2019adversarial}. Those methods try to solve the inter-/intra-class variability from a different point of view and attempt to create more generalized models, increasing the performance accuracy. However, DL models generate high-level
+abstract features processed by black boxes with meaningless neuro-physiological explainability, resulting in a severe disadvantage in ensuring adequate reliability compared to their high performance \cite{bang2022interpretable}.
+
+\subsection{Multiple Sub-band Interpretability}
+
+The interpretability of multiple sub-band models is a critical aspect of understanding how MI-BCI models make predictions. Several techniques have been proposed to enhance the interpretability of these models, including gradient visualization, perturbation, class activation mapping (CAM), Local Interpretable Model-Agnostic Explanations (LIME), Shapley Additive Explanations (SHAP), Testing with Concept Activation Vectors (TCAV), and Explainable Deep Neural Networks (xDNN) \textbf{citar cada paper}.
+
+Gradient-based methods, such as Grad-CAM, backpropagate the gradient of a target class to the input, highlighting image regions that influence the prediction. However, these methods often produce low-quality and noisy maps, limiting their interpretability \cite{omeiza2019smooth}. Perturbation-based strategies use modified inputs to visualize changes in the inference. These methods can provide valuable insights into the model's decision-making process, but they often require regularization and are computationally intensive, limiting their practicality \cite{fong2017interpretable}. CAM-based approaches, including CAM and Grad-CAM, provide single-sample visual explanations using a linear weighted combination of activation maps from convolution layers. These methods can highlight important areas in the input that contribute to the model's prediction, enhancing interpretability. However, traditional CAM is architecture-sensitive and can only be used with models with suitable architecture, such as CNNs \cite{wang2020score}. Layer CAM, a recent extension of CAM and Grad-CAM, offers a more precise localization of the important regions in the input. It leverages the last convolutional layer's gradient information to generate a heatmap highlighting the discriminative regions in the input image. However, Layer CAM may not provide a complete picture of the model's decision-making process as it only focuses on the last convolutional layer, potentially overlooking important information from earlier layers. LIME is another technique that provides local interpretability by approximating the model's predictions locally with an interpretable model. However, it's important to note that LIME's interpretability is limited by its low repeatability. SHAP is a unified feature importance measure that assigns each feature an importance value for a particular prediction. It combines several existing methods and introduces a theoretical framework for interpreting predictions of any machine learning model. However, it can be computationally intensive and time-consuming for complex models and large datasets. TCAV provides a global, human-understandable interpretation of the model's internal state regarding high-level concepts. It uses directional derivatives to quantify the degree to which a user-defined concept is present in the model's decision-making process. However, TCAV requires the user to define relevant concepts, which can be subjective and may not always be clear in complex domains like MI-BCI. xDNN is a type of neural network designed to be more interpretable than traditional deep learning models. It incorporates explainability into the model structure rather than relying on post-hoc interpretation techniques. However, the interpretability of xDNNs depends on the specific design choices made when constructing the network. \cref{table:objsota} shows each technique's strengths and weaknesses in terms of simplicity, efficiency, and stability \cite{chaddad2023survey}.
+
+\begin{table}[h!]
+\centering 
+\begin{tabular}{|c|c|c|c|p{7cm}|} 
+\hline 
+\textbf{Technique} & \textbf{Simple} & \textbf{Stable} & \textbf{Efficient} & \textbf{Advantages} \\ 
+\hline CAMs-based & \checkmark & & \checkmark & Compatible with any Convolutional Neural Network \\
+\hline 
+LIME & \checkmark & & & Employs a simple model for generating explanations \\
+\hline 
+GraphLIME & & & & Suitable for Graph Neural Networks \\
+\hline 
+SHAP & \checkmark & & & Backed by a theoretical foundation from Shapley values \\
+\hline
+TCAV & \checkmark & & & Global human-understandable interpretation \\
+\hline 
+xDNN & & & & Explainability into the model structure \\ 
+\hline 
+\end{tabular} \caption{Comparison of different interpretability techniques.} 
+\label{table:objsota} 
+\end{table}
+
+Despite these advancements, the interpretability of multiple sub-band models in MI-BCI remains challenging. The high dimensionality and the model structure complexity make it difficult to understand how these models favor any predictions. Furthermore, the lack of a systematic approach to XAI in MI-BCI limits the applicability of these interpretability techniques.
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{figure}[!h]
+  \centering
+  \resizebox{\linewidth}{!}{\input{Figures/state_of_art/SoTA_obj1}}
+  \caption{Basd}
+\end{figure}
+

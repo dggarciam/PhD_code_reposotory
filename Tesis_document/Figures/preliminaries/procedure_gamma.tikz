@@ -1,0 +1,47 @@
+
+\begin{tikzpicture}
+\draw[draw=black] (0,0) rectangle ++(4,2) node[pos=.5] {Motor Execution $\#1$};
+\draw[dashed,draw=black] (4,0) rectangle ++(4,2) node[pos=.5] {Random Break};
+\draw[dashed,draw=black] (7,0) -- (7,2) node[pos=1.5] {};
+
+\draw[draw=black] (8,0) rectangle ++(4,2) node[pos=.5] {Motor Execution $\#2$};
+
+\draw[dashed,draw=black] (12,0) rectangle ++(4,2) node[pos=.5] {Random Break};
+\draw[dashed,draw=black] (15,0) -- (15,2) node[pos=1.5] {};
+
+\draw[dashed,draw=black] (17,1) -- (17,1) node[pos=1.5] {\Huge{....}};
+
+
+\draw[draw=black] (19,0) rectangle ++(4,2) node[pos=.5] {Motor Execution $\#80$};
+
+\draw[dashed,draw=black] (23,0) rectangle ++(4,2) node[pos=.5] {Random Break};
+\draw[dashed,draw=black] (26,0) -- (26,2) node[pos=1.5] {};
+
+
+% \draw[draw=red] (2.5,-0.2) rectangle ++(2,1) node[pos=.5] {\textcolor{red}{\small{Analysis span}}};
+% \draw[dashed,draw=red] (2.5,0) -- (2.5,-1) node[pos=1.5] {\textcolor{red}{$2.5$}};
+% \draw[dashed,draw=red] (4.5,0) -- (4.5,-1) node[pos=1.5] {\textcolor{red}{$4.5$}};
+
+\draw [-stealth](0,0) -- (30,0) node[below,pos=1.05] {$[s]$};
+
+\draw[dashed,draw=black] (0,0) -- (0,-0.5) node[pos=1.5] {$0$};
+
+\draw[-stealth,dashed,draw=red] (0,0) -- (0,2.5) node[pos=1.1] {\textcolor{red}{Cue}};
+\draw[-stealth,dashed,draw=red] (8,0) -- (8,2.5) node[pos=1.1] {\textcolor{red}{Cue}};
+\draw[-stealth,dashed,draw=red] (19,0) -- (19,2.5) node[pos=1.1] {\textcolor{red}{Cue}};
+
+
+\draw[dashed,draw=black] (4,0) -- (4,-0.5) node[pos=1.5] {$4$};
+
+\draw[dashed,draw=black] (7,0) -- (7,-0.5) node[pos=1.5] {$7$};
+\draw[dashed,draw=black] (8,0) -- (8,-0.5) node[pos=1.5] {$8$};
+
+\draw[dashed,draw=black] (12,0) -- (12,-0.5) node[pos=1.5] {$12$};
+\draw[dashed,draw=black] (15,0) -- (15,-0.5) node[pos=1.5] {$15$};
+\draw[dashed,draw=black] (16,0) -- (16,-0.5) node[pos=1.5] {$16$};
+
+\draw[dashed,draw=black] (19,0) -- (19,-0.5) node[pos=1.5] {$948--1264$};
+
+\draw[dashed,draw=black] (27,0) -- (27,-0.5) node[pos=1.5] {$960--1280$};
+
+\end{tikzpicture}

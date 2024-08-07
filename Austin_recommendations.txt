@@ -1,0 +1,176 @@
+Overall the introduction and background is comprehensive and thorough with references. The proposed approach seems well founded and results are extensive. (thanks...)
+
+There are some concerns with the baselines not being as competitive. Ablation study of spectral filtering is needed or allowing spectral filtering for other FC baselines would be useful. (thanks for the recomendation como repsonder)
+
+One major concern is the validating of the hyper-parameter selection. Many times it is suggested that the 'best' is chosen. Is the 10-fold cross-validation split (mentioned on page 57) for trails or subjects? If the cross-validation is used how is the hyper-parameter search done? On the first split, or internally in each split, or only after all splits (test) are seen? If it is the latter than the hyper-parameter selection runs the risk of overfitting a dataset. (due to the low number of samples we couldn't afford a nested cross validation strategy. However, future work should focus on checking how stable the model is to iverfitting. It's worth to not that the small number of parammeters prevents us in some manner the risk of hyper-parameter overfitting, --- should we take the second and thrid to show how stable is it?)
+
+On page 68 it is clear that the split is done for trials of a subject.  However, it is not clear from the text whether the hyper-parameter, but "GridSearchCV" is mentioned. But this uses a gridsearch based on the CV performance meaning it gives the best hyper-parameters after all test splits are seen. Again, a more rigorous way is to do internal hyper-parameter selection. This may be a common issue with the other baselines too—I've reviewed papers at top tier venues where this is brought up and papers are rejected due to this invalid hyper-parameter selection approach.  In any case, the thesis should make this caveat clear.
+
+
+1. Propose what should have done
+2. check results for all partitions to check any unstable parameter.
+3. add a caveat at some point thta we undestand is suboptimal approximation we lack of enough ifnoramtion perform a nested CV or hold out a test sample 
+
+
+
+
+Points needed editing or clarification: 
+
+Page 4 Alpha "all ages and represents white matter" Not clear from context regarding white matter.
+R// Thanks for the recommendation, indeed it was a mistake, we change the text to amke it clearer "\changes{Seen in all ages and can indicate white matter health.}"
+All changes can be seen on red color i the tesis document.
+
+"between a defined neighboring" not clear
+R// thanks we modify the text to be "\changes{Simpler strategies like Peak-valley representations, which extract local maximum and local minimum points within a defined timestamp, can also be used to predict MI tasks}". now it is more clear that the min and max points are extracted from individual channels.
+
+
+
+
+n example of this effectiveness was demonstrated by [Hassanpour et al., 2019], which found no statistical difference when testing DL methods with and without artifact removal strategies.
+R// the phrase was rewriten to give more clarity about the benefits of DL models.
+"\changes{On ther other hand, Deep Learning (DL) strategies have shown no significant difference in testing results between models with and without clasical artifact removing strategies. This suggest that merly using DL models may be sufficient to handle artifcat removal \cite{hassanpour2019novel,altaheri2023deep}}"
+
+
+Figure 1-10 "Potentially loss information"  -> ""Potentially lose information" 
+R// thanks for the comment, iamge modified changed. same problem spot in fig 1-9 also changed
+
+
+Last paragraph of Page 23. The last sentence "Finally, Renyi's entropy..." Seems out of place with respect to the interpretability paragraph. 
+R// thanks, we rewrite the sentence as follows: 
+"\changes{To compare results we include a regularization technique based on Renyi's entropy to analyze how interpretability is affected when the cross-information potential of the internal FC of the KCS-FCnet is maximized}."
+
+Page 24-25. Not clear why "[Hz]" is in square brackets.
+R// All notations with square bracktes were removed to kkep it clearer.
+
+Page 24 and Figure 4-2. The verbal description "subjects where asked to continue the MI task until the cross disappeared six seconds later" doesn't match the illustration which has only 3 seconds. 
+R// Right typo there, we change 6 for 3 thanks. \changes{three}
+
+Page 29 Around equation 4.1 the sentence lack punctuation.
+R// we restructure the paragraph as 
+\changes{MI involves the neural simulation of a movement that, although not physically executed, activates the same areas of the brain as actual movements. EEGs capture these activations, and machine learning models can be built to interpret these signals, allowing the prediction of human actions purely from the EEGs.}
+
+\changes{From the mathematical perspective, let $\{\mat{X}_r\}_{r=1}^{R}$ be a multi-channel EEG observation from trial $r$, where each element $\mat{X}_r = \{\ve{x}_r^c  \in \Real^{N_t}\}_{c=1}^{N_c} $ contains $N_t \in \Natural$ time instants and $N_c \in \Natural$ number of channels. Moreover, there exists a function $\func{F}$ \eqref{eq:model} that exactly maps each trial $\mat{X}_r$ into the label space $y_r \in \{0, 1, \cdots, N_y\}$ representing the type of motor imagery with $N_y \in \Natural$ denoting the number of classes. The goal of EEG-MI classification is to find the best possible estimation function $\hat{\func{F}}(\cdot; \ve{w})$ that approximates the true function $\func{F}$ in \eqref{eq:model}, depending on a set of trainable parameters denoted as $\ve{w}$}
+
+
+
+Pages 29–30. Superscripts $R$ are misplaced in denominators of (4-4) and (4-5). Commas after equations that are part of sentences and followed by "where ... ".
+R//
+AQUI VOY!!!!
+
+Page 30. "Serves as a robust mathematical construct"  "robust" is good word choice here.   "The first moment relates to the mean" -> "The first moment is the mean" . 
+
+Notation before equation 4.6 and equations 4-6, 4-7, and 4-8 is not clear. The use of $x^c(t)$ for a random variable but then $X^c$ and dummy variable of integration should be $x$ not $x^c$. $P_d(x^c)$ is odd construction. If the goal is index by channel then why not $p_{x_c}(x)$ ?  The notation should make distinct the vector from scalar random variable case, to distinguish 4-8 and 4-9. The text states $Cov$ but the notation uses $\mathcal{R}$ ... Then on page 32 it is $R$ 
+
+On page 33 the covariance matrices are denoted as $\Sigma$ but $R_{CK}$ now is the number of trials in the $K$th class.  Here the assumption of zero-mean is used but not stated...
+
+Equation 4-19 not clear why diag is needed with the $var$ operation (which would yield a vector). If the $Cov$ (or properly typeset $\mathrm{Cov}$) operator is used the $\mathrm{diag}$ operation is needed.   It should be clarified that log is applied element wise (also $\log$ and $\mathrm{Tr}$ as these aren't variables but operations). 
+
+In caution 4-20 , $\mathbf{C}$ has not been defined. I'm guessing its definition assumes full rank covariances.
+
+Equation 4-21 is not well formed. $\mathbf{W}$ nor $\mathbf{w}_c$ have been defined and isn't in the argument of the optimization (argmax).  
+
+4-21 4-22 4-23 should all have trade-off parameters on the penalty/regularizer. 
+
+Equation 4-24. It is not clear what $A$ is . If it's a vector and diag is needed then why not lowercase?
+
+Page 35, 2nd to last paragraph first sentence "during a predefined time window" is not clear. 
+
+While continuous time notation $(t)$ is used in 4.2.2 it seems that it is discrete time by choice of indexing $\{\}_{t=0}^{N_t}$ (also won't there be be $N_t$ time points if discrete?). However 4-13 assumes continuous time but 4-31 uses $n$ to discrete time with square brackets. (Later in 4-42 there is a mix of square brackets and $t$.)
+
+In definition of cross-correlation,  "cross" is misspelled as "Corss".
+
+Similar notational ambiguities exist between discrete Fourier time (like in FFT) from discrete-time Fourier transform or continuous time Fourier transform (4-12) and (4-13).
+
+Equations 4-33 and 4-34 are not incorporated into sentences (with punctuation and capitalization). 
+
+
+Cross-spectral density on page 37 has not been defined in notation. 
+
+Notation for sign differs between 4-35 and 4-36.
+
+
+After 4-44 "epredictions" .
+
+"two among R signals" but $N_c$ is number of signals?
+
+Equation  4-45 has some mistake 
+
+Equation 4-46 should have $C$ instead of $X$? 
+
+Equation 4-49 now uses $X$ but has only $N$ instead of $N_c$. But 4-50 is back to $C$... and 4-51 is back to $X$.
+
+Is the density in 4-55 known or approximated to be Gaussian? Otherwise how is estimation of the density done in practice.
+
+
+IN the RKHS section (pages 42-43) missing punctuation on equations and lemmas 
+
+Typo "si" in Theorem 3. 
+Typo "taht" in Proof 4.1
+
+Equations 4-66 and 4-67 do not match exactly as 4-67 squares the entries of the kernel matrix.
+
+Punctuation around 4-69...
+
+Section 4.2.7 is missing references especially for more modern approaches (GRU, LSTM, GCN, GAT, ELU)...
+
+
+Is "TCFussionnet" spelled correctly?
+
+Figure 5-1. The first equation in the blue box don't make sense as f is a dummy variable on right side. Same problem with 5-3... 
+
+What does infinitely long interval $T$ mean? If infinite then what sense is $T$? Isn't $T$ the dimension of the vectors? Then the multivariate frequencies need to integrate over $T$ dimensions not just $\mathbb{R}$. 
+
+
+I think the first summation in 5-5 should be over $n$ not $r$.  
+
+The vector concatenation before 5-6 needs to be more explicit to include the time and frequency points. Related work could include Eder Santana and my work on motor imagery:
+http://139.91.210.27/CBML/PROCEEDINGS/2014_EMBC/papers/09491496.pdf 
+
+Another reference that uses Gaussian kernels and CSP for motor imagery is  
+https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=9ad451dacab7834bde8b0e8fc551e8191270b7b7
+
+
+Page 58 "the sliding window's impact" -> "impact of the sliding window's length"
+
+Figure 5-2 is difficult to directly compare the methods one to one for purpose of seeing the effect of CSP or the different connectivity estimates. The x-axis (subjects) should be common. Sort by one performance measure and keep constant. Grid lines may help too. 
+
+"One the other hand" -> "Additionally" There is no contrast here and the "On the one hand" wasn't stated. 
+
+
+It seems to be an unfair comparison to not use frequency bands for PLV and CCF. A better comparison and ablation study would allow a version of equation 5-6 for CCF and PLV when they are also frequency dependent. PLV (and the underlying Hilbert transform) in particular is more interpretable for a single frequency band.   
+
+Relatedly on 5-6 couldn't a logistic regression model also be used? Where the logit is linear and passed through a sigmoid function. 
+
+"Rather, the CFF" -> "Rather the CCF"
+
+The composition notation on 6-1 is non-standard in its usage as it is overloaded (a bivariate function being applied to each pair. The matrix/vector valued function should be defined explicitly by iterating over the channel pairs. 
+
+The notation in 6-2 is not clear (beyond the concerns with 6-1). The expectation is taken with respect of $f$ as random variable following what distribution? Is it uniform? If so what does $\hat{\Omega}$ as an argument signify and is it related to the expectation?
+
+Notation in 6-3 has a couple mistakes. The output should be a vector so $\mathbf{v}$ is a matrix (and tensor product should be standard matrix product after transposing $\mathbf{v}$. (Really it should be $\mathbf{V}$ and the parentheses are not matching in size.) 
+
+Top of page 69 is missing reference in Figure. 
+
+In equation 7-4 (also in Figure 7-1) the composition notation is again non-standard. Composition is functions applied from right to left. So it should be there kernel on the left applied to a tuple of the filtered versions, which would be something like $\kappa_G(\cdot,\cdot;\sigma) \circ\left (\phi(x^{c'};w_f), \phi(x^{c};w_f)\right )$ .
+
+Description at bottom of page 80 is not  precise. It is maximized when the each sample is only similar to its self, which will induce a diagonal $\mathbf{K}$ matrix.  However, this case means no channels are similar which is not useful. There is a middle ground where there is structured sparsity in the $\mathbf{K}$. For more background consider this JMLR paper https://www.jmlr.org/papers/v18/16-296.html
+
+This chapter is missing a description of the optimization problem. The entropy is maximized with respect to what variables? The full optimization with the trade-off with respect to the cross-entropy should be detailed. 
+
+
+Reference to ADAM optimizer should be given.
+
+Legend is missing in 7-3 (although the colors are described in the text, it should be in the figure and/or caption). 
+
+
+It seems some of the future work in the conclusion directly contradicts what was said earlier about avoiding complexity of graph neural networks. Perhaps those earlier comments could be tempered.
+
+
+Minor style issue throuhgout: 
+
+Units like mV, V, and Hz are not italics. Nor should reference names be italics. "Table X", "Figure X", "Section X", etc. should be capitalized and not abbreviated like in Chapter 6, but consistent throughout.  
+
+
+ 
+
+

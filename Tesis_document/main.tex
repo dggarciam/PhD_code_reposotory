@@ -1,0 +1,469 @@
+\documentclass[10pt,enlgish,openany,twoside,letterpaper]{book}
+
+%Muestra los márgenes del documento para evitar Warnings
+%Para activar la siguiente línea quite el simbolo % 
+%\usepackage[showframe]{geometry}
+
+%Usando el paquete BibLaTeX
+%Cita normal con \cite[página]{} y cita con paréntesis \parencite[página]{}
+
+% Configuración de BibLaTeX
+%\usepackage[backend=biber,style=authoryear,maxcitenames=2,maxbibnames=99,giveninits=true,uniquename=false]{biblatex}
+%\addbibresource{biblio.bib}
+
+% Personalizar el formato de las citas y la bibliografía
+%\DeclareNameAlias{sortname}{family-given}
+%\DeclareDelimFormat{multinamedelim}{\addcomma\space}
+%\DeclareDelimFormat{finalnamedelim}{\addcomma\space\&\space}
+%\DeclareFieldFormat{titlecase}{\MakeSentenceCase*{#1}}
+%\DeclareFieldFormat[article,inbook,incollection,inproceedings,patent,thesis,unpublished]{title}{\titlecase{#1}}
+%\DeclareFieldFormat{journaltitlecase}{\titlecase{#1}}
+%\DeclareFieldFormat{pages}{#1}
+%\DeclareFieldFormat{volume}{\mkbibbold{#1}}
+%\renewbibmacro{in:}{}
+%\AtEveryBibitem{\clearfield{month}}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+% Carácteres especiales
+\usepackage{fontenc}
+% More advance packages
+
+\usepackage{amssymb,amsbsy,mathrsfs,rotating,float,multirow,upgreek,amsmath,lineno,bm}
+
+\usepackage{listings}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepgfplotslibrary{groupplots}
+\usepackage{longtable}
+\setlength{\LTcapwidth}{6in}
+\usepackage[utf8]{inputenc}
+\usepackage{epsfig,epic,eepic,threeparttable,amscd,here,lscape,tabularx,graphicx }
+\usepackage{booktabs}
+\usepackage{tabu,array}
+\usepackage{overpic}
+\usepackage{microtype}
+%%%%%%%%%%%
+%\usepackage{newtxtext,newtxmath}
+
+%%%%%%%%%%%
+\usepackage{caption}
+\usepackage{subcaption}
+% Permite ver y configurar los parámetros de la página
+\usepackage{layout}
+%Hyperref permite ver las secciones del texto
+\usepackage[hidelinks]{hyperref}
+\usepackage{cleveref}
+
+\usepackage{nomencl}
+
+%% This code creates the groups
+% -----------------------------------------
+\renewcommand{\nomname}{\sffamily List of Symbols and Abbreviations} 
+
+\usepackage{etoolbox}
+\renewcommand\nomgroup[1]{%
+  \item[\Large\bfseries
+  \ifstrequal{#1}{A}{Number Sets}{%
+  \ifstrequal{#1}{B}{Symbols}{%
+  \ifstrequal{#1}{C}{Abbreviations}{}}}%
+]\vspace{10pt}}
+\makenomenclature
+% -----------------------------------------
+
+\newcommand{\changes}[1]{\textcolor[rgb]{1.00,0.00,0.00}{#1}}
+
+
+
+
+\providecommand{\var}[1]{{\ensuremath{var}}\{#1\}}
+\DeclareMathOperator{\tire}{\negthinspace-\negthinspace}
+\DeclareRobustCommand{\legend}[1]{%
+	\textcolor{#1}{\rule{1ex}{2ex}}%
+}
+\newcommand{\lineplot}[1]{
+	\textcolor{#1}{\rule{1.5ex}{0.3ex}}%
+}
+
+%%%% custom colors
+\colorlet{color0}{blue!40!gray}% pearson *
+\colorlet{color1}{blue!80!gray} %pearson **
+\colorlet{color2}{red!40!gray} %n-pearson*
+\colorlet{color3}{red!80!gray}%n-pearson**
+\colorlet{color4}{green!40!gray} %plv*
+\colorlet{color5}{green!80!gray} 
+
+\definecolor{GII}{RGB}{255,255,107}
+\definecolor{GI}{RGB}{72,197,72}
+\definecolor{GIII}{RGB}{214, 36, 47}
+
+\definecolor{frontal}{RGB}{141, 211, 199}
+\definecolor{frontal_left}{RGB}{255, 237, 111}
+\definecolor{frontal_right}{RGB}{255, 255, 179}
+\definecolor{central_right}{RGB}{251, 128, 114}
+\definecolor{central_left}{RGB}{204, 235, 197}
+\definecolor{posterior_right}{RGB}{253, 180, 98}
+\definecolor{posterior_left}{RGB}{217, 217, 217}
+\definecolor{posterior}{RGB}{179, 222, 105}
+
+
+%%%%
+\definecolor{darkorange25512714}{RGB}{255,127,14}
+\definecolor{forestgreen4416044}{RGB}{44,160,44}
+\definecolor{steelblue31119180}{RGB}{31,119,180}
+%%%%
+
+\newcommand{\Objectiveonename}{}
+\newcommand{\Objectivetwoname}{}
+\newcommand{\Objectivethreename}{}
+
+%% defining objective names
+\renewcommand{\Objectiveonename}{Single-trial kernel-based functional connectivity for enhanced feature extraction in EEG-based MI-BCI}
+\renewcommand{\Objectivetwoname}{
+KCS-FCnet: Kernel Cross-Spectral Functional Connectivity Network for automatic EEG representation in MI-BCI}
+\renewcommand{\Objectivethreename}{qualitative and quantitative post-hoc and intrinsic interpretation for MI-BCI models}
+
+%%%
+
+
+% Create author commands
+\newcommand{\studentname}{}
+\newcommand{\submissiondate}{}
+\newcommand{\academictitle}{}
+\newcommand{\resgroupone}{}
+%\newcommand{\resgrouptwo}{}
+\newcommand{\researchtopic}{}
+\newcommand{\thesisname}{}
+\newcommand{\director}{}
+\newcommand{\codirector}{}
+\newcommand{\issuedate}{}
+\newcommand{\palabrasclave}{}
+\newcommand{\keywords}{}
+\newcommand{\schlusselworter}{}
+\newcommand{\palavraschave}{}
+\newcommand{\sede}{}
+\newcommand{\department}{}
+\newcommand{\faculty}{}
+
+%Información de la tesis
+%Diligenciar aquí los datos para su carga automática donde se requiera en el documento
+\renewcommand{\studentname}{Daniel Guillermo García Murillo}
+\renewcommand{\thesisname}{Regularized Gaussian Functional Connectivity Network with Post-Hoc Interpretation for Improved EEG-based Motor Imagery-BCI Classification}
+\renewcommand{\issuedate}{2024}
+\renewcommand{\submissiondate}{01-29-2024}
+\renewcommand{\director}{Prof. Dr. Andrés Marino Álvarez Meza}
+\renewcommand{\codirector}{Prof. Dr. César Germán Castellanos Domínguez}
+\renewcommand{\academictitle}{Doctor en Ingeniería - Ingeniería Automática}
+\renewcommand{\resgroupone}{Grupo de control y procesamiento digital de señales (GCPDS) }
+%\renewcommand{\resgrouptwo}{}
+\renewcommand{\researchtopic}{Inteligencia Artificial}
+\renewcommand{\sede}{Manizales} 
+\renewcommand{\department}{Departamento de ingeniería y arquitectura}
+\renewcommand{\faculty}{Facultad de ingeniería eléctrica, electrónica y computación}
+
+
+%Palabras clave del documento - Tener presente los Theasurus https://www.thesaurus.com/
+%Disponible en 3 idiomas aunque se puede extender a francés o otro idioma
+
+\renewcommand{\palabrasclave}{Use palabras clave que estén en Theasaurus} 
+\renewcommand{\keywords}{Use keywords available in Theasaurus}
+
+% Estilo de los encabezados y pies de página
+\usepackage{fancyhdr}
+
+\fancyhf{}%
+\pagestyle{fancyplain}
+\textheight22.5cm \topmargin0cm \textwidth16.5cm \headheight22pt
+\oddsidemargin0.5cm \evensidemargin-0.5cm%
+\fancypagestyle{plain}{
+\fancyhead[RO,LE]{}
+\fancyhead[RE,LO]{\small \textbf{\thesisname}}
+\fancyfoot[CO,CE]{\thepage}
+}
+\pagestyle{fancy}
+\fancyhf{}%
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter.\; #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection.\; #1}{}}
+\fancyhead[LO,RE]{\leftmark}
+\fancyhead[RO,LE]{\rightmark}
+\fancyfoot[CO,CE]{\thepage}
+\thispagestyle{fancy}%
+
+\usepackage{titlesec}
+% Permite personalizar los títulos de sección y de capítulos
+% hang lo deja en el mismo renglón, display lo despliega
+% Elimina el "Capitulo" y deja solo el número
+
+\titleformat{\chapter}[hang]
+  {\sffamily\Huge\bfseries}{\thechapter}{0.5cm}{\sffamily\Huge}
+\titleformat{\section}[hang]{\sffamily\LARGE}{\thesection}{0.5cm}{}
+\titleformat{\subsection}[hang]{\sffamily\Large}{\thesubsection}{0.5cm}{}
+\titleformat{\subsubsection}[hang]{\sffamily\large}{\thesubsubsection}{0.5cm}{}
+\titleformat{\paragraph}[runin]{\sffamily\normalsize}{}{}{\emph}
+
+%Coloca anexo o apéndice en la Tabla de contenido
+\usepackage[toc,page]{appendix}
+
+% Configuración de las páginas en twoside-mode
+% Permite ver y configurar los parámetros de la página
+\setlength{\voffset}{-0.25in}
+\setlength{\headwidth}{467pt}
+\setlength{\headheight}{22pt}
+\setlength{\oddsidemargin}{0pt}
+\setlength{\evensidemargin}{0pt}
+\setlength{\marginparwidth}{0pt}
+\setlength{\marginparsep}{0pt}
+\setlength{\parskip}{2em}
+\setlength{\footskip}{20pt}
+\setlength{\textheight}{650pt}
+\setlength{\textwidth}{467pt}
+\setlength{\headsep}{5pt}
+\setlength{\parindent}{0pt}
+\setlength{\baselineskip}{10pt plus 5pt minus 5pt}
+\renewcommand{\theequation}{\thechapter-\arabic{equation}}
+\renewcommand{\thefigure}{\textbf{\thechapter-\arabic{figure}}}
+\renewcommand{\thetable}{\textbf{\thechapter-\arabic{table}}}
+
+%Define la distancia de la primera linea de un parrafo a la margen
+\parindent0cm 
+
+%Espacio entre lineas
+\renewcommand{\baselinestretch}{1}
+
+%Para rotar texto, objetos y tablas seite.
+\usepackage{rotating}
+
+%Permite incluir mecanismos y reacciones químicas
+\usetikzlibrary{positioning}
+\usetikzlibrary{mindmap}
+\usepackage{chemformula}
+\usepackage{chemfig}
+\usepackage{xcolor}
+\usepackage{colortbl}
+% use colortbl to avoid using tbale structure from xcolor library, which do not run for this document
+% \usepackage[table]{xcolor}
+
+\usetikzlibrary{calc,arrows.meta}% per right to e left to
+\tikzset{
+myedge/.style={->, -{Latex[#1]}}
+}
+
+%Fuente de la presentación Ancizar Sans UNAL
+%Para usar este compilado en Overleaf se debe usar el compilador XeLaTeX o LuaLaTeX!!
+%Menu -> Compiler -> XeLaTeX o LuaLaTeX
+%La siguiente línea debe comentarse si desea compilar con pdfLaTeX
+%\RequireXeTeX
+
+% Definición de la fuente Ancizar Sans
+\newif\ifxetexorluatex
+
+\ifxetexorluatex
+  \usepackage{fontspec}
+  \usefonttheme{serif}
+  \setmainfont{AncizarSans}[Path=./AncizarSans/,Scale=1,Extension=.otf,UprightFont=*-Regular,BoldFont=*-Bold,ItalicFont=*-Italic,BoldItalicFont=*-BoldItalic]
+\else
+  % Si se compila con pdfLaTeX, cargar la fuente apropiada aquí
+  \usepackage[T1]{fontenc}
+\fi
+% Metadatos del documento
+\AtBeginDocument{%
+	\hypersetup{
+		pdfborder={0 0 0},
+		pdfauthor={\studentname},
+		pdfsubject={\thesisname}, 
+		pdfcreator={\studentname},
+		pdfproducer={\studentname},
+	}
+}
+
+%Carga el simbolo de grado y el de Angstrom
+\newcommand{\angstrom}{\textup{\AA}}
+\newcommand{\grad}{$^{\circ}$}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemm}[theorem]{Lemma}
+\newtheorem{proof}{Proof}[theorem]
+\newtheorem{propo}[theorem]{Proposition}
+
+%Inicio del documento, no olvide la etiqueta de cierre al final \end{document}
+\begin{document}
+
+%% math comands
+
+% custom commands
+\providecommand{\ppunto}[2]{\langle#1, #2 \rangle}% producto punto
+\providecommand{\promed}[1]{{\mathbb{E}}\left\lbrace #1\right\rbrace}% operador de promedio
+\providecommand{\promeddd}[2]{\mathbb{E}_{#1}\!\left\{#2\right\}}% op{\tiny }erador de promedio
+\providecommand{\promedd}[2]{\mathds{E}_{#1}\left\{#2\right\}}% operador de promedio
+\providecommand{\cov}[2]{{\fam=7 cov}\{#1, #2\}}% operador de covarianza
+\providecommand{\gaus}[2]{{\fam=6 N}(#1 #2)} % FDP Gauss
+% Kronecker delta function
+\providecommand{\Kronecker}[2]{\delta_{K}( #1 , #2 )}
+% cardinality
+\providecommand{\Cardinality}[1]{| #1 |}
+
+
+
+\providecommand{\est}[1]{{\widetilde {#1}}}
+\providecommand{\s}[1]{\negthickspace#1\negthickspace}%
+\newcolumntype{C}[1]{>{\centering}m{#1}}
+\newcommand{\subconj}{\negthinspace\subset\negthinspace }
+\newcommand{\en}{\negthinspace\in\negthinspace }
+\newcommand{\igual}{\negthinspace=\negthinspace}
+\newcommand{\dos}{\negthinspace:\negthinspace}
+
+\newcommand{\Real}{\mathbb{R}}
+\newcommand{\Natural}{\mathbb{N}}
+
+\newcommand{\Tr}[1]{Tr \left( #1 \right)}
+\newcommand{\diag}[1]{diag \left( #1 \right)}
+
+\newcommand{\func}[1]{\mathcal {#1}}
+
+\newcommand{\ve}[1]{\bm {#1}}
+\newcommand{\mat}[1]{\bm {#1}}
+%\providecommand{\ve}[1]{{\mathbf {#1}}} %
+%\providecommand{\mat}[1]{{\mathbf {#1}}} %
+
+\newcommand{\x}{\negthickspace\times\negthickspace}
+
+%%
+
+%Nombres y formatos de títulos, tablas y figuras
+%Use \sffamily para dejar con letra Sans Serif, sin etiqueta queda LaTeX clásico
+\renewcommand{\listfigurename}{\sffamily List of Figures}
+\renewcommand{\listtablename}{\sffamily List of Tables}
+\renewcommand{\contentsname}{\sffamily Content}
+\renewcommand{\chaptername}{\sffamily Chapter}
+\renewcommand{\tablename}{\scriptsize \centering \textbf{Table}}
+\renewcommand{\figurename}{\scriptsize \centering \textbf{Figure}}
+\renewcommand{\appendixname}{\sffamily Appendix}
+
+%Cambia el nombre de la sección de referencias
+\renewcommand{\bibname}{\sffamily References}
+
+%Páginas de Presentación del documento - No modificar esto se hace automáticamente
+{\newpage
+\thispagestyle{empty}
+\begin{center}
+\begin{figure}
+\centering
+\epsfig{file=Figures/EscudoUN2016,scale=1}%
+\end{figure}
+\vspace{2.5cm}
+\textbf{\Huge \thesisname} \\ 
+\vspace{2.5cm}
+\textbf{\Large \studentname} \\
+\vspace{5.0cm}
+\small Universidad Nacional de Colombia \\
+\faculty \\
+\department \\
+\sede, Colombia\\
+\issuedate
+\newpage 
+\thispagestyle{empty}
+\vspace{2.5cm}
+\textbf{\Huge \thesisname} \\
+\vspace{2.5cm}
+\textbf{\Large \studentname} \\
+\vspace{2.5cm}
+\small Tesis presentada como requisito parcial para optar por el título de: \\
+{\bfseries \academictitle}\\
+\vspace{2.5cm}
+Director(a): \\
+\director \\
+Codirector(a): \\
+\codirector \\
+\vspace{2.5cm}
+Línea de investigación: \\ 
+\researchtopic\\
+Grupo de investigación: \\
+\resgroupone \\
+%\resgrouptwo \\
+\vspace{2.0cm} 
+Universidad Nacional de Colombia \\
+\faculty \\
+\department \\
+\issuedate
+\end{center}
+
+% Dedicatorias
+\newpage
+\thispagestyle{empty}
+\begin{flushright}
+\begin{minipage}{12.5cm}
+\noindent
+\\[10em]
+%Modificar la cita que se quiere agregar
+"Logic will get you from A to B. Imagination will take you everywhere."
+\\[3em]
+\\ \textit{Albert Einstein}
+\\[10em]
+%Para anular la adición de una segunda cita anule las siguientes lineas desde acá mediante comentario (%)
+"Believe you can, and you are halfway there."
+\\[3em]
+\\ \textit{Theodore Roosevelt}
+%Hasta acá!
+\end{minipage}
+\end{flushright} 
+
+% Declaracíon de originalidad del texto y del contenido
+% No modificar, se hace automáticamente con los comandos ya definidos
+\newpage
+\chapter*{\sffamily Declaración}
+\par Me permito afirmar que he realizado ésta tesis de manera autónoma y con la única ayuda de los medios permitidos y no diferentes a los mencionados el presente texto. Todos los pasajes que se han tomado de manera textual o figurativa de textos publicados y no publicados, los he reconocido en el presente trabajo. Ninguna parte del presente trabajo se ha empleado en ningún otro tipo de tesis. 
+\\[1em]
+\sede., \submissiondate
+\\[6em]
+\rule{6cm}{0.5pt}\\
+\studentname
+}
+{\pagestyle{plain} \pagenumbering{roman}
+\setlength{\parskip}{1mm}
+\include{Agradecimientos}   
+\include{abbreviations}
+\include{Abstract}
+\listoffigures 
+\addcontentsline{toc}{chapter}{List of Figures}
+\listoftables 
+\addcontentsline{toc}{chapter}{List of Tables}
+\tableofcontents 
+\addcontentsline{toc}{chapter}{Content}
+\clearpage
+}
+
+{\pagenumbering{arabic}
+\setlength{\parskip}{\baselineskip}
+%Incluir secciones del documento de aqui en adelante
+%Use \include para incluir desde una página nueva e \input para incluir sin salto de página
+\include{Preliminaries}
+\include{problem_statement_v3}
+\include{State_of_art_v2}
+\include{Objectives}
+\include{Outline_and_contributions}
+\include{Materials_and_methods}
+\include{Objective_1}
+\include{Objective_2}
+\include{Objective_3}
+\include{Final_remarks}
+
+%Inicio del apéndice o anexos
+% \begin{appendix}
+% \include{Appendix}%
+% \end{appendix}
+
+%Permite visualizar la bibliografía en la tabla de contenido
+\addcontentsline{toc}{chapter}{References} %Literatura Citada
+
+\let\OLDthebibliography=\thebibliography
+\def\thebibliography#1{\OLDthebibliography{#1}}
+{\scriptsize
+%\pagestyle{plain}
+\bibliographystyle{dtvstyle}
+% Nombre del documento donde se almacenan las referencias
+\bibliography{References}
+\nocite{*}
+\cleardoublepage
+}
+
+\end{document}

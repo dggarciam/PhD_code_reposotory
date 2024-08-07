@@ -1,0 +1,152 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgfplots}
+\usetikzlibrary{positioning,shapes,arrows,shadows,patterns}
+\begin{document}
+\pgfplotstableread[row sep=\\,col sep=&]{
+x & y & err\\
+1&85.02&3.475\\
+2&84.10&3.79\\
+3&83.79&3.40\\
+4&82.33&3.73\\
+5&83.81&3.598\\
+}\CSP
+
+\pgfplotstableread[row sep=\\,col sep=&]{
+	x & y & err\\
+	1&79.34&3.91\\
+	2&77.41&3.75\\
+	3&75.41&4.18\\
+	4&70.78&4.18\\
+	5&75.735&4.0\\
+}\cor
+
+
+\pgfplotstableread[row sep=\\,col sep=&]{
+x & y & err\\
+	1&73.33&4.54\\
+	2&75.71&4.28\\
+	3&76.25&4.46\\
+	4&67.95&4.45\\
+	5&73.31&4.62\\
+}\CPl
+
+\pgfplotstableread[row sep=\\,col sep=&]{
+	x & y & err\\
+	1&73.30&4.97\\
+	2&70.87&4.70\\
+	3&73.93&4.30\\
+	4&70.56&4.51\\
+	5&72.16&4.62\\
+}\plv
+
+
+\pgfplotstableread[row sep=\\,col sep=&]{
+	x & y & err\\
+	1&86.44&2.64\\
+	2&86.02&2.93\\
+	3&85.34&3.31\\
+	4&84.43&3.10\\
+	5&85.55&2.99\\
+}\Cg
+
+\pgfplotstableread[row sep=\\,col sep=&]{
+x & y & err\\
+1&84.97&3.59\\
+2&84.20&3.38\\
+3&82.89&3.22\\
+4&81.14&3.30\\
+5&83.55&3.372\\
+}\KcG
+
+\begin{tikzpicture}
+\begin{axis}[
+ybar,
+ymode=log,
+%ylabel= Accuracy,
+%label= Window size ($\tau$),
+%bar width=.3cm,
+%enlargelimits=0.03,
+width=1.5\textwidth,
+height=.5\textwidth,
+xtick={1,2,3,4,5,5.4},
+xticklabels={2s,1.5s,1s,0.5s,average,[$\tau$]},
+ymin=55,
+ymax=95,
+ytick={50,60,70,80,90},
+yticklabels={50,60,70,80,90},
+legend columns = -1,
+legend style={
+	at={(0.44,0.99)},            % <-- (adapted)
+	anchor=north,
+},
+%extra y ticks=69.03,
+% ... don't show any label and ...
+%extra y tick labels={},
+% ... adapt the style to your needs
+%extra y tick style={
+	% in case you should remove the grid from the "normal" ticks ...
+%	ymajorgrids=true,
+	% ... but don't show an extra tick (line)
+%	grid style={
+%		line width=1pt,
+%		red,
+%		dashed,
+%	},
+%},
+]
+
+\addplot+[style = {fill=black, postaction={pattern=horizontal lines}},green!40!gray,error bars/.cd, 
+error bar style={line width=.05pt},
+y fixed,
+y dir=both, 
+y explicit,
+] 
+table[x=x,y=y,y error=err]{\CPl};
+
+\addplot+[green!40!gray,error bars/.cd, 
+error bar style={line width=.05pt},
+y fixed,
+y dir=both, 
+y explicit
+] 
+table[x=x,y=y,y error=err]{\plv};
+
+\addplot+[style = {fill=black, postaction={pattern=horizontal lines}},blue!40!gray,error bars/.cd, 
+error bar style={line width=.05pt},
+y fixed,
+y dir=both, 
+y explicit
+] 
+table[x=x,y=y,y error=err]{\CSP};
+
+
+
+
+\addplot+[blue!40!gray,error bars/.cd, 
+error bar style={line width=.05pt},
+y fixed,
+y dir=both, 
+y explicit
+] 
+table[x=x,y=y,y error=err]{\cor};
+
+
+\addplot+[style = {fill=black, postaction={pattern=horizontal lines}},red!40!gray,error bars/.cd, 
+error bar style={line width=.05pt},
+y fixed,
+y dir=both, 
+y explicit
+] 
+table[x=x,y=y,y error=err]{\Cg};
+
+\addplot+[red!40!gray,error bars/.cd, 
+error bar style={line width=.05pt},
+y fixed,
+y dir=both, 
+y explicit
+] 
+table[x=x,y=y,y error=err]{\KcG};
+%\legend{2a pearson*,2a pearson**,3 n-pearson*,3 n-pearson**}
+\end{axis}
+\end{tikzpicture}
+\end{document}

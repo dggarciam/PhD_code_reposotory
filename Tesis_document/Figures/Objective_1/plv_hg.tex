@@ -1,0 +1,36 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\begin{document}
+\begin{tikzpicture}
+
+\begin{axis}[
+tick align=outside,
+x grid style={white!69.0196078431373!black},
+xmin=-0.5, xmax=13.5,
+xtick pos=both,
+xtick style={color=black},
+width=1\textwidth,
+height=.6\textwidth,
+xticklabel style={rotate=90,font=\small},
+xtick={0,1,2,3,4,5,6,7,8,9,10,11,12,13},
+xticklabels={14,12,3,9,7,5,4,2,1,13,11,10,8,6},
+y dir=reverse,
+y grid style={white!69.0196078431373!black},
+ymin=-0.5, ymax=3.5,
+ytick pos=left,
+ytick style={color=black},
+ytick={0,1,2,3},
+yticklabel style={font=\huge},
+yticklabels={
+ $\tau$=2,
+$\tau$=1.5,
+$\tau$=1,
+$\tau$=0.5
+}
+]
+\addplot graphics [includegraphics cmd=\pgfimage,xmin=-0.5, xmax=13.5, ymin=3.5, ymax=-0.5] {plv_hg-000.png};
+\end{axis}
+
+\end{tikzpicture}
+\end{document}

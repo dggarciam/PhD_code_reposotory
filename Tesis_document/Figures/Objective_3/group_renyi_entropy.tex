@@ -1,0 +1,244 @@
+% This file was created with tikzplotlib v0.10.1.
+\begin{tikzpicture}
+
+\definecolor{darkgray176}{RGB}{176,176,176}
+\definecolor{darkorange25512714}{RGB}{255,127,14}
+
+\definecolor{steelblue31119180}{RGB}{31,119,180}
+\definecolor{yellowgreen}{RGB}{154, 205, 50}
+
+\begin{axis}[
+tick align=outside,
+tick pos=left,
+x grid style={darkgray176},
+xmin=0.5, xmax=6.5,
+width=\textwidth,
+height=0.5\textwidth,
+xtick style={color=black},
+xtick={1.5,3.5,5.5},
+xticklabels={G I,G II,G III},
+y grid style={darkgray176},
+ylabel={Renyi's entropy},
+ymin=0.602331051230431, ymax=2.60267644226551,
+ytick style={color=black}
+]
+\addplot [black, fill=steelblue31119180]
+table {%
+0.75 1.0111822783947
+1.25 1.0111822783947
+1.25 1.41367989778519
+0.75 1.41367989778519
+0.75 1.0111822783947
+};
+\addplot [black]
+table {%
+1 1.0111822783947
+1 0.714407742023468
+};
+\addplot [black]
+table {%
+1 1.41367989778519
+1 1.69561421871185
+};
+\addplot [black]
+table {%
+0.875 0.714407742023468
+1.125 0.714407742023468
+};
+\addplot [black]
+table {%
+0.875 1.69561421871185
+1.125 1.69561421871185
+};
+\addplot [black, fill=yellowgreen]
+table {%
+1.75 1.90198284387589
+2.25 1.90198284387589
+2.25 2.32088589668274
+1.75 2.32088589668274
+1.75 1.90198284387589
+};
+\addplot [black]
+table {%
+2 1.90198284387589
+2 1.49933624267578
+};
+\addplot [black]
+table {%
+2 2.32088589668274
+2 2.51175165176392
+};
+\addplot [black]
+table {%
+1.875 1.49933624267578
+2.125 1.49933624267578
+};
+\addplot [black]
+table {%
+1.875 2.51175165176392
+2.125 2.51175165176392
+};
+\addplot [black, mark=o, mark size=3, mark options={solid,fill opacity=0}, only marks]
+table {%
+2 0.977205276489258
+};
+\addplot [black, fill=steelblue31119180]
+table {%
+2.75 1.00999590754509
+3.25 1.00999590754509
+3.25 1.47894328832626
+2.75 1.47894328832626
+2.75 1.00999590754509
+};
+\addplot [black]
+table {%
+3 1.00999590754509
+3 0.693255841732025
+};
+\addplot [black]
+table {%
+3 1.47894328832626
+3 1.99005436897278
+};
+\addplot [black]
+table {%
+2.875 0.693255841732025
+3.125 0.693255841732025
+};
+\addplot [black]
+table {%
+2.875 1.99005436897278
+3.125 1.99005436897278
+};
+\addplot [black, fill=yellowgreen]
+table {%
+3.75 1.34344190359116
+4.25 1.34344190359116
+4.25 2.19900119304657
+3.75 2.19900119304657
+3.75 1.34344190359116
+};
+\addplot [black]
+table {%
+4 1.34344190359116
+4 0.69325590133667
+};
+\addplot [black]
+table {%
+4 2.19900119304657
+4 2.46135926246643
+};
+\addplot [black]
+table {%
+3.875 0.69325590133667
+4.125 0.69325590133667
+};
+\addplot [black]
+table {%
+3.875 2.46135926246643
+4.125 2.46135926246643
+};
+\addplot [black, fill=steelblue31119180]
+table {%
+4.75 1.18452069163322
+5.25 1.18452069163322
+5.25 1.38582560420036
+4.75 1.38582560420036
+4.75 1.18452069163322
+};
+\addplot [black]
+table {%
+5 1.18452069163322
+5 0.987190246582031
+};
+\addplot [black]
+table {%
+5 1.38582560420036
+5 1.65000188350677
+};
+\addplot [black]
+table {%
+4.875 0.987190246582031
+5.125 0.987190246582031
+};
+\addplot [black]
+table {%
+4.875 1.65000188350677
+5.125 1.65000188350677
+};
+\addplot [black, mark=o, mark size=3, mark options={solid,fill opacity=0}, only marks]
+table {%
+5 1.94329965114594
+};
+\addplot [black, fill=yellowgreen]
+table {%
+5.75 1.36978048086166
+6.25 1.36978048086166
+6.25 2.2656888961792
+5.75 2.2656888961792
+5.75 1.36978048086166
+};
+\addplot [black]
+table {%
+6 1.36978048086166
+6 0.992337465286255
+};
+\addplot [black]
+table {%
+6 2.2656888961792
+6 2.48897361755371
+};
+\addplot [black]
+table {%
+5.875 0.992337465286255
+6.125 0.992337465286255
+};
+\addplot [black]
+table {%
+5.875 2.48897361755371
+6.125 2.48897361755371
+};
+\addplot [darkorange25512714]
+table {%
+0.75 1.15490031242371
+1.25 1.15490031242371
+};
+\addplot [darkorange25512714]
+table {%
+1.75 2.20872807502747
+2.25 2.20872807502747
+};
+\addplot [darkorange25512714]
+table {%
+2.75 1.27640020847321
+3.25 1.27640020847321
+};
+\addplot [darkorange25512714]
+table {%
+3.75 2.0507481098175
+4.25 2.0507481098175
+};
+\addplot [darkorange25512714]
+table {%
+4.75 1.29070019721985
+5.25 1.29070019721985
+};
+\addplot [darkorange25512714]
+table {%
+5.75 2.19007635116577
+6.25 2.19007635116577
+};
+\path [draw=green, opacity=0.2, line width=130pt]
+(axis cs:1.5,0.1)
+--(axis cs:1.5,3);
+
+\path [draw=yellow, opacity=0.2, line width=130pt]
+(axis cs:3.5,0.1)
+--(axis cs:3.5,3);
+
+\path [draw=red, opacity=0.2, line width=130pt]
+(axis cs:5.5,0.1)
+--(axis cs:5.5,3);
+\end{axis}
+
+\end{tikzpicture}
