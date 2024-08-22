@@ -45,6 +45,36 @@
 \providecommand{\Cardinality}[1]{| #1 |}
 
 
+%%%% custom colors
+\DeclareRobustCommand{\legend}[1]{%
+	\textcolor{#1}{\rule{1ex}{2ex}}%
+}
+\colorlet{color0}{blue!40!gray}% pearson *
+\colorlet{color1}{blue!80!gray} %pearson **
+\colorlet{color2}{red!40!gray} %n-pearson*
+\colorlet{color3}{red!80!gray}%n-pearson**
+\colorlet{color4}{green!40!gray} %plv*
+\colorlet{color5}{green!80!gray} 
+
+\definecolor{GII}{RGB}{255,255,107}
+\definecolor{GI}{RGB}{72,197,72}
+\definecolor{GIII}{RGB}{214, 36, 47}
+
+\definecolor{frontal}{RGB}{141, 211, 199}
+\definecolor{frontal_left}{RGB}{255, 237, 111}
+\definecolor{frontal_right}{RGB}{255, 255, 179}
+\definecolor{central_right}{RGB}{251, 128, 114}
+\definecolor{central_left}{RGB}{204, 235, 197}
+\definecolor{posterior_right}{RGB}{253, 180, 98}
+\definecolor{posterior_left}{RGB}{217, 217, 217}
+\definecolor{posterior}{RGB}{179, 222, 105}
+\definecolor{crimson2143940}{RGB}{214,39,40}
+
+
+%%%%
+\definecolor{darkorange25512714}{RGB}{255,127,14}
+\definecolor{forestgreen4416044}{RGB}{44,160,44}
+\definecolor{steelblue31119180}{RGB}{31,119,180}
 
 \providecommand{\est}[1]{{\widetilde {#1}}}
 \providecommand{\s}[1]{\negthickspace#1\negthickspace}%
@@ -772,142 +802,177 @@ Note that for simplicity the term $\hat{P}^{cc'}_{r}(\mat{U}^{cc'}_{r},\kappa_x\
 
 \point{Page 58 "the sliding window's impact" -> "impact of the sliding window's length"}
 \reply{
-    
+    Thanks for the comment, we rewrite the sentence as suggested.
+    \changes{impact of the sliding window's length}
 }
 
-% Page 58 "the sliding window's impact" -> "impact of the sliding window's length"
-% R// Thanks for the comment, we rewrite the sentence as suggested
-% \changes{impact of the sliding window's length}
+
 
 % *****Figure 5-2 is difficult to directly compare the methods one to one for purpose of seeing the effect of CSP or the different connectivity estimates. The x-axis (subjects) should be common. Sort by one performance measure and keep constant. Grid lines may help too. 
 
+\point{
+    "One the other hand" -> "Additionally" There is no contrast here and the "On the one hand" wasn't stated. 
+}
 
-% "One the other hand" -> "Additionally" There is no contrast here and the "On the one hand" wasn't stated. 
+\reply{
+    Thank you for the comment.  we change as suggested: \changes{Additionally}
+}
 
-% R// thanks for the recommendation, we change as suggested: \changes{Additionally}
+\point{It seems to be an unfair comparison to not use frequency bands for PLV and CCF. A better comparison and ablation study would allow a version of equation 5-6 for CCF and PLV when they are also frequency dependent. PLV (and the underlying Hilbert transform) in particular is more interpretable for a single frequency band.}
 
+\reply{
+    Thank you for teh valuable comment. The document was not clear enough about both PLV and CCF being compared within the same frequency bands, time windows using equation 5-6. we change the frist two sentences of the experimental set-up as follows:
 
-% It seems to be an unfair comparison to not use frequency bands for PLV and CCF. A better comparison and ablation study would allow a version of equation 5-6 for CCF and PLV when they are also frequency dependent. PLV (and the underlying Hilbert transform) in particular is more interpretable for a single frequency band.
-% R// thanks for the comment, the document wasn't clear about both PLV and CCF being compared using the same frequency bands, time windows using equation 5-6. we change the frist two sentences of the experimental set-up as follows:
-% \changes{
-% ({i}) Preprocessing and trial-based extraction of \textit{s-t-f} representations. For extracting the subject EEG dynamics over time accurately, the sliding window length of feature extraction is fixed to the next values: $\tau=[0.5,1.0,1.5,2.0]$\,{s}, having an overlap of $75\%$. Additionally, similar to authors in \cite{ang2008filter} the frequency bands of interest are selected with the lower frequency limit set at 4 Hz, the upper limit set to 40 Hz, and an overlap of $50\%$.
-% }
+    \changes{
+({i}) Preprocessing and trial-based extraction of {s-t-f} representations. For extracting the subject EEG dynamics over time accurately, the sliding window length of feature extraction is fixed to the next values: $\tau=[0.5,1.0,1.5,2.0]$\,{s}, having an overlap of $75\%$. Additionally, similar to authors in \cite{ang2008filter} the frequency bands of interest are selected with the lower frequency limit set at 4 Hz, the upper limit set to 40 Hz, and an overlap of $50\%$.
+}
 
-% \changes{
-% ({ii}) The estimation of the single-trial functional connectivity from the extracted \textit{s-t-f} features. For comparison, the proposed KCS-FC is contrasted with two commonly used single-trial FC measures. To facilitate this comparison, the KCS-FC in Equation~\eqref{eq:SRC} is interchanged with new single-trial FC measures. These measures can be estimated from a frequency $n$, a time window $w_t$, and a pair of channels ${cc'}$ (with $c \neq c'$, for all $cc'$ in $C$) as described in~\cite{rodrigue2019}.
-% \begin{equation}
-% 			\rho(\ve{x}^{c}_{rnw_t},\ve{x}^{c'}_{rnw_t}) ={\left<\ve{x}^{c}_{rnw_t},\ve{x}^{c'}_{rnw_t}\right>}\label{Eq:Pearson}
-% \end{equation}
-% \begin{equation}		 
-% 	{\Delta\phi(\ve{x}^{c}_{rnw_t},\ve{x}^{c}_{rnw_t})}  {= {|\exp(j(\ve{\phi}_{rnw_t}^{c}-\ve{\phi}_{rnw_t}^{c}))|}} \label{Eq:PLV} 
-% \end{equation}
-% } 
+\changes{
+({ii}) The estimation of the single-trial functional connectivity from the extracted {s-t-f} features. For comparison, the proposed KCS-FC is contrasted with two commonly used single-trial FC measures. To facilitate this comparison, the KCS-FC in Equation~\eqref{eq:SRC} is interchanged with new single-trial FC measures. These measures can be estimated from a frequency $n$, a time window $w_t$, and a pair of channels ${cc'}$ (with $c \neq c'$, for all $cc'$ in $C$) as described in~\cite{rodrigue2019}.
+\begin{equation}
+			\rho(\ve{x}^{c}_{rnw_t},\ve{x}^{c'}_{rnw_t}) ={\left<\ve{x}^{c}_{rnw_t},\ve{x}^{c'}_{rnw_t}\right>}\label{Eq:Pearson}
+\end{equation}
+\begin{equation}		 
+	{\Delta\phi(\ve{x}^{c}_{rnw_t},\ve{x}^{c}_{rnw_t})}  {= {|\exp(j(\ve{\phi}_{rnw_t}^{c}-\ve{\phi}_{rnw_t}^{c}))|}} \label{Eq:PLV} 
+\end{equation}
+}
+}
 
-% Relatedly on 5-6 couldn't a logistic regression model also be used? Where the logit is linear and passed through a sigmoid function. 
-% R// Thank you for your comment. Indeed, logistic regression could be applied directly to Equation (5-6) by optimizing the model using cross-entropy loss. Since both LDA and logistic regression fundamentally operate as linear classifiers, the results between the two methods might not differ significantly. However, it's important to note that while logistic regression directly models the probability of class membership, LDA focuses on maximizing the separability between classes.
+\point{Relatedly on 5-6 couldn't a logistic regression model also be used? Where the logit is linear and passed through a sigmoid function. }
 
+\reply{
+    Thank you for your comment. Indeed, logistic regression could be applied directly to Equation (5-6) by optimizing the model using cross-entropy loss. Since both LDA and logistic regression fundamentally operate as linear classifiers, the results between the two methods might not differ significantly. However, it's important to note that while logistic regression directly models the probability of class membership, LDA focuses on maximizing the separability between classes.
+}
 
-% "Rather, the CFF" -> "Rather the CCF"
-% R// DONE
+\point{"Rather, the CFF" -> "Rather the CCF"}
 
-% The composition notation on 6-1 is non-standard in its usage as it is overloaded (a bivariate function being applied to each pair. The matrix/vector valued function should be defined explicitly by iterating over the channel pairs. 
-% R// thanks for the comment we include an extra function to avoid overloaded equation.
-% 	\changes{
-% 	\begin{equation}\label{eq:CSf}
-% 		\hat{\mat{P}}_{r}(\ve{w}_f)  = \tilde{K}(\cdot;\sigma) \circ \varphi(\mat{X}_r; \ve{w}_f), 
-% 	\end{equation}
-% 	where $\hat{\mat{P}}_{r}~(\ve{w}_f)~\in~[0,1]^{N_c\times N_c \times N_f}$, $N_f$ is the number of convolutional filters, notation $\circ$ stands for function composition, $\varphi(\cdot; \mat{w}_f)$ is a 1-D convolutional layer that can be used to automatically extract frequency patterns ruled by the weight vector $\ve{w}_f\in \Real^{\Delta_t}$, with $\Delta_t<N_t.$ Of note, in Equation \eqref{eq:CSf} function $\tilde{K}(\cdot;\sigma)$ is the convolutional filter concatenation of all pair-wise values $\kappa_{x}(\ve{x}^{c}_{rf},\ve{x^{c'}_{rf}}; \sigma)$ and is obtained as:
-%     \begin{equation}
-%         \tilde{K}(\mat{\tilde{X}}_r;\sigma) = \left[ \mat{K}_{r1} , \mat{K}_{r2}, \cdots,\mat{K}_{rf},\cdots, \mat{K}_{rN_f} \right],
-%     \end{equation}
-%     where $\mat{K}_{rf} \in \Real^{N_c \times N_c}$ is the kernel matrix for a trial $r$ at a convolutional filter $f$ and it is calculated as follows:
-%     \begin{equation}
-%         \mat{K}_{rf} = \begin{bmatrix}
-%             \kappa_{x}(\ve{x}^{1}_{rf}, \ve{x}^{1}_{rf}; \sigma) & \kappa_{x}(\ve{x}^{1}_{rf}, \ve{x}^{2}_{rf}; \sigma) & \cdots & \kappa_{x}(\ve{x}^{1}_{rf}, \ve{x}^{N_c}_{rf}; \sigma) \\
-%             \kappa_{x}(\ve{x}^{2}_{rf}, \ve{x}^{1}_{rf}; \sigma) & \kappa_{x}(\ve{x}^{2}_{rf}, \ve{x}^{2}_{rf}; \sigma) & \cdots & \kappa_{x}(\ve{x}^{2}_{rf}, \ve{x}^{N_c}_{rf}; \sigma) \\
-%             \vdots & \vdots & \ddots & \vdots \\
-%             \kappa_{x}(\ve{x}^{N_c}_{rf}, \ve{x}^{1}_{rf}; \sigma) & \kappa_{x}(\ve{x}^{N_c}_{rf}, \ve{x}^{2}_{rf}; \sigma) & \cdots & \kappa_{x}(\ve{x}^{N_c}_{rf}, \ve{x}^{N_c}_{rf}; \sigma).
-%         \end{bmatrix}
-%     \end{equation}
-%     }
+\reply{
+    Thank for the comment. We fix the notation across the document.
+}
 
-% The notation in 6-2 is not clear (beyond the concerns with 6-1). The expectation is taken with respect of $f$ as random variable following what distribution? Is it uniform? If so what does $\hat{\Omega}$ as an argument signify and is it related to the expectation?
-% R// We rewrite the function as follows:
-%     \changes{    We compute the average functional connectivity measure $\tilde{\mat{P}}_r \in \Real^{N_c \times N_c}$ over convolutional filters, as follows:
-%     \begin{equation}
-% 		\tilde{\mat{P}}_r  = \operatorname{AvgPooling}_{f} \left(\hat{\mat{P}}_{r}(\ve{w}_f)\right),
-% 	\end{equation}
-%     where $\ve{w}_f$ is the $f$-th convolutional filter, $N_f$ is the number of convolutional filters. This measure provides a way to analyze how different frequency bands of a single-trial EEG relate to each other across channels. After computing the average functional connectivity measure and taking advantage of the symmetric property of the Gaussian functional connectivity, the vectorized version of $\tilde{\mat{P}}_r$ is calculated as:
-%     \begin{equation} 
-%         \overline{\ve{p}}_r = \left[\tilde{p}_r^{12}, \tilde{p}_r^{13}, \cdots, \tilde{p}_r^{cc'}, \cdots, \tilde{p}_r^{(N_c-1) N_c} \right]; \forall c<c',
-%     \end{equation}
-%     where $\overline{\ve{p}}_r \in  \Real ^{N_c(N_c-1)/2}$. Next, a the softmax-based output layer is applied over vector $\overline{\ve{p}}_r$ to obtain the MI class probability membership $\hat{\ve{y}}_r \in [0,1]^{N_y}$ as:
-%     }  
+\point{The composition notation on 6-1 is non-standard in its usage as it is overloaded (a bivariate function being applied to each pair. The matrix/vector valued function should be defined explicitly by iterating over the channel pairs. }
 
-% Notation in 6-3 has a couple mistakes. The output should be a vector so $\mathbf{v}$ is a matrix (and tensor product should be standard matrix product after transposing $\mathbf{v}$. (Really it should be $\mathbf{V}$ and the parentheses are not matching in size.) 
-% R// thanks you are right $\mathbf{v}$ is a matrix. we rewrite the equation as follows:
-% \changes{
-% 	\begin{equation}\label{eq:output}
-% 		\hat{\ve{y}}_r = {\rm{softmax}}\left(\mat{V}\overline{\ve{p}}_r + \ve{b}\right), 
-% 	\end{equation}
-% 	where $\mat{V}\in \Real^{N_c(N_c-1)/2\times N_y}$, $\ve{b} \in \Real^{N_y},$.}
+\reply{
+    Thank you for the comment, we include an extra function to avoid overloaded equation.
+    \changes{
+        \begin{equation}\label{eq:CSf}
+            \hat{\mat{P}}_{r}(\ve{w}_f)  = \tilde{K}(\cdot;\sigma) \circ \varphi(\mat{X}_r; \ve{w}_f), 
+        \end{equation}
+        where $\hat{\mat{P}}_{r}~(\ve{w}_f)~\in~[0,1]^{N_c\times N_c \times N_f}$, $N_f$ is the number of convolutional filters, notation $\circ$ stands for function composition, $\varphi(\cdot; \mat{w}_f)$ is a 1-D convolutional layer that can be used to automatically extract frequency patterns ruled by the weight vector $\ve{w}_f\in \Real^{\Delta_t}$, with $\Delta_t<N_t.$ Of note, in Equation \eqref{eq:CSf} function $\tilde{K}(\cdot;\sigma)$ is the convolutional filter concatenation of all pair-wise values $\kappa_{x}(\ve{x}^{c}_{rf},\ve{x^{c'}_{rf}}; \sigma)$ and is obtained as:
+        \begin{equation}
+            \tilde{K}(\mat{\tilde{X}}_r;\sigma) = \left[ \mat{K}_{r1} , \mat{K}_{r2}, \cdots,\mat{K}_{rf},\cdots, \mat{K}_{rN_f} \right],
+        \end{equation}
+        where $\mat{K}_{rf} \in \Real^{N_c \times N_c}$ is the kernel matrix for a trial $r$ at a convolutional filter $f$ and it is calculated as follows:
+        \begin{equation}
+            \mat{K}_{rf} = \begin{bmatrix}
+                \kappa_{x}(\ve{x}^{1}_{rf}, \ve{x}^{1}_{rf}; \sigma) & \kappa_{x}(\ve{x}^{1}_{rf}, \ve{x}^{2}_{rf}; \sigma) & \cdots & \kappa_{x}(\ve{x}^{1}_{rf}, \ve{x}^{N_c}_{rf}; \sigma) \\
+                \kappa_{x}(\ve{x}^{2}_{rf}, \ve{x}^{1}_{rf}; \sigma) & \kappa_{x}(\ve{x}^{2}_{rf}, \ve{x}^{2}_{rf}; \sigma) & \cdots & \kappa_{x}(\ve{x}^{2}_{rf}, \ve{x}^{N_c}_{rf}; \sigma) \\
+                \vdots & \vdots & \ddots & \vdots \\
+                \kappa_{x}(\ve{x}^{N_c}_{rf}, \ve{x}^{1}_{rf}; \sigma) & \kappa_{x}(\ve{x}^{N_c}_{rf}, \ve{x}^{2}_{rf}; \sigma) & \cdots & \kappa_{x}(\ve{x}^{N_c}_{rf}, \ve{x}^{N_c}_{rf}; \sigma).
+            \end{bmatrix}
+        \end{equation}
+}
 
-% Top of page 69 is missing reference in Figure.
-% R// DONE 
+\point{The notation in 6-2 is not clear (beyond the concerns with 6-1). The expectation is taken with respect of $f$ as random variable following what distribution? Is it uniform? If so what does $\hat{\Omega}$ as an argument signify and is it related to the expectation?}
+\reply{
+    Thanks for the comment. We rewrite the fucntion as:
+    \changes{ We compute the average functional connectivity measure $\tilde{\mat{P}}_r \in \Real^{N_c \times N_c}$ over convolutional filters, as follows:
+    \begin{equation}
+		\tilde{\mat{P}}_r  = \operatorname{AvgPooling}_{f} \left(\hat{\mat{P}}_{r}(\ve{w}_f)\right), \label{eq:lastlayerFC}
+	\end{equation}
+    where $\ve{w}_f$ is the $f$-th convolutional filter, $N_f$ is the number of convolutional filters. This measure provides a way to analyze how different frequency bands of a single-trial EEG relate to each other across channels. After computing the average functional connectivity measure and taking advantage of the symmetric property of the Gaussian functional connectivity, the vectorized version of $\tilde{\mat{P}}_r$ is calculated as:
+    \begin{equation} 
+        \overline{\ve{p}}_r = \left[\tilde{p}_r^{12}, \tilde{p}_r^{13}, \cdots, \tilde{p}_r^{cc'}, \cdots, \tilde{p}_r^{(N_c-1) N_c} \right]; \forall c<c',
+    \end{equation}
+    where $\overline{\ve{p}}_r \in  \Real ^{N_c(N_c-1)/2}$. Next, a the softmax-based output layer is applied over vector $\overline{\ve{p}}_r$ to obtain the MI class probability membership $\hat{\ve{y}}_r \in [0,1]^{N_y}$ as:
+    }
+}
 
-% In equation 7-4 (also in Figure 7-1) the composition notation is again non-standard. Composition is functions applied from right to left. So it should be there kernel on the left applied to a tuple of the filtered versions, which would be something like $\kappa_G(\cdot,\cdot;\sigma) \circ\left (\phi(x^{c'};w_f), \phi(x^{c};w_f)\right )$ .
-% R// thanks for the suggestion, we rewrite the equation as:
-% \changes{
-% \begin{equation}
-%   H(\chi; \mathbf{w}_f, \sigma) = - \log \left( \frac{1}{N_c^2} \sum_{c,c'=1}^{N_c} \kappa_{x}(\cdot, \cdot;\sigma) \circ\left (\varphi(x^{c'};w_f), \varphi(x^{c};w_f)\right ) \right)
-% \end{equation}
-% }
+\point{Notation in 6-3 has a couple mistakes. The output should be a vector so $\mathbf{v}$ is a matrix (and tensor product should be standard matrix product after transposing $\mathbf{v}$. (Really it should be $\mathbf{V}$ and the parentheses are not matching in size.) }
 
-% Description at bottom of page 80 is not  precise. It is maximized when the each sample is only similar to its self, which will induce a diagonal $\mathbf{K}$ matrix.  However, this case means no channels are similar which is not useful. There is a middle ground where there is structured sparsity in the $\mathbf{K}$. For more background consider this JMLR paper https://www.jmlr.org/papers/v18/16-296.html
-% R// Thank you for your comment. You are correct in pointing out that the description on page 80 regarding optimization could induce a diagonal $\mathbf{K}$ matrix. To clarify, the objective is similar to the information bottleneck principle, where we aim to maximize the cross-information potential while maintaining the accuracy obtained. We have now included an optimization problem which clarifies that the cross-information potential acts as a regularization technique on the usual cross-entropy optimization problem.
+\reply{
+    We value the comment. You are right $\mathbf{v}$ is a matrix. we rewrite the equation as follows:
 
-% \changes{Since the main objective is to enhance the interpretability while maintaining the results obtained in \cref{chapter_2}, we include the $H(\chi; \mathbf{w}_f, \sigma)$ into the optimization problem as follows: 
-% \begin{equation}
-%   \Theta^{*} = \underset{\Theta}{\arg\,\min} \quad \promeddd{r}{\mathcal{L}(\ve{y}_r,\hat{\ve{y}}_r|\Theta) - H(\tilde{\mat{P}_r}; \mathbf{w}_f, \sigma); \forall r\in\{1,2,\dots,R\}},
-% \end{equation}
-% where $\tilde{\mat{P}}_r$ is the average functional connectivity measure calculated in \cref{eq:lastlayerFC} and $\hat{\ve{y}}$ is the class probability vector obtained in \cref{eq:output}. Here, the objective is akin to the information bottleneck principle, where we aim to maximize the cross-information potential while maintaining the accuracy obtained in \cref{chapter_2}. In this context, the cross-information potential serves as a regularization technique on the typical cross-entropy optimization problem.
-% }
+    \changes{
+        \begin{equation}\label{eq:output}
+            \hat{\ve{y}}_r = {\rm{softmax}}\left(\mat{V}\overline{\ve{p}}_r + \ve{b}\right),
+        \end{equation}
+        where $\mat{V}\in \Real^{N_c(N_c-1)/2\times N_y}$, $\ve{b} \in \Real^{N_y}$. In addition, a gradient descent-based framework using back-propagation is employed to optimize the parameter set $\Theta=\{\ve{w}_f,\mat{V},\ve{b},\sigma;\forall f\in\{1,2,\dots,N_f\}\},$ as follows~\cite{zhang2021dive}:
+        }
+}
 
-% *This chapter is missing a description of the optimization problem. The entropy is maximized with respect to what variables? The full optimization with the trade-off with respect to the cross-entropy should be detailed. 
-% R// thanks for the recommendation, we agree that a optimization problems is missing. We include it as follows:
-% \changes{Since the main objective is to enhance the interpretability while maintaining the results obtained in \cref{chapter_2}, we include the $H(\chi; \mathbf{w}_f, \sigma)$ into the optimization problem as follows: 
-% \begin{equation}
-%   \Theta^{*} = \underset{\Theta}{\arg\,\min} \quad \promeddd{r}{\mathcal{L}(\ve{y}_r,\hat{\ve{y}}_r|\Theta) - H(\tilde{\mat{P}_r}; \mathbf{w}_f, \sigma); \forall r\in\{1,2,\dots,R\}},
-% \end{equation}
-% where $\tilde{\mat{P}}_r$ is the average functional connectivity measure calculated in \cref{eq:lastlayerFC} and $\hat{\ve{y}}$ is the class probability vector obtained in \cref{eq:output}. Here, the objective is similar to the information bottleneck principle, where we aim to maximize the cross-information potential while maintaining the accuracy obtained in \cref{chapter_2}. In this context, the cross-information potential serves as a regularization technique on the typical cross-entropy optimization problem.
-% }
+\point{Top of page 69 is missing reference in Figure.}
+\reply{
+    Thank you for the comment. We fix the figure refence.
+}
 
-% Reference to ADAM optimizer should be given.
-% R// thank you or the comment we add the reference as follows:
-% \changes{The ADAM algorithm \cite{kingma2014adam} is employed to tune the model parameters with a learning rate of $0.1$}
+\point{In equation 7-4 (also in Figure 7-1) the composition notation is again non-standard. Composition is functions applied from right to left. So it should be there kernel on the left applied to a tuple of the filtered versions, which would be something like $\kappa_G(\cdot,\cdot;\sigma) \circ\left (\phi(x^{c'};w_f), \phi(x^{c};w_f)\right )$ .}
 
-% Legend is missing in 7-3 (although the colors are described in the text, it should be in the figure and/or caption). 
-% R// thanks for the recommendation, we include the legend to the figure and describe the colores of increases and reductions in the caption
-% \begin{figure}[h!]
-%   \centering
-%   \resizebox{\linewidth}{!}{\input{Figures/Objective_3/accuracy_comparison}}
-%   \caption{Comparison of subject-specific average accuracy across EEGnet, KCS-FCnet, and RKCS-FCnet models. Subjects are arranged in descending order based on the accuracy of the EEGnet model. The color-coded bars illustrate performance shifts, with dark green(\legend{forestgreen4416044}) indicating an increase in accuracy on the RKCS-FCnet over KCS-FCnet, light green(\legend{forestgreen4416044!50}) indicating an increase in accuracy on KCS-FCnet over EEGnet, and while red \legend{crimson2143940!50} indicates an accuracy reduction.}\label{fig:accuracy_sbj_comp}
-% \end{figure}
+\reply{
+    Thank you for the valuable comment. We rewrite the equation as suggested:
 
+    \changes{
+        \begin{equation}
+          H(\chi; \mathbf{w}_f, \sigma) = - \log \left( \frac{1}{N_c^2} \sum_{c,c'=1}^{N_c} \kappa_{x}(\cdot, \cdot;\sigma) \circ\left (\varphi(x^{c'};w_f), \varphi(x^{c};w_f)\right ) \right) 
+        \end{equation}
+        }
+}
 
-% It seems some of the future work in the conclusion directly contradicts what was said earlier about avoiding complexity of graph neural networks. Perhaps those earlier comments could be tempered.
-% R// thank you for the valuable comment, we agree and change the paragraph:
-%  \changes{While Graph Neural Networks are capable of managing complex graph-structured data, they can be computationally demanding due to the necessity of processing all nodes and their neighbors within the graph. However, ongoing advancements in optimization techniques are continually improving their efficiency \cite{gao2024graph}.}
+\point{Description at bottom of page 80 is not  precise. It is maximized when the each sample is only similar to its self, which will induce a diagonal $\mathbf{K}$ matrix.  However, this case means no channels are similar which is not useful. There is a middle ground where there is structured sparsity in the $\mathbf{K}$.}
 
+\reply{
+    Thank you for your comment. You are correct in pointing out that the description on page 80 regarding optimization could induce a diagonal $\mathbf{K}$ matrix. To clarify, the objective is similar to the information bottleneck principle, where we aim to maximize the cross-information potential while maintaining the accuracy obtained. We have now included an optimization problem which clarifies that the cross-information potential acts as a regularization technique on the usual cross-entropy optimization problem.
 
+    \changes{Since the main objective is to enhance the interpretability while maintaining the results obtained in \cref{chapter_2}, we include the $H(\chi; \mathbf{w}_f, \sigma)$ into the optimization problem as follows: 
+    \begin{equation}
+      \Theta^{*} = \underset{\Theta}{\arg\,\min} \quad \promeddd{r}{\mathcal{L}(\ve{y}_r,\hat{\ve{y}}_r|\Theta) - H(\tilde{\mat{P}_r}; \mathbf{w}_f, \sigma); \forall r\in\{1,2,\dots,R\}},
+    \end{equation}
+    where $\tilde{\mat{P}}_r$ is the average functional connectivity measure calculated in Equation~\eqref{eq:lastlayerFC} and $\hat{\ve{y}}$ is the class probability vector obtained in Equation~\eqref{eq:output}. Here, the objective is akin to the information bottleneck principle, where we aim to maximize the cross-information potential while maintaining the accuracy obtained in \cref{chapter_2}. In this context, the cross-information potential serves as a regularization technique on the typical cross-entropy optimization problem.
+    }
+}
 
-% Minor style issue throuhgout: 
+\point{This chapter is missing a description of the optimization problem. The entropy is maximized with respect to what variables? The full optimization with the trade-off with respect to the cross-entropy should be detailed.}
 
-% Units like mV, V, and Hz are not italics. Nor should reference names be italics. "Table X", "Figure X", "Section X", etc. should be capitalized and not abbreviated like in Chapter 6, but consistent throughout.  
+\reply{
+    Thank you for the recommendation. We agree that a optimization problems is missing, so it is included as follows:
+    \changes{Since the main objective is to enhance the interpretability while maintaining the results obtained in \cref{chapter_2}, we include the $H(\chi; \mathbf{w}_f, \sigma)$ into the optimization problem as follows: 
+    \begin{equation}
+      \Theta^{*} = \underset{\Theta}{\arg\,\min} \quad \promeddd{r}{\mathcal{L}(\ve{y}_r,\hat{\ve{y}}_r|\Theta) - H(\tilde{\mat{P}_r}; \mathbf{w}_f, \sigma); \forall r\in\{1,2,\dots,R\}},
+    \end{equation}
+    where $\tilde{\mat{P}}_r$ is the average functional connectivity measure calculated in Equation~\eqref{eq:lastlayerFC} and $\hat{\ve{y}}$ is the class probability vector obtained in Equation~\eqref{eq:output}. Here, the objective is akin to the information bottleneck principle, where we aim to maximize the cross-information potential while maintaining the accuracy obtained in \cref{chapter_2}. In this context, the cross-information potential serves as a regularization technique on the typical cross-entropy optimization problem.
+    }
+}
 
-% R// thank you for the recommendation we removed all italics refering to Units and names. Also "Table X", "Figure X", "Section X" was changed as suggested.
+\point{Reference to ADAM optimizer should be given.}
+\reply{
+    Thank you for the comment, we add the reference as follows:
+    \changes{The ADAM algorithm \cite{kingma2014adam} is employed to tune the model parameters with a learning rate of $0.1$}
+}
 
+\point{Legend is missing in 7-3 (although the colors are described in the text, it should be in the figure and/or caption). }
 
+\reply{
+    Thank you for the recommendation, we include the legend to the figure and describe each color in the caption.
+
+    \begin{figure}[h!]
+        \centering
+        \resizebox{\linewidth}{!}{\input{../Tesis_document/Figures/Objective_3/accuracy_comparison}}
+        \caption{Comparison of subject-specific average accuracy across EEGnet, KCS-FCnet, and RKCS-FCnet models. Subjects are arranged in descending order based on the accuracy of the EEGnet model. The color-coded bars illustrate performance shifts, with dark green(\legend{forestgreen4416044}) indicating an increase in accuracy on the RKCS-FCnet over KCS-FCnet, light green(\legend{forestgreen4416044!50}) indicating an increase in accuracy on KCS-FCnet over EEGnet, and while red \legend{crimson2143940!50} indicates an accuracy reduction.}\label{fig:accuracy_sbj_comp}
+    \end{figure}
+}
+
+\point{It seems some of the future work in the conclusion directly contradicts what was said earlier about avoiding complexity of graph neural networks. Perhaps those earlier comments could be tempered.}
+
+\reply{
+    Thank you for the valuable comment, we agree and change the paragraph as:
+     \changes{While Graph Neural Networks are capable of managing complex graph-structured data, they can be computationally demanding due to the necessity of processing all nodes and their neighbors within the graph. However, ongoing advancements in optimization techniques are continually improving their efficiency \cite{gao2024graph}.} 
+}
+
+\point{Units like mV, V, and Hz are not italics. Nor should reference names be italics. "Table X", "Figure X", "Section X", etc. should be capitalized and not abbreviated like in Chapter 6, but consistent throughout.  }
+
+\reply{
+    Thank you for the recommendation we removed all italics refering to Units and names. Also "Table X", "Figure X", "Section X" was changed as suggested.
+}
  
 \end{reviewer}
 
