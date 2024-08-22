@@ -5,92 +5,92 @@ Here, we propose a single-trial kernel-based functional connectivity measure as 
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[scale=0.6]{Figures/outline_and_contributions/contribution1_B.pdf}
+    \includegraphics[scale=0.6]{Figures/outline_and_contributions/contribution1_C.pdf}
     \caption{Illustration of the proposed Kernel-based Cross-Spectral FC for enhancing the MI-BCI model's accuracy. Key features include robust FC estimators using a Gaussian kernel for non-linearity, short sliding windows for addressing non-stationarity, sub-band filtering for managing inter-subject variability, vectorization representation for FC extraction and elastic-net regularization to curb spurious connectivities \label{fig:contribution1}}
 \end{figure}
 
 \section{Kernel-based Covariance Function}
-The Wiener-Khinchin's theorem states that a real-valued auto-correlation function, $R_{\ve{x}}(\tau)$, of a weak-sense stationary stochastic process $x$ can be defined as~\cite{cohen1998generalization}:
-
-\begin{linenomath*}
-	\begin{equation}\label{eq:wiener}
-		R_{x}(\tau) = \int_{\Real}\exp({j2\pi \tau f})dP_{{x}}(f),
-	\end{equation}
-\end{linenomath*}
-
-where $P_{\ve{x}}(f)\en\Real[0,1]$ is a monotonic spectral distribution function absolutely continuous and differentiable over frequency $f\en \Real$.
-
-According to Bochner's theorem the univariable relationship in~Equation~\eqref{eq:wiener} that operates over stationary positive-definite kernels can be expanded to a pairwise correlation between random vectors $\ve{x},\ve{x}'\en\Real^T$ through a generalized, kernel-based covariance, if and only if the following assumption holds between both spectral representations~\cite{bochner2020harmonic}:
-\begin{linenomath*}
-	\begin{equation}\label{eq:kCSD}
-		\kappa(\Delta\ve{x}) = \int_{\Real} \exp{(j2\pi {\Delta\ve{x}}^{\top} \ve{f})} {S}_{\ve{x}\ve{x}'}(\ve{f})d\ve{f},
-	\end{equation}
-\end{linenomath*}
-where $\Delta\ve{x}=\ve{x}-\ve{x}{'}$ is the vector delay that is defined over an infinitely long interval $T$ (i.e.,~$\Delta\ve{x}\en\Real^T$), $\ve{f}\subseteq\varOmega$ is the frequency domain that contains the bandwidth set of analysis $\varOmega$, and $ {S}_{\ve{x}\ve{x}'}(\ve{f})\en \mathbb{C}$ is the cross-spectral density that preserves the following equality: $ {S}_{\ve{x}\ve{x}^{'}}(\ve{f}) = d {P}_{\ve{x}\ve{x}^{'}}(\ve{f})/d\ve{f}$, with $ {P}_{\ve{x}\ve{x}'}(\ve{f})\en\Real[0,1]$ being the cross-spectral distribution that is related to the mapping kernel, $\kappa\s{:}\Real^T \times \Real^T\to \Real$.
-
-As regards $\kappa(\ve{x},\ve{x}') = \langle \phi(\ve{x}),\phi(\ve{x}') \rangle_{\mathcal{H}}$, it is a positive-definite stationary kernel inducing the nonlinear feature mapping $\phi(\cdot)$ to a Reproducing Kernel Hilbert Space, $\mathcal{H}$. Notation $\langle \cdot,\cdot \rangle$ represents the dot product. 
-
-Therefore, we compute the cross-spectral distribution $ {P}_{\ve{x}\ve{x}'}(\ve{f})$ within a bandwidth $\varOmega$, as below:
-\begin{linenomath*}
-	\begin{align}\label{eq:CSDist}
-		{P}_{\ve{x}\ve{x}'}(\ve{f}) &= 2\int_{\ve{f}\en\varOmega} {S}_{\ve{x}\ve{x}'}(\ve{f})d\ve{f}\nonumber\\
-		&=2\int_{\ve{f}\en\varOmega} \mathscr{F}\left\{\kappa(\ve{x},\ve{x}')\right\}d\ve{f}.
-	\end{align}
-\end{linenomath*}
-
-Notation $\mathscr{F}\{\cdot\}$ stands for the Fourier transform. 
+\changes{The Wiener-Khinchin's theorem states that a real-valued auto-correlation function, $R^{c}_{r}(\tau)$, of a weak-sense stationary stochastic process $x^{c}_{r}(\tau)$ can be defined as~\cite{cohen1998generalization}:
+\begin{equation}\label{eq:wiener}
+	R^{c}_{r}(\tau) = \int_{\varpi \in \Omega}\exp({j2\pi \tau \varpi})dP^{c}_{r}(\varpi) ,
+\end{equation}
+where $P^{c}_{r}(\varpi)\en\Real[0,1]$ is a monotonic spectral distribution function absolutely continuous and differentiable over frequency $\varpi \in \Omega$.
+According to Bochner's theorem the univariable relationship in~Equation~\eqref{eq:wiener} a stationary positive-definite kernel \changes{$\kappa^{cc'}_{r}(\Delta_{x}) = \kappa(\ve{x}^{c}_{r},\ve{x}^{c'}_{r})$} can be related with its cross-spectral counterpart $S^{cc'}_{r}(\varpi)$ if and only if the following assumption holds between both spectral representations~\cite{bochner2020harmonic}:
+\begin{equation}\label{eq:kCSD}
+	\kappa^{cc'}_{r}(\Delta_{x}) = \int_{\varpi \in \Omega} \exp{(j2\pi {\Delta_{x}} \varpi)} S^{cc'}_{r}(\varpi)d\varpi,
+\end{equation}
+where $\Delta_{x} = \ve{x}^{c}_{r} - \ve{x}^{c'}_{r}$ is the vector delay, $\varpi\subseteq\varOmega$ is the frequency domain that contains the bandwidth set of analysis $\varOmega$, and $ S^{cc'}_{r}(\varpi)$ is the cross-spectral density that preserves the following equality: $ S^{cc'}_{r}(\varpi) = d {P}^{cc'}_{r}(\varpi)/d\varpi$, with $ P^{cc'}_{r}(\varpi)\en\Real[0,1]$ being the cross-spectral distribution that is related to the mapping kernel, $\kappa: \Real^{N_t} \times \Real^{N_t}\to \Real$.
+As regards $\kappa(\ve{x}^{c}_{r},\ve{x}^{c'}_{r}) = \langle \phi(\ve{x}^{c}_{r}),\phi(\ve{x}^{c'}_{r}) \rangle_{\mathcal{H}}$, it is a positive-definite stationary kernel inducing the nonlinear feature mapping $\phi(\cdot)$ to a Reproducing Kernel Hilbert Space, $\mathcal{H}$. Notation $\langle \cdot,\cdot \rangle$ represents the dot product. 
+Therefore, we compute the cross-spectral distribution $ P^{cc'}_{r}(\varpi)$ within a bandwidth $\varOmega$, as below:
+\begin{equation}
+	\begin{aligned}\label{eq:CSDist}
+		P^{cc'}_{r}(\varpi) &= 2\int_{\varpi \in \varOmega} S^{cc'}_{r}(\varpi)d\varpi,\\
+		&=2\int_{\varpi \in \varOmega} \mathscr{F}\left\{\kappa(\ve{x}^{c}_{r},\ve{x}^{c'}_{r}) \right\}d,
+	\end{aligned}
+\end{equation}
+where notation $\mathscr{F}\{\cdot\}$ stands for the Fourier transform. 
+}
 
 As a result,~Equation~\eqref{eq:CSDist} preserves the frequency-based interpretation of the kernel-based pairwise dependencies that were estimated between vectors of random functions. Furthermore, the imposed stationary kernel favors the extraction of nonlinear data dependencies~\cite{bishop2006pattern}
 
 \section{Gaussian Functional Connectivity from Kernel-based Spectral Distribution}
+\changes{
+Let $\ve{x}^{c}_{rnw_t}$ be an EEG channel $c$ at trial $r$ within filter $n$ and time window $w_t$, and $\{ \ve{x}^{c}_{rnw_t} \in \Real^{N_t}, {y}_r \in \Real[0,1]\}_{c,r,n,w_t=1}^{N_c,R,N_f,N_t}$ be an time segmented filtered EEG set holding all channels $N_c$, $R$ trials, $N_f$ frequency bandwidths, $N_t$ time windows , ${y}_r$ is the class or label assigned to the $r$-th trial, and the notation $|\cdot|$ stands for set cardinality. Since the Gaussian kernel is preferred in pattern classification because of its universal approximating ability and mathematical tractability~\cite{Alvarez-Meza2014}, we propose the Gaussian function to compute the pairwise kernel-based dependencies between channels $c$ and $c'$, without the case $c\neq c'$ in~Equation~\eqref{eq:kCSD}, termed Gaussian Functional Connectivity (KCS-FC), defined as follows:
+\begin{equation}
+		\kappa_x\left(\ve{x}^{c}_{rnw_t}, \ve{x}^{c'}_{rnw_t};\sigma\right) = \exp{\left( {-\|\ve{x}^{c}_{rnw_t}-\ve{x}^{c'}_{rnw_t}\|^2_2}/{2\sigma^2}\right)}, \label{eq:gkernel}
+\end{equation}
+where $\sigma\en\Real^+$ is the length scale hyperparameter. Notation $\|\cdot\|_q$ stands for $\ell_q$-norm.
+}
 
-Let $\{ \mat{X}^{t}_{rn} \en \Real^{C\times T}, {y}_r \en \Real[0,1]: n\en {\varOmega}, t\en {\Delta}: r\en R\}$ be a EEG data that hold $R\en\Natural$ trials and $C\en\Natural$ channels within the frequency bandwidth set $|\varOmega|$ and time window set $| {\Delta}|$, lasting $T\en\Natural$ instants, and ${y}_r$ is the class-probability label set assumed to be binary without a loss of generality, and assigned to $r$-th trial. The notation $|\cdot|$ stands for set cardinality. 
+With the aim to implement the single-trial extraction, \changes{we estimate the cross-spectral distribution $\hat{\mat{P}}^{cc'}_{r}$ between a pair of channels $c$ and $c'$ at trial $r$ as follows:}
+\changes{
+\begin{equation}\label{eq:fcc}
+	\hat{P}^{cc'}_{r}(\ve{u}^{cc'},\kappa_x\left(\cdot;\sigma\right)) = \sum_{n=1}^{N_f}\sum_{w_t=1}^{N_t} u_{nw_t}^{cc'}\kappa_x\left(\ve{x}^{c}_{rnw_t},\ve{x}^{c'}_{rnw_t};\sigma\right),
+\end{equation}
+where $\ve{u}^{cc'} \in \Real^{N_f N_t}$ is the spatio-temporal-frequency (textit{s-t-f}) relevance vector that codes the pairwise undirected dependency between channels and contains the values $u_{nw_t}^{cc'}$ holding the relevance value estimated at $n$-th frequency and $w_t$ window.
+}
 
-Provided the EEG data described above, we propose {the Gaussian function to compute the pairwise kernel-based dependencies between electrodes} $c,c'\en C, c\neq c'$ in~Equation~\eqref{eq:kCSD}, termed {Gaussian Functional Connectivity} (KCS-FC), defined as follows:
-\begin{linenomath*}
-	\begin{align}\label{eq:gkernel}
-		\kappa_G\left(\ve{x}^{ct}_{rn}-\ve{x}^{c't}_{rn};\sigma\right) = \exp{\left( {-\|\ve{x}^{ct}_{rn}-\ve{x}^{c't}_{rn}\|^2_2}/{2\sigma^2}\right)},
-	\end{align}
-\end{linenomath*}
-where the vector $\ve{x}_{rn}^{ct}\en\Real^{T}$ (with $\mat{X}^{t}_{rn}= \,[\ve{x}_{rn}^{ct}]^{\top}$) denotes each filtered channel $c$ of trial $r$ within bandwidth $n$, at time window $t$,  and $\sigma\en\Real^+$ is the length scale hyperparameter. Notation $\|\cdot\|_q$ stands for $\ell_q$-norm. The Gaussian kernel is preferred in pattern classification because of its universal approximating ability and mathematical tractability~\cite{Alvarez-Meza2014}.
+\changes{Using the single-trial kernel-based spectral distribution representation in~Equation~\eqref{eq:fcc}, we propose extracting the sparse functional connectivity, using the Elastic Net regularization \cite{tay2023elastic}, aiming to finding discriminative and interpretable brain activity patterns.
+\begin{equation}\label{eq:SRC}
+	\ve{u}^* = \arg \min_{\ve{u}} \promed{ \sum_{r=1}^{R} \left\|\sum_{c,c'=1}^{N_c}\hat{P}^{cc'}_{r}(\ve{u}^{cc'},\kappa_x(\cdot;\sigma))-y_r\right\|^2_2} + \alpha \sum_{c,c'=1}^{N_c}\|\ve{u}^{cc'}\|_1 + \frac{1-\alpha}{2} \sum_{c,c'=1}^{N_c}\|\ve{u}^{cc'}\|_2 \quad :  \forall c < c',
+\end{equation}
+where $\alpha \in \Real^+$ is the regularization hyperparameters, $\| \cdot \|_q$ is the $\ell_q$-norm.
+}
 
-With the aim to implement the single-trial extraction, we compute the pairwise functional connectivity matrix $\hat{\mat{P}}_{n}\en\Real^{C \times C}$ as a kernel-based cross-spectral distribution estimator of~Equation~\eqref{eq:CSDist}. Hence, from the spatio-temporal-frequency patterns, the functional connectivity matrix has elements that are extracted from $r$-th trial, as below:
-\begin{linenomath*}
-	\begin{equation}\label{eq:fcc}
-		\hat{P}_{cc'}(r;\ve{u}^{cc'},\kappa_G) = \sum_{r\en\varOmega}\sum_{t\en {\Delta}} u_{nt}^{cc'}\kappa_G\left(\ve{x}^{ct}_{rn}-\ve{x}^{c't}_{rn};\sigma\right),
-	\end{equation}
-\end{linenomath*}
-where $\ve{x}^{ct}_{rn},\ve{x}^{c't}_{rn}\en\mat{X}^{ct}_{rn}$, $\tilde{P}_{cc'}(r;\ve{u}^{cc'},\kappa_G)\en \hat{\mat{P}}_{r}$ and $u^{cc'}_{nt}\en \ve{u}^{cc'}$, with $\ve{u}^{cc'}\en\Real^{|\varOmega|+| {\Delta}|}$, holds the relevance weight value that is estimated at $t,n$-th time-frequency split, coding the pairwise undirected dependency between channels. 
+\changes{Without loss of generallity, equation~\eqref{eq:SRC} can be rewritten as:
+\begin{equation}
+	\ve{\tilde{u}}^* = \arg \min_{\ve{\tilde{u}}} \promed{\sum_{r=1}^{R} \|\ve{\tilde{u}}\ve{\tilde{p}_{r}}^{\top}-y_r\|^2_2} + \alpha \|\ve{\tilde{u}}\|_1 + \frac{1-\alpha}{2} \|\ve{\tilde{u}}\|_2, \label{eq:SRC_vec}
+\end{equation}
+where $\top$ is the vector transpose, $\ve{\tilde{u}}$ and $\ve{\tilde{\kappa}}$ stand for the spatio-temporal-frequency relevance matrix and cross-spectral distribution vector concatenation obtained as:
+\begin{equation}
+	\begin{aligned}
+		\ve{\tilde{u}} &= \left[u_{11}^{12},u_{11}^{13},\cdots,u_{11}^{1N_c},u_{11}^{23},\cdots,u_{11}^{(N_c-1)N_c},u_{12}^{12},\cdots, u_{N_fN_t}^{(N_c-1)N_c} \right], \\
+		\ve{\tilde{p}}_{r} &= \left[ \hat{P}_{r11}^{12},\hat{P}_{r11}^{13},\cdots,\hat{P}_{r11}^{1N_c},\hat{P}_{r11}^{23},\cdots,\hat{P}_{r11}^{(N_c-1)N_c},\hat{P}_{r12}^{12},\cdots, \hat{P}_{rN_fN_t}^{(N_c-1)N_c} \right] ,\\
+	\end{aligned}
+\end{equation}
+Note that for simplicity the term $\hat{P}^{cc'}_{r}(\mat{U}^{cc'}_{r},\kappa_x\left(\cdot;\sigma\right))$ is rewritten as $\hat{P}^{cc'}_{rnw_t}$.
+}
 
-Using the single-trial kernel-based spectral distribution representation in~Equation~\eqref{eq:fcc}, we propose extracting the sparse functional connectivity, aiming to finding discriminative and interpretable brain activity patterns. Particularly, the sparse-based $\ell_2$-norm matching is carried out after a vector concatenation of the relevance weights in $\ve{v}=[\ve{u}^{cc'}]$, as follows:
-
-% \left \{ \| \sum_{c<c'}\tilde{P}_{c,c'}(r;\ve{u}^{cc'},\kappa_G(\cdot,\sigma))-y_r\|^2_2: \forall r, c,c' \right\} + \alpha_1 \|\ve{v}\|_1 +\alpha_2 \|\ve{v}\|_2,
-\begin{linenomath*}
-	\begin{equation}\label{eq:SRC}
-		\ve{v}^* = \arg \min_{\ve{v}} \promed{ \| \sum_{c<c'}\tilde{P}_{c,c'}(r;\ve{u}^{cc'},\kappa_G(\cdot,\sigma))-y_r\|^2_2: \forall r, c,c' } + \alpha_1 \|\ve{v}\|_1 +\alpha_2 \|\ve{v}\|_2
-	\end{equation}
-\end{linenomath*}
-where $\alpha_1,\alpha_2\en\Real^+$ are the regularization hyperparameters.
-
-Consequently, the optimization framework in~Equation~\eqref{eq:SRC} allows for computing the spectral combination weights from the extracted filter-bank representations that match the MI class-probability set, resulting in a sparse, relevant kernel-based functional connectivity between couples of EEG channels.
+Consequently, the optimization framework in~Equation~\eqref{eq:SRC_vec} allows for computing the spectral combination weights from the extracted filter-bank representations that match the MI class-probability set, resulting in a sparse, relevant kernel-based functional connectivity between pairs of EEG channels.
 
 
 \section{Experimental Set-Up}
 The evaluation of the considered functional connectivity measures for enhanced feature extraction is performed according to the following stages: 
 
-Preprocessing and trial-based extraction of \textit{t-f} representations. For extracting the subject EEG dynamics over time accurately, the sliding window length of feature extraction is fixed to the next values: $\tau=[0.5,1.0,1.5,2.0]$\,{s}, having an overlap of $75\%$;
+\changes{
+({i}) Preprocessing and trial-based extraction of {s-t-f} representations. For extracting the subject EEG dynamics over time accurately, the sliding window length of feature extraction is fixed to the next values: $\tau=[0.5,1.0,1.5,2.0]$\,{s}, having an overlap of $75\%$. Additionally, similar to authors in \cite{ang2008filter} the frequency bands of interest are selected with the lower frequency limit set at 4 Hz, the upper limit set to 40 Hz, and an overlap of $50\%$.
+}
 
-({ii}) The estimation of the single-trial functional connectivity from the extracted \textit{t-f} features. For comparison, we contrast the proposed KCS-FC with two commonly used single-trial FC measures that can be estimated from a couple of channels $\{c,c'\}$, (with $c\neq c', \forall c,c' \in C $), respectively, as follows~\cite{rodrigue2019}:
-\begin{linenomath*}
-	\begin{subequations}
-		\begin{align}
-			\rho(\ve{x}^{ct}_{n},\ve{x}^{c't}_{n}) & {={\langle\ve{x}^{ct}_{n},\ve{x}^{c't}_{n}}\rangle}\label{Eq:Pearson}\\			 
-			{\Delta\phi(\ve{x}^{ct}_{n},\ve{x}^{c't}_{n})} & {= {|\exp(j(\ve{\phi}_n^{ct}-\ve{\phi}_n^{c't}))|}} \label{Eq:PLV} 
-		\end{align}
-	\end{subequations}
-\end{linenomath*}
-
-where $\ve{x}^{ct}_{n}$ and $\ve{x}^{c't}_{n}$ is the real-valued EEG data from the corresponding electrodes (within temporal window $t$ and frequency band $n$) with instantaneous phases $\ve{\phi}_n^{ct}$ and $\ve{\phi}_n^{c't}$, respectively. The pairwise relationships in~Equations~\eqref{Eq:Pearson} and~\eqref{Eq:PLV} are referred as {Cross-Correlation Coefficient}(CCF) and {Phase Lag Value}} (PLV), respectively.
+\changes{
+({ii}) The estimation of the single-trial functional connectivity from the extracted {s-t-f} features. For comparison, the proposed KCS-FC is contrasted with two commonly used single-trial FC measures. To facilitate this comparison, the KCS-FC in Equation~\eqref{eq:SRC} is interchanged with new single-trial FC measures. These measures can be estimated from a frequency $n$, a time window $w_t$, and a pair of channels ${cc'}$ (with $c \neq c'$, for all $cc'$ in $C$) as described in~\cite{rodrigue2019}.
+\begin{equation}
+			\rho(\ve{x}^{c}_{rnw_t},\ve{x}^{c'}_{rnw_t}) ={\left<\ve{x}^{c}_{rnw_t},\ve{x}^{c'}_{rnw_t}\right>}\label{Eq:Pearson}
+\end{equation}
+\begin{equation}		 
+	{\Delta\phi(\ve{x}^{c}_{rnw_t},\ve{x}^{c}_{rnw_t})}  {= {|\exp(j(\ve{\phi}_{rnw_t}^{c}-\ve{\phi}_{rnw_t}^{c}))|}} \label{Eq:PLV} 
+\end{equation}
+}
+where $\ve{x}^{c}_{rnw_t}$ and $\ve{x}^{c'}_{rnw_t}$ is the real-valued EEG data from the corresponding electrodes at trial $r$ (within temporal window $w_t$ and frequency band $n$) with instantaneous phases $\ve{\phi}_n^{ct}$ and $\ve{\phi}_n^{c't}$, respectively. The pairwise relationships in~Equations~\eqref{Eq:Pearson} and~\eqref{Eq:PLV} are referred as {Cross-Correlation Coefficient}(CCF) and {Phase Lag Value} (PLV), respectively.
 
 {For feeding the classifier procedure, we evaluate two feature representation approaches that are extracted from each tested FC measure: Firstly, the feature representation is the CSP's pattern vector (linear projection of the sample covariance), computed as detailed in~\cite{velasquez2020dynamic}; in particular, the well-known CSP's eigendecomposition is applied by replacing the covariance matrix with the corresponding FC measure. Secondly,  the concatenated (vectorized) triangular representation of the symmetrical FC matrices is extracted, as detailed in~\cite{barachant2013classification}. Both of the approaches comprise a filter-bank-based concatenation strategy through a fixed sliding window size and overlap values; that is, the temporal dependencies between windows are not directly modeled.}
 
@@ -111,15 +111,15 @@ $$a_c= \,(T_P \s{~+~} T_N )/ (T_P\s{~+~} T_N \s{~+~} F_P \s{~+~} F_N ),$$
 
 \subsubsection{Impact of Prior CSP Filtering}
 
-{for interpretation purposes, Figure \ref{Fig:FCx} presents the subjects' accuracy in decreasing order by all evaluated EEG data collections. Each data set is tested in two configurations to feed the sparse feature selector: using feature concatenation (odd rows) and linearly mapping through CSP (even rows). The FC measures' accuracy is estimated at each $\tau$ (\textit{PLV}---left column, \textit{CCF}---middle column, \textit{KCS-FC}---right column), adjusting the parameter $\sigma$ to the median averaged over the input distances for kernel-based functional connectivity computation.} 
+{for interpretation purposes, Figure \ref{Fig:FCx} presents the subjects' accuracy in decreasing order by all evaluated EEG data collections. Each data set is tested in two configurations to feed the sparse feature selector: using feature concatenation (odd rows) and linearly mapping through CSP (even rows). The FC measures' accuracy is estimated at each $\tau$ ({PLV}---left column, {CCF}---middle column, {KCS-FC}---right column), adjusting the parameter $\sigma$ to the median averaged over the input distances for kernel-based functional connectivity computation.} 
 
-{The top plots display the results that were performed by the databases with a similar amount of subjects: DMBI MI (first and second rows) and DB DBII ME (third and fourth rows). As seen, PLV yields the most scattered outcomes, with a significant portion accomplishing low accuracy.} {A similar situation holds for DBIII MI with a more visible subject variability: PLV discriminates the worst, followed by CFF, and KCS-FC performs a bit better, still outperforming the other FC when compared and having the accuracy values less spread throughout the subject set}. However, the accuracy estimates are significantly more dispersed across the individuals than in DBII ME, regardless of the FC measure. Several factors may account for the higher variability of MI data. The EEG montage of MI protocols is more complex ($64$ MI channels vs. $44$ ME channels). Besides, the ME signals are reported as having a higher degree of regularity than MI practicing, at least in terms of motor-related discriminability~\cite{shamsi2020early}. Consequently, even if the DBIII MI collection doubles the number of trials compared with DBII ME, the subject variability of MI data remains high enough to limit the CSP effectiveness (see the bottom row). Moreover, numerous subjects achieve accuracy values that are below $60\%$, which is, under the BCI-inefficiency level reported~\cite{Sanelli2019}. 
+{The top plots display the results that were performed by the databases with a similar amount of subjects: DMBI MI (first and second rows) and DB DBII ME (third and fourth rows). As seen, PLV yields the most scattered outcomes, with a significant portion accomplishing low accuracy.} {A similar situation holds for DBIII MI with a more visible subject variability: PLV discriminates the worst, followed by CCF, and KCS-FC performs a bit better, still outperforming the other FC when compared and having the accuracy values less spread throughout the subject set}. However, the accuracy estimates are significantly more dispersed across the individuals than in DBII ME, regardless of the FC measure. Several factors may account for the higher variability of MI data. The EEG montage of MI protocols is more complex ($64$ MI channels vs. $44$ ME channels). Besides, the ME signals are reported as having a higher degree of regularity than MI practicing, at least in terms of motor-related discriminability~\cite{shamsi2020early}. Consequently, even if the DBIII MI collection doubles the number of trials compared with DBII ME, the subject variability of MI data remains high enough to limit the CSP effectiveness (see the bottom row). Moreover, numerous subjects achieve accuracy values that are below $60\%$, which is, under the BCI-inefficiency level reported~\cite{Sanelli2019}. 
 
 \subsubsection{Influence of Sliding Windows}
 
-\Cref{Fig:AccTau} summarizes the sliding window's impact on the classifier discrimination ability using each evaluated measure of FC. In the case of DBI MI, the first row shows that PLV and CCF both obtain very close performance if the CSP filtering is not involved at all tested window values. Otherwise, the latter measure notably improves in performance. Nevertheless, the proposed KCS-FC outperforms, and this behavior remains valid in the second row that presents the accuracy of DBII ME with more subject variability, as shown by the average bars. However, some fluctuations in the PLV and CCF performance are more evident after applying CSP, depending on the window. Instead, the KCS-FC measure presents performance nearly invariant across the range of considered sliding window lengths, being slightly enhanced by the CSP filtering algorithm.
+\Cref{Fig:AccTau} summarizes \changes{impact of the sliding window's length} on the classifier discrimination ability using each evaluated measure of FC. In the case of DBI MI, the first row shows that PLV and CCF both obtain very close performance if the CSP filtering is not involved at all tested window values. Otherwise, the latter measure notably improves in performance. Nevertheless, the proposed KCS-FC outperforms, and this behavior remains valid in the second row that presents the accuracy of DBII ME with more subject variability, as shown by the average bars. However, some fluctuations in the PLV and CCF performance are more evident after applying CSP, depending on the window. Instead, the KCS-FC measure presents performance nearly invariant across the range of considered sliding window lengths, being slightly enhanced by the CSP filtering algorithm.
 
-On the other hand, the bottom row presents the classifier performance that is obtained by MI activity (DBIII MI) with the most challenging subject variability, showing that the accuracy of all FC measures drops, particularly in the case of PLV. As seen, the PLV and CCF accuracy values are more sensitive to the sliding window influence, while the proposed KCS-FC assessments remain constant over the range of $\tau$. One more aspect to highlight is that the CSP-based filtering effectiveness becomes more dependent on the specific sliding window selected. Furthermore, under increased subject variability, this spatial filtering method's application noticeably decreases the KCS-FC performance.
+\changes{Additionally}, the bottom row presents the classifier performance that is obtained by MI activity (DBIII MI) with the most challenging subject variability, showing that the accuracy of all FC measures drops, particularly in the case of PLV. As seen, the PLV and CCF accuracy values are more sensitive to the sliding window influence, while the proposed KCS-FC assessments remain constant over the range of $\tau$. One more aspect to highlight is that the CSP-based filtering effectiveness becomes more dependent on the specific sliding window selected. Furthermore, under increased subject variability, this spatial filtering method's application noticeably decreases the KCS-FC performance.
 
 \subsection{Estimated Classifier Accuracy of Individuals}
 
@@ -128,7 +128,7 @@ The following consideration is linked to the quality of individual FC assessment
 \def \kerrwidth {.2\linewidth}
 \begin{figure}[h!]
 \centering
-	\hbox{\hspace{4.5cm} \textit{PLV}\hspace{2.6cm} \textit{CCF}\hspace{2.7cm} \textit{KCS-FC}}
+	\hbox{\hspace{4.5cm} {PLV}\hspace{2.6cm} {CCF}\hspace{2.7cm} {KCS-FC}}
 	\rotatebox{90}{ \quad\, \textbf{\tiny DBI MI}}
 	\rotatebox{90}{\quad\,\tiny{Accuracy ($\%$)}}
 	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{Figures/Objective_1/taus_plv_BCI_MI.png}}}
@@ -179,7 +179,7 @@ The following consideration is linked to the quality of individual FC assessment
 	\caption{Accuracy performed at each $\tau$ by the evaluated measures of FC: PLV(\legend{green!40!gray}),~CCF(\legend{blue!40!gray}), and KCS-FC (\legend{red!40!gray}). {The full-filled colored bars stand for concatenate representation, while the bars with horizontal lines present the results after CSP filtering.}}\label{Fig:AccTau}
 \end{figure}
 
-At first sight, besides being distinctive from the CCF and GCF, the variability of accuracy estimates that are achieved by PLV (green line) becomes visible across the subject set of DBII ME: the shorter the window length, the more variable the subject estimates. Rather, the CFF and KCS-FC measures produce accuracy values following a similar order of subjects, for which the enhancing effect of CSP-based filtering can be observed. In the case of DBIII MI, the variability in classifier performance that is provided by the FC metrics grows noticeably, regardless of applying the CSP filtering. Thus, the order of subjects provided by each FC measure is particular and dissimilar to each other. Nevertheless, when compared with the baseline CCF-based accuracy (blue line), the proposed GCF measure without CSP allows for enhancing almost every single subject's discrimination ability, regardless of the window length applied. Moreover, the kernel-based FC measure ensures that several subjects exceed the BCI-inefficiency level, as previously assessed using CCF. It is noteworthy that using the CSP algorithm appreciably reduces the KCS-FC effectiveness for dealing with the subject variability of DBIII MI. 
+At first sight, besides being distinctive from the CCF and GCF, the variability of accuracy estimates that are achieved by PLV (green line) becomes visible across the subject set of DBII ME: the shorter the window length, the more variable the subject estimates. Rather, the CCF and KCS-FC measures produce accuracy values following a similar order of subjects, for which the enhancing effect of CSP-based filtering can be observed. In the case of DBIII MI, the variability in classifier performance that is provided by the FC metrics grows noticeably, regardless of applying the CSP filtering. Thus, the order of subjects provided by each FC measure is particular and dissimilar to each other. Nevertheless, when compared with the baseline CCF-based accuracy (blue line), the proposed GCF measure without CSP allows for enhancing almost every single subject's discrimination ability, regardless of the window length applied. Moreover, the kernel-based FC measure ensures that several subjects exceed the BCI-inefficiency level, as previously assessed using CCF. It is noteworthy that using the CSP algorithm appreciably reduces the KCS-FC effectiveness for dealing with the subject variability of DBIII MI. 
 
 \def \kerrwidth {0.44\linewidth} 
 \begin{figure}[h!]
@@ -205,13 +205,13 @@ At first sight, besides being distinctive from the CCF and GCF, the variability 
 	{\resizebox{\kerrwidth }{!}{\includegraphics{Figures/Objective_1/ptau0_5-hg-Me}}}
 	{\resizebox{\kerrwidth }{!}{\includegraphics{Figures/Objective_1/ptau0_5-giga-Mi}}} \\
 	\hbox{\hspace{3.3cm} \footnotesize{Subject id}\hspace{5.1cm} \footnotesize{Subject id}}
-	\caption{Individual classifier performance at different window lengths using FC: PLV (${\lineplot{color5}}$), CFF (${\lineplot{color1}}$), and KCS-FC (${\lineplot{color3}}$). The accuracy assessments performed without CSP are outlined with a continuous line, after CSP filtering---with a dashed line. The subjects are displayed on the horizontal axis in decreasing order of their CCF-based accuracy.}
+	\caption{Individual classifier performance at different window lengths using FC: PLV (${\lineplot{color5}}$), CCF (${\lineplot{color1}}$), and KCS-FC (${\lineplot{color3}}$). The accuracy assessments performed without CSP are outlined with a continuous line, after CSP filtering---with a dashed line. The subjects are displayed on the horizontal axis in decreasing order of their CCF-based accuracy.}
 	\label{Fig:IndividualAcc}
 \end{figure}
 
 \subsection{Interpretation of Subject Clusters Using Functional Connectivity Patterns}
 
-The main goal can be framed as the grouping of subjects having similar spatial networks involved in the motor-related tasks under consideration, aiming to properly interpret the evaluated functional connectivity measures. {To this end, we cluster the extracted FC sets into partitions, each one with resembling subjects in terms of FC dynamics, being coded in the relevance vector $\ve{v}$ of Equation (\ref{eq:SRC}), and the motor-related accuracy. However, because of the poor clustering performance in high dimensional spaces, we accomplish a previous dimensional reduction stage on the normalized subject's relevance vector set (fixing a 2D low-dimensionality) through t-Distributed Stochastic Neighbor Embedding (t-SNE), which preserves the spatial relationships in the higher space (nearest-neighbors)~\cite{linderman2019clustering}. Subsequently, we concatenate the t-SNE low-dimensional representation with the corresponding individual accuracy to perform a \textit{k}-means-based clustering. At each window length, the latter approach is carried out, as proposed in~\cite{Kim2019}.}
+The main goal can be framed as the grouping of subjects having similar spatial networks involved in the motor-related tasks under consideration, aiming to properly interpret the evaluated functional connectivity measures. {To this end, we cluster the extracted FC sets into partitions, each one with resembling subjects in terms of FC dynamics, being coded in the relevance vector $\ve{v}$ of Equation~\eqref{eq:SRC}, and the motor-related accuracy. However, because of the poor clustering performance in high dimensional spaces, we accomplish a previous dimensional reduction stage on the normalized subject's relevance vector set (fixing a 2D low-dimensionality) through t-Distributed Stochastic Neighbor Embedding (t-SNE), which preserves the spatial relationships in the higher space (nearest-neighbors)~\cite{linderman2019clustering}. Subsequently, we concatenate the t-SNE low-dimensional representation with the corresponding individual accuracy to perform a {k}-means-based clustering. At each window length, the latter approach is carried out, as proposed in~\cite{Kim2019}.}
 
 One concern is how a subject may switch between the assigned clusters when accounting for the influence of extracted FC measures at each window length. To clarify this aspect, Figure \ref{Fig:clust} displays the clustering results achieved by each functional connectivity measure using a matrix that illustrates the cells colored according to the individual group assessed, ranking the assessed groups in decreasing order of accuracy averaged over the corresponding subset. The three groups are colored, as follows: Group I, giving the best accuracy I (in yellow), Group II with regular accuracy (purple), and Group III, performing the worst accuracy (Turquoise).
 
@@ -220,15 +220,15 @@ One concern is how a subject may switch between the assigned clusters when accou
 \begin{figure}[h!]	
 \centering
 	\hbox{\hspace{2.1cm} \textbf{DBII~ME}\hspace{5cm} \textbf{DBIII~MI}}
-	\rotatebox{90}{\qquad \textit{PLV}} 
+	\rotatebox{90}{\qquad {PLV}} 
 	\rotatebox{90}{\quad \,\footnotesize{Window size}}	
 	{\resizebox{\kerrwidthME}{!}{\includegraphics{Figures/Objective_1/plv_hg}}}
 	{\resizebox{\kerrwidthMI}{!}{\includegraphics{Figures/Objective_1/plv_giga}}}\\
-	\rotatebox{90}{\qquad \textit{CCF}} 
+	\rotatebox{90}{\qquad {CCF}} 
 	\rotatebox{90}{\quad \,\footnotesize{Window size}}		
 	{\resizebox{\kerrwidthME}{!}{\includegraphics{Figures/Objective_1/pearson_hg}}}
 	{\resizebox{\kerrwidthMI}{!}{\includegraphics{Figures/Objective_1/pearson_giga}}}\\
-	\rotatebox{90}{\qquad \textit{KCS-FC}} 
+	\rotatebox{90}{\qquad {KCS-FC}} 
 	\rotatebox{90}{\quad \,\footnotesize{Window size}}		
 	{\resizebox{\kerrwidthME}{!}{\includegraphics{Figures/Objective_1/gauss_hg}}}
 	{\resizebox{\kerrwidthMI}{!}{\includegraphics{Figures/Objective_1/gauss_giga}}}\\
@@ -263,14 +263,14 @@ PLV performs in DBII ME the first three plots in the top row. The topoplots refl
 \multirow{6}{*}{{\includegraphics[trim=660 0 0 0, clip,scale=0.35]{Figures/Objective_1/Cxsbj1hg-gaussacc95.28.eps}}}\\
 \cmidrule{2-7}
 & \textbf{$84.13\%$}& \textbf{$74.91\%$} & \textbf{$64.21\%$} & \textbf{$72.2\%$} & \textbf{$68.76\%$} & \textbf{$55.94\%$}&\\
-{\rotatebox{90}{\hspace{7mm} \textit{PLV}}}&{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{Figures/Objective_1/Cxsbj1hg-plvacc84.13.eps}}}&
+{\rotatebox{90}{\hspace{7mm} {PLV}}}&{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{Figures/Objective_1/Cxsbj1hg-plvacc84.13.eps}}}&
 	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{Figures/Objective_1/Cxsbj2hg-plvacc74.91.eps}}}&
 	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{Figures/Objective_1/Cxsbj3hg-plvacc64.21.eps}}}&
 	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{Figures/Objective_1/Cxsbj1plvacc72.2.eps}}}&
 	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{Figures/Objective_1/Cxsbj2plvacc68.76.eps}}}&
 	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{Figures/Objective_1/Cxsbj3plvacc55.94.eps}}}&\\
 	& \textbf{$90.06\%$} & \textbf{$79.35\%$} & \textbf{$70.59\%$} &  \textbf{$76.67\%$} & \textbf{$64.62\%$} & \textbf{$60.69\%$}&\\
-	\rotatebox{90}{\hspace{7mm} \textit{CCF}}&
+	\rotatebox{90}{\hspace{7mm} {CCF}}&
 	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{Figures/Objective_1/Cxsbj1hg-pearsonacc90.06.eps}}}&
 	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{Figures/Objective_1/Cxsbj2hg-pearsonacc79.35.eps}}}&
 	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{Figures/Objective_1/Cxsbj3hg-pearsonacc70.59.eps}}}&
@@ -278,7 +278,7 @@ PLV performs in DBII ME the first three plots in the top row. The topoplots refl
 	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{Figures/Objective_1/Cxsbj2pearsonacc64.62.eps}}}&
 	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{Figures/Objective_1/Cxsbj3pearsonacc60.69.eps}}}&\\
 	& \textbf{$\mathbf{95.28}\%$}& \textbf{$\mathbf{81.16}\%$}& \textbf{$\mathbf{76.09}\%$}& \textbf{$\mathbf{86.85}\%$}& \textbf{$\mathbf{68.93}\%$}& \textbf{$\mathbf{64.4}5\%$}&\\
-	\rotatebox{90}{\hspace{7mm} \textit{KCS-FC}}&
+	\rotatebox{90}{\hspace{7mm} {KCS-FC}}&
 	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{Figures/Objective_1/Cxsbj1hg-gaussacc95.28.eps}}}&
 	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{Figures/Objective_1/Cxsbj2hg-gaussacc81.16.eps}}}&
 	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{Figures/Objective_1/Cxsbj3hg-gaussacc76.09.eps}}}&
@@ -289,7 +289,7 @@ PLV performs in DBII ME the first three plots in the top row. The topoplots refl
 \end{tabular}}
 \vspace{-42pt}
 \caption{Spatial
- relevance mapped to topoplots estimated for each group of individuals from the FC measures (regarding the relevance weights $\ve{v}$ and the classification accuracy). The normalized relevance weights values (between 0 to 1) are computed from Equation (\ref{eq:SRC}). The background stands for the accumulated spatial relevance mapped to the EEG channel positions. The colored links represent the normalized FC relevance weights that hold a value higher than the $99$ percentile of vector $\ve{v}$. Above each plot, the average accuracy is shown over the corresponding group.}\label{Fig:Topograms}
+ relevance mapped to topoplots estimated for each group of individuals from the FC measures (regarding the relevance weights $\ve{v}$ and the classification accuracy). The normalized relevance weights values (between 0 to 1) are computed from Equation~\eqref{eq:SRC}. The background stands for the accumulated spatial relevance mapped to the EEG channel positions. The colored links represent the normalized FC relevance weights that hold a value higher than the $99$ percentile of vector $\ve{v}$. Above each plot, the average accuracy is shown over the corresponding group.}\label{Fig:Topograms}
 \end{figure}
 
 In DBIII~ME, the full electrode montage is employed and, thus, the estimated neural responses are all spread over the scalp, as seen in the three last topoplots of every row. Likewise, the number of relevant links increases. Nonetheless, the compared FC measures' performance has some similarities with DBII MI: PLV presents high background activity, CCF has amplitudes with fewer amplitudes, and GCF achieves a very focalized activity over the SMR hemispheres, which play a critical role in MI tasks. Once again, the proposed KCS-FC measure outperforms the values of accuracy attained by other compared FC metrics. However, G III produces highly increased response amplitudes abnormally confined over the frontal zone (outside the SMR zone) and numerous links going to different electrodes. This issue may be explained because of acquisition artifacts, which may introduce noise and distortions, severely damaging the EEG data quality.
@@ -314,13 +314,13 @@ The window length selected for extracting the EEG dynamics over time is a pivota
 		\checkmark&\checkmark&\checkmark&TSGSP~\cite{Zhang2018}&\textbf{82.50} $\pm$ \textbf{12.2}\\
 		&-&-&\checkmark&STR connectivity~\cite{rodrigue2019}&69.56$\pm$15.02\\
 		& \checkmark & - & \checkmark & Renyi's $\alpha$-entropy~\cite{de2019data} & 72.40 $\pm$ 6.50\\					
-		&\checkmark&\checkmark&\checkmark&\textit{Proposed KCS-FC}& {81.92} $\pm$ {9.44}\\
+		&\checkmark&\checkmark&\checkmark&{Proposed KCS-FC}& {81.92} $\pm$ {9.44}\\
 		\midrule	
 		{\multirow{4}{*}{\rotatebox[origin=c]{90}{DBIII-MI}}} &		
 		- &\checkmark&\checkmark & CSP~\cite{cho2017eeg}&67.60 $\pm$ 13.17\\
 		&\checkmark&\checkmark&-&OPTICAL~\cite{kumar2019brain}&68.19 $\pm$ 9.36\\
 		&-&-&\checkmark&STR connectivity~\cite{rodrigue2019}&62.00 $\pm$ 13.00\\	
-		&\checkmark&\checkmark&\checkmark&\textit{Proposed KCS-FC}&\textbf{74.12} $\pm$ \textbf{12.13} \\\bottomrule
+		&\checkmark&\checkmark&\checkmark&{Proposed KCS-FC}&\textbf{74.12} $\pm$ \textbf{12.13} \\\bottomrule
 	\end{tabular}
  }
 \end{table}
@@ -333,6 +333,6 @@ One more restriction is that CSP is more oriented to power-based features~\cite{
 
 \section{Summary}
 
-We have introduced a novel method for single-trial kernel cross-spectral functional connectivity, known as KCS-FC, which addresses prevalent challenges inherent to EEG-based MI-BCI systems, identified in \cref{sec:singlefc}. These include issues related to non-stationarity, non-linearity, inter-subject variability, and spurious connectivities. To achieve this, we applied an extension of Bochner's theorem to approximate the cross-spectral distribution as a weighted sum of Gaussian-kernel-based pairwise relationships between channels, considering various time windows and frequency sub-bands. This weighted sum is managed by a linear regression model combined with an elastic net regularization that aligns the value with the MI label and differentiates spurious connectivities. In testing our method, we compared it with two prevalent single-trial FC estimators and respective CSP versions using two publicly available MI datasets. The results reveal that our KCS-FC strategy shows competitive accuracy in performance while maintaining interpretable FC matrices.
+We have introduced a novel method for single-trial kernel cross-spectral functional connectivity, known as KCS-FC, which addresses prevalent challenges inherent to EEG-based MI-BCI systems, identified in \cref{sec:singlefc}. These include issues related to non-stationarity, non-linearity, inter-subject variability, and spurious connectivities. To achieve this, we applied an extension of Bochner's theorem to approximate the cross-spectral distribution as a weighted sum of Gaussian-kernel-based pairwise relationships between channels, considering various time windows and frequency sub-bands. This weighted sum is managed by a linear regression model combined with an elastic net regularization that aligneds the value with the MI label and differentiates spurious connectivities. In testing our method, we compared it with two prevalent single-trial FC estimators and respective CSP versions using two publicly available MI datasets. The results reveal that our KCS-FC strategy shows competitive accuracy in performance while maintaining interpretable FC matrices.
 
 However, our approach heavily relies on handcrafted feature extraction processes, including time windowing and sub-band selection. This reliance on handcrafted features, as discussed in \cref{sec:problem2}, does not significantly assist in artifact removal and only marginally increases accuracy for lower-performing individuals. Future research, as suggested in \cref{sec:sota2}, should focus on adopting end-to-end DL models that can autonomously extract EEG representations. This would potentially be more effective in removing artifacts and could potentially enhance the performance of low-performing individuals.

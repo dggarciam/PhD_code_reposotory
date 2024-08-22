@@ -82,7 +82,7 @@ x  y
   anchor=base west,
   text=black,
   rotate=0.0
-]{\LARGE{TCFussionnet:  \textbf{15,602}}};
+]{\LARGE{TCNet-Fusion:  \textbf{15,602}}};
 \end{axis}
 
 \end{tikzpicture}

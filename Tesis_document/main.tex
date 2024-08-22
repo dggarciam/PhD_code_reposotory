@@ -53,7 +53,7 @@
 \usepackage{layout}
 %Hyperref permite ver las secciones del texto
 \usepackage[hidelinks]{hyperref}
-\usepackage{cleveref}
+\usepackage[noabbrev,capitalize]{cleveref}
 
 \usepackage{nomencl}
 
@@ -105,6 +105,7 @@
 \definecolor{posterior_right}{RGB}{253, 180, 98}
 \definecolor{posterior_left}{RGB}{217, 217, 217}
 \definecolor{posterior}{RGB}{179, 222, 105}
+\definecolor{crimson2143940}{RGB}{214,39,40}
 
 
 %%%%
@@ -280,10 +281,11 @@ myedge/.style={->, -{Latex[#1]}}
 \newcommand{\angstrom}{\textup{\AA}}
 \newcommand{\grad}{$^{\circ}$}
 
-\newtheorem{theorem}{Theorem}
-\newtheorem{lemm}[theorem]{Lemma}
-\newtheorem{proof}{Proof}[theorem]
-\newtheorem{propo}[theorem]{Proposition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemm}{Lemma}[theorem]
+\newtheorem{proof}{Proof}[section]
+\newtheorem{propo}{Proposition}[theorem]
+\newtheorem{definition}{Definition}[section]
 
 %Inicio del documento, no olvide la etiqueta de cierre al final \end{document}
 \begin{document}

@@ -18,7 +18,7 @@ Let the set $\{\ve{X}^c \in \Real^{N_t} \}_{c=1}^{N_c}$ be i.i.d realizations dr
     \hat{\zeta}(\chi) = \frac{1}{N_c} \sum_{c=1}^{N_c} \kappa(\chi,x^c ; \sigma)
 \end{equation}
 
-Since the cross-information potential is a special case of the definite kernel $\kappa(\cdot,\cdot ; \sigma)$ and it is related to the Renyi's entropy $\alpha=2$ by a monotonic function as show in \cref{eq:renyi_ent}. We can maximize either the Renyi's entropy or the cross-information potential.
+Since the cross-information potential is a special case of the definite kernel $\kappa(\cdot,\cdot ; \sigma)$ and it is related to the Renyi's entropy $\alpha=2$ by a monotonic function as show in Equation~\eqref{eq:renyi_ent}. We can maximize either the Renyi's entropy or the cross-information potential.
 
 \begin{equation}\label{eq:renyi_ent}
 \begin{aligned}
@@ -27,18 +27,27 @@ Since the cross-information potential is a special case of the definite kernel $
 \end{aligned}
 \end{equation}
 
-This concept can be extended to the function composition proposed in \cref{chapter_2} \cref{eq:CSf} as follows.
+This concept can be extended to the function composition proposed in \cref{chapter_2} Equation~\eqref{eq:CSf} as follows.
 
 \begin{equation}
-    \hat{\zeta}(\chi) = \frac{1}{N_c} \sum_{c=1}^{N_c}  {\kappa_G}(\chi,\cdot ; \sigma) \circ \varphi(\ve{x}^c; \ve{w}_f), 
+    \hat{\zeta}(\chi) = \frac{1}{N_c} \sum_{c=1}^{N_c}  {\kappa_{x}}(\chi,\cdot ; \sigma) \circ \varphi(\ve{x}^c; \ve{w}_f), 
 \end{equation}
 Where $\circ$ stands for function composition, $\varphi(\cdot; \mat{w}_f)$ is a 1-D convolutional layer that can be used to automatically extract frequency patterns ruled by the weight vector $\ve{w}_f\in \Real^{\Delta_t}$, with $\Delta_t<N_t$. Thus, the Renyi's entropy can be calculated as follow.
 
+\changes{
 \begin{equation}
-    H(\chi; \ve{w}_f, \sigma) = - \log \left( \frac{1}{N_c^2} \sum_{c,c'=1}^{N_c} \varphi(\ve{x}^{c'}; \ve{w}_f) \circ {\kappa_G}(\cdot,\cdot ; \sigma) \circ \varphi(\ve{x}^c; \ve{w}_f)  \right)
+  H(\chi; \mathbf{w}_f, \sigma) = - \log \left( \frac{1}{N_c^2} \sum_{c,c'=1}^{N_c} \kappa_{x}(\cdot, \cdot;\sigma) \circ\left (\varphi(x^{c'};w_f), \varphi(x^{c};w_f)\right ) \right) 
 \end{equation}
+}
 
-Note that the maximal potential information is obtained when each sample provides a unique information about the Parzen estimation of the density function. Therefore, maximizing the cross-information potential will induce sparse $\mathbf{K}$ matrices.
+Note that the maximal potential information is obtained when each sample provides a unique information about the Parzen estimation of the density function. Therefore, maximizing the cross-information potential will induce the diagonal $\mathbf{K}$ matrix. \changes{Since the main objective is to enhance the interpretability while maintaining the results obtained in \cref{chapter_2}, we include the $H(\chi; \mathbf{w}_f, \sigma)$ into the optimization problem as follows: 
+\begin{equation}
+  \Theta^{*} = \underset{\Theta}{\arg\,\min} \quad \promeddd{r}{\mathcal{L}(\ve{y}_r,\hat{\ve{y}}_r|\Theta) - H(\tilde{\mat{P}_r}; \mathbf{w}_f, \sigma); \forall r\in\{1,2,\dots,R\}},
+\end{equation}
+where $\tilde{\mat{P}}_r$ is the average functional connectivity measure calculated in Equation~\eqref{eq:lastlayerFC} and $\hat{\ve{y}}$ is the class probability vector obtained in Equation~\eqref{eq:output}. Here, the objective is akin to the information bottleneck principle, where we aim to maximize the cross-information potential while maintaining the accuracy obtained in \cref{chapter_2}. In this context, the cross-information potential serves as a regularization technique on the typical cross-entropy optimization problem.
+}
+
+
 
 \section{Experimental Set-Up}
 
@@ -47,7 +56,7 @@ Note that the maximal potential information is obtained when each sample provide
 
     \item[--] \textbf{Raw EEG Preprocessing:} The preprocessing stage starts with the loading of subject recordings using a custom databases loader module~(\url{https://github.com/UN-GCPDS/python-gcpds.databases}. Proceeding with the presumption that 2.5s windows are stationary, a Fourier method is applied to downsample each signal from 512 Hz to 128 Hz, as provided by the SciPy library with its signal resample function~\url{https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.resample.html}). Each time series trial is filtered within the $[4-40]$ Hz range using a fifth-order Butterworth bandpass filter. Subsequently, we construct an array of time-based records, utilizing 2.5s windows and a $50\%$ overlap, starting from 0s and ending at 7s. This enables us to analyze windows that contain no MI information, partial MI information, and solely MI information sequentially. It's important to note that the cue onset happens 2s post the start of the recording; this preprocessing tries to mirror the one in \cite{lawhern2018eegnet}. The filter $[4-40]$ Hz aimed at probing five distinct brain rhythms encompassing theta, alpha, and three beta waves \cite{ABHANG201651}. Where theta waves $[4-8]$ Hz, typically observed in the hippocampus and various cortical structures, are theorized to signify an ``online state'' and are linked with sensorimotor and mnemonic functionalities. On the contrary, alpha-band activity $[8-13]$ Hz is suppressed by sensory stimulation and movements, potentially acting as a marker for higher motor control functions given its modulation by attention, working memory, and mental tasks. The preprocessing also incorporates three beta wave types: ``beta one'' or low beta waves $[12-15]$ Hz typically correlate with focused and introverted focus; ``beta two'' or mid-range beta waves $[15-20]$ Hz are associated with augmented energy, anxiety, and performance; ``beta three'' or high beta waves $[18-40]$ Hz are indicative of considerable stress, anxiety, paranoia, high energy, and high arousal.
 
-    \item[--] \textbf{Training:} Post-preprocessing, we are left with five datasets, each encapsulating 2.5s EEG information, all characterized by the same label set. Each dataset is individually trained as per the subsequent steps: Firstly, trials from each subject's data are split based on a standard $5$-fold $80$-$20$ scheme. In other words, the data is shuffled, and $80\%$ of it is utilized for training (forming the training set), withholding the remaining $20\%$ to validate the trained models (forming the testing set). This sequence is repeated five times in total. Subsequently, the plain model is trained with one of the training sets, searching for the hyperparameter $N_f$ within the set $\{2,3,4\}$ and $\Delta_t$ within the set $\{50,25\}$. It's important to note that the kernel length scale set corresponds with the new sampling frequency \cite{lawhern2018eegnet}. The ADAM algorithm is employed to tune the model parameters with a learning rate of $0.1$. To locate the optimal combination of hyperparameters for our model, the GridSearchCV class from SKlearn is utilized. Given the need for performance comparison, we compute the accuracy, Cohen's kappa, and the area under the ROC curve to assess performance between models~\cite{warrens2015five,geron2022hands}. Following the conclusion of this procedure, the best performance metrics and hyperparameters are saved. For the sake of comparison, the optimal hyperparameters secured from the plain trained model are loaded onto the regularized version. The splitting and training steps are replicated similarly, except only for the new hyperparameter that modifies the regularization weight $\Upsilon$ on the cost function, and it is explored within the set $\{0,0.2,0.5,0.7,1,5,10\}$. Here, we aspire to compare the performance of the regularized version using the same hyperparameters over the identical time window. The underlying hypothesis is that the regularized version performs at least equivalently, or superior, to the plain version. We also aim to gain insights into how regularization impacts the connectivity matrix. Concluding the training process, we have ten models for each subject: five corresponding to the plain model and five to its regularized version.
+    \item[--] \textbf{Training:} Post-preprocessing, we are left with five datasets, each encapsulating 2.5s EEG information, all characterized by the same label set. Each dataset is individually trained as per the subsequent steps: Firstly, trials from each subject's data are split based on a standard $5$-fold $80$-$20$ scheme. In other words, the data is shuffled, and $80\%$ of it is utilized for training (forming the training set), withholding the remaining $20\%$ to validate the trained models (forming the testing set). This sequence is repeated five times in total. Subsequently, the plain model is trained with one of the training sets, searching for the hyperparameter $N_f$ within the set $\{2,3,4\}$ and $\Delta_t$ within the set $\{50,25\}$. It's important to note that the kernel length scale set corresponds with the new sampling frequency \cite{lawhern2018eegnet}. \changes{The ADAM algorithm \cite{kingma2014adam} is employed to tune the model parameters with a learning rate of $0.1$}. To locate the optimal combination of hyperparameters for our model, the GridSearchCV class from SKlearn is utilized. Given the need for performance comparison, we compute the accuracy, Cohen's kappa, and the area under the ROC curve to assess performance between models~\cite{warrens2015five,geron2022hands}. Following the conclusion of this procedure, the best performance metrics and hyperparameters are saved. For the sake of comparison, the optimal hyperparameters secured from the plain trained model are loaded onto the regularized version. The splitting and training steps are replicated similarly, except only for the new hyperparameter that modifies the regularization weight $\Upsilon$ on the cost function, and it is explored within the set $\{0,0.2,0.5,0.7,1,5,10\}$. Here, we aspire to compare the performance of the regularized version using the same hyperparameters over the identical time window. The underlying hypothesis is that the regularized version performs at least equivalently, or superior, to the plain version. We also aim to gain insights into how regularization impacts the connectivity matrix. Concluding the training process, we have ten models for each subject: five corresponding to the plain model and five to its regularized version.
 
     \item[--] \textbf{Model Level Analysis:} By leveraging the benchmark EEGnet model, we contrast the performances of both plain and regularized models. Subjects are sorted based on their respective EEGnet accuracy score. In addition, we examine the accuracy of each of the five windows mentioned above, analyzing how performance attenuates when the provision of MI information is constrained. For instance, we start when subjects see a blank screen, followed by moments entirely consumed by MI tasks, and finally reach situations where subjects behold a blank screen immediately after executing an MI task. In this final instance, the brain might continue engaging with the MI task for several seconds more. This comparative analysis promises to provide insights into the effects of varying MI information availability on model performance. 
 
@@ -68,6 +77,8 @@ Note that the maximal potential information is obtained when each sample provide
 
 \cref{fig:acc_windows} shows the comparison of performance between different windows, each containing various amounts of MI information. The first window has no MI information, the second one contains half of the MI task, the third 0.5 seconds after the cue along with the complete span of MI information, the fourth comprises half MI and half post MI, and finally, the last window exclusively captures post-MI information.
 
+
+
 \begin{figure}[h!]
   \centering
   \resizebox{\linewidth}{!}{\input{Figures/Objective_3/acc_windows}}
@@ -79,7 +90,7 @@ The figure reveals three distinct patterns. Firstly, all three models exhibit an
 \begin{figure}[h!]
   \centering
   \resizebox{\linewidth}{!}{\input{Figures/Objective_3/accuracy_comparison}}
-  \caption{Comparison of subject-specific average accuracy across EEGnet, KCS-FCnet, and RKCS-FCnet models. Subjects are arranged in descending order based on the accuracy of the EEGnet model. The color-coded bars illustrate performance shifts, with green indicating an increase in accuracy while red indicates a reduction.}\label{fig:accuracy_sbj_comp}
+  \caption{Comparison of subject-specific average accuracy across EEGnet, KCS-FCnet, and RKCS-FCnet models. Subjects are arranged in descending order based on the accuracy of the EEGnet model. The color-coded bars illustrate performance shifts, with dark green(\legend{forestgreen4416044}) indicating an increase in accuracy on the RKCS-FCnet over KCS-FCnet, light green(\legend{forestgreen4416044!50}) indicating an increase in accuracy on KCS-FCnet over EEGnet, and while red \legend{crimson2143940!50} indicates an accuracy reduction.}\label{fig:accuracy_sbj_comp}
 \end{figure}
 
 
