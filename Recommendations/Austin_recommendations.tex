@@ -303,7 +303,7 @@ The image displays more variability in mean test accuracy across subjects. Howev
     \changes{
 \begin{equation}
   \begin{split}
-    \mathcal{\tilde{R}}^{c, c'}_{r}(\tau) = \mathbb{E}_{\tau} \left[ x^{c}_{r}(\tau) x^{c'}_{r}(\tau)  \right] = \mathbb{E}_{\tau} \left[ x^{c'}_{r}(\tau) x^{c}_{r}(\tau) \right] \label{corr_est}
+    \mathcal{\tilde{R}}^{c, c'}_{r}(\tau) = \mathbb{E}_{\tau} \left[ x^{c}_{r}(\tau) x^{c'}_{r}(\tau)  \right] = \mathbb{E}_{\tau} \left[ x^{c'}_{r}(\tau) x^{c}_{r}(\tau) \right]
   \end{split}
 \end{equation}
 }
@@ -324,7 +324,7 @@ The image displays more variability in mean test accuracy across subjects. Howev
     \end{equation}
     }
     \changes{
-    Where $Cov(\cdot)$ is the covariance fucntion, $\mat{\Sigma}_{r} \in \Real^{N_c \x N_c}$ is the covariance matrix for any trial $r$, $N_{t}$ is the number of time instances and $\mat{X}_{r}^{T}$ is the transpose of the EEG data matrix for trial $r$.
+    Where $Cov(\cdot)$ is the covariance fucntion, $\mat{\Sigma}_{r} \in \Real^{N_c \times N_c}$ is the covariance matrix for any trial $r$, $N_{t}$ is the number of time instances and $\mat{X}_{r}^{T}$ is the transpose of the EEG data matrix for trial $r$.
     }
     \changes{
     Next, the average class covariance matrices $\Sigma_{C1}$ and $\Sigma_{C2}$ are calculated taking the sum of all covariance matrices for a class  divided by the total number of trials in that class. For instance, if we have a total of $R_{C1}$ trials in the set $C1$, the average clas matrix $\Sigma_{C1}$ can be computed as follows:
@@ -445,7 +445,7 @@ The image displays more variability in mean test accuracy across subjects. Howev
         \changes{
         \begin{equation}
           \begin{split}
-            \mathcal{\tilde{R}}^{c, c'}_{r}(\tau) = \mathbb{E}_{\tau} \left[ x^{c}_{r}(\tau) x^{c'}_{r}(\tau)  \right] = \mathbb{E}_{\tau} \left[ x^{c'}_{r}(\tau) x^{c}_{r}(\tau) \right] \label{corr_est}
+            \mathcal{\tilde{R}}^{c, c'}_{r}(\tau) = \mathbb{E}_{\tau} \left[ x^{c}_{r}(\tau) x^{c'}_{r}(\tau)  \right] = \mathbb{E}_{\tau} \left[ x^{c'}_{r}(\tau) x^{c}_{r}(\tau) \right]
           \end{split}
         \end{equation}
         }
@@ -830,10 +830,10 @@ Note that for simplicity the term $\hat{P}^{cc'}_{r}(\mat{U}^{cc'}_{r},\kappa_x\
 \changes{
 ({ii}) The estimation of the single-trial functional connectivity from the extracted {s-t-f} features. For comparison, the proposed KCS-FC is contrasted with two commonly used single-trial FC measures. To facilitate this comparison, the KCS-FC in Equation~\eqref{eq:SRC} is interchanged with new single-trial FC measures. These measures can be estimated from a frequency $n$, a time window $w_t$, and a pair of channels ${cc'}$ (with $c \neq c'$, for all $cc'$ in $C$) as described in~\cite{rodrigue2019}.
 \begin{equation}
-			\rho(\ve{x}^{c}_{rnw_t},\ve{x}^{c'}_{rnw_t}) ={\left<\ve{x}^{c}_{rnw_t},\ve{x}^{c'}_{rnw_t}\right>}\label{Eq:Pearson}
+			\rho(\ve{x}^{c}_{rnw_t},\ve{x}^{c'}_{rnw_t}) ={\left<\ve{x}^{c}_{rnw_t},\ve{x}^{c'}_{rnw_t}\right>}
 \end{equation}
 \begin{equation}		 
-	{\Delta\phi(\ve{x}^{c}_{rnw_t},\ve{x}^{c}_{rnw_t})}  {= {|\exp(j(\ve{\phi}_{rnw_t}^{c}-\ve{\phi}_{rnw_t}^{c}))|}} \label{Eq:PLV} 
+	{\Delta\phi(\ve{x}^{c}_{rnw_t},\ve{x}^{c}_{rnw_t})}  {= {|\exp(j(\ve{\phi}_{rnw_t}^{c}-\ve{\phi}_{rnw_t}^{c}))|}}
 \end{equation}
 }
 }
@@ -871,6 +871,7 @@ Note that for simplicity the term $\hat{P}^{cc'}_{r}(\mat{U}^{cc'}_{r},\kappa_x\
                 \kappa_{x}(\ve{x}^{N_c}_{rf}, \ve{x}^{1}_{rf}; \sigma) & \kappa_{x}(\ve{x}^{N_c}_{rf}, \ve{x}^{2}_{rf}; \sigma) & \cdots & \kappa_{x}(\ve{x}^{N_c}_{rf}, \ve{x}^{N_c}_{rf}; \sigma).
             \end{bmatrix}
         \end{equation}
+}
 }
 
 \point{The notation in 6-2 is not clear (beyond the concerns with 6-1). The expectation is taken with respect of $f$ as random variable following what distribution? Is it uniform? If so what does $\hat{\Omega}$ as an argument signify and is it related to the expectation?}
