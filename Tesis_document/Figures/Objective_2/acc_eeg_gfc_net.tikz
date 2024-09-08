@@ -1,0 +1,619 @@
+% This file was created with tikzplotlib v0.10.1.
+\begin{tikzpicture}
+
+\definecolor{crimson2143940}{RGB}{214,39,40}
+\definecolor{darkgray176}{RGB}{176,176,176}
+\definecolor{darkorange25512714}{RGB}{255,127,14}
+\definecolor{lightgray204}{RGB}{204,204,204}
+\definecolor{steelblue31119180}{RGB}{31,119,180}
+
+\definecolor{green}{RGB}{44,160,44}
+\definecolor{yellow}{RGB}{240,240,0}
+\definecolor{red}{RGB}{214,39,40}
+
+\begin{axis}[
+legend cell align={left},
+legend cell align={left},
+legend columns=2,
+legend columns=2,
+legend style={
+  fill opacity=0.8,
+  draw opacity=1,
+  text opacity=1,
+  at={(0.5,1)},
+  anchor=north,
+  draw=lightgray204
+},
+legend style={
+  fill opacity=0.8,
+  draw opacity=1,
+  text opacity=1,
+  at={(0.5,1)},
+  anchor=north,
+  draw=lightgray204
+},
+tick align=outside,
+tick pos=left,
+x grid style={darkgray176},
+xmin=-0.45, xmax=49.45,
+xtick style={color=black},
+xtick={0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49},
+xticklabel style={rotate=90.0},
+xticklabels={
+  S14,
+  S43,
+  S48,
+  S3,
+  S41,
+  S35,
+  S50,
+  S4,
+  S5,
+  S49,
+  S23,
+  S1,
+  S37,
+  S20,
+  S6,
+  S13,
+  S47,
+  S44,
+  S26,
+  S21,
+  S36,
+  S28,
+  S15,
+  S12,
+  S46,
+  S10,
+  S31,
+  S25,
+  S39,
+  S22,
+  S52,
+  S18,
+  S45,
+  S17,
+  S27,
+  S16,
+  S24,
+  S9,
+  S8,
+  S19,
+  S40,
+  S42,
+  S51,
+  S33,
+  S32,
+  S38,
+  S30,
+  S11,
+  S2,
+  S7
+},
+y grid style={darkgray176},
+ylabel={\(\displaystyle \mu_{Accuracy}\) [\%]},
+ymin=46.71, ymax=101.49,
+ytick style={color=black},
+% only scale the axis, not the axis including the ticks and labels
+scale only axis=true,
+% set `width' and `height' to the desired values
+width=\textwidth,
+height=0.5\textwidth,
+]
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:1,98)
+--(axis cs:1,99);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:3,95)
+--(axis cs:3,95);
+
+
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:6,86.5)
+--(axis cs:6,92.5);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:7,86)
+--(axis cs:7,90);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:8,86)
+--(axis cs:8,88);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:10,82.5)
+--(axis cs:10,92);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:11,79)
+--(axis cs:11,79);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:12,79)
+--(axis cs:12,82.5);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:14,77.2)
+--(axis cs:14,84.4);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:15,76.5)
+--(axis cs:15,87);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:17,75.5)
+--(axis cs:17,82.5);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:18,75.5)
+--(axis cs:18,77);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:19,72.5)
+--(axis cs:19,78);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:20,72.3)
+--(axis cs:20,74.4);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:21,70.5)
+--(axis cs:21,77);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:22,69.2)
+--(axis cs:22,82.1);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:23,69.1)
+--(axis cs:23,74.9);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:24,68.7)
+--(axis cs:24,78.3);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:25,68.5)
+--(axis cs:25,81);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:26,68)
+--(axis cs:26,79);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:27,67)
+--(axis cs:27,73);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:28,64)
+--(axis cs:28,66);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:29,63.5)
+--(axis cs:29,75.5);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:30,61)
+--(axis cs:30,79.5);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:31,59.5)
+--(axis cs:31,78);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:32,58.5)
+--(axis cs:32,73.5);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:34,56.8)
+--(axis cs:34,57.8);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:35,56)
+--(axis cs:35,63);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:36,56)
+--(axis cs:36,76.5);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:37,55.8)
+--(axis cs:37,77.5);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:38,54)
+--(axis cs:38,66);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:39,53.8)
+--(axis cs:39,67.6);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:40,53.5)
+--(axis cs:40,63.5);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:41,53.5)
+--(axis cs:41,72.5);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:42,52.3)
+--(axis cs:42,53.3);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:43,52)
+--(axis cs:43,61.5);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:44,51.5)
+--(axis cs:44,62.5);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:45,51.3)
+--(axis cs:45,67.7);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:46,51.2)
+--(axis cs:46,75.2);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:47,51)
+--(axis cs:47,64.5);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:48,50.5)
+--(axis cs:48,60);
+
+\path [draw=steelblue31119180, line width=5pt]
+(axis cs:49,49.2)
+--(axis cs:49,57.1);
+
+\path [draw=crimson2143940, line width=5pt]
+(axis cs:0,99)
+--(axis cs:0,98.5);
+
+\path [draw=crimson2143940, line width=5pt]
+(axis cs:2,97.5)
+--(axis cs:2,96);
+
+\path [draw=crimson2143940, line width=5pt]
+(axis cs:4,93)
+--(axis cs:4,89.5);
+
+\path [draw=crimson2143940, line width=5pt]
+(axis cs:5,89.5)
+--(axis cs:5,83);
+
+\path [draw=crimson2143940, line width=5pt]
+(axis cs:9,83.1)
+--(axis cs:9,82.6);
+
+\path [draw=crimson2143940, line width=5pt]
+(axis cs:13,78.8)
+--(axis cs:13,75.3);
+
+\path [draw=crimson2143940, line width=5pt]
+(axis cs:16,75.9)
+--(axis cs:16,72.3);
+
+\path [draw=crimson2143940, line width=5pt]
+(axis cs:33,58)
+--(axis cs:33,56);
+
+\path [draw=green, opacity=0.2, line width=7pt]
+(axis cs:1,45)
+--(axis cs:1,105);
+
+\path [draw=green, opacity=0.2, line width=7pt]
+(axis cs:0,45)
+--(axis cs:0,105);
+
+\path [draw=green, opacity=0.2, line width=7pt]
+(axis cs:2,45)
+--(axis cs:2,105);
+
+\path [draw=green, opacity=0.2, line width=7pt]
+(axis cs:3,45)
+--(axis cs:3,105);
+
+\path [draw=green, opacity=0.2, line width=7pt]
+(axis cs:4,45)
+--(axis cs:4,105);
+
+\path [draw=green, opacity=0.2, line width=7pt]
+(axis cs:5,45)
+--(axis cs:5,105);
+
+\path [draw=green, opacity=0.2, line width=7pt]
+(axis cs:6,45)
+--(axis cs:6,105);
+
+\path [draw=green, opacity=0.2, line width=7pt]
+(axis cs:7,45)
+--(axis cs:7,105);
+
+\path [draw=green, opacity=0.2, line width=7pt]
+(axis cs:8,45)
+--(axis cs:8,105);
+
+\path [draw=green, opacity=0.2, line width=7pt]
+(axis cs:9,45)
+--(axis cs:9,105);
+
+\path [draw=green, opacity=0.2, line width=7pt]
+(axis cs:10,45)
+--(axis cs:10,105);
+
+\path [draw=yellow, opacity=0.2, line width=7pt]
+(axis cs:11,45)
+--(axis cs:11,105);
+
+\path [draw=yellow, opacity=0.2, line width=7pt]
+(axis cs:12,45)
+--(axis cs:12,105);
+
+\path [draw=yellow, opacity=0.2, line width=7pt]
+(axis cs:13,45)
+--(axis cs:13,105);
+
+\path [draw=yellow, opacity=0.2, line width=7pt]
+(axis cs:14,45)
+--(axis cs:14,105);
+
+\path [draw=yellow, opacity=0.2, line width=7pt]
+(axis cs:15,45)
+--(axis cs:15,105);
+
+\path [draw=yellow, opacity=0.2, line width=7pt]
+(axis cs:16,45)
+--(axis cs:16,105);
+
+\path [draw=yellow, opacity=0.2, line width=7pt]
+(axis cs:17,45)
+--(axis cs:17,105);
+
+\path [draw=yellow, opacity=0.2, line width=7pt]
+(axis cs:18,45)
+--(axis cs:18,105);
+
+\path [draw=yellow, opacity=0.2, line width=7pt]
+(axis cs:19,45)
+--(axis cs:19,105);
+
+\path [draw=yellow, opacity=0.2, line width=7pt]
+(axis cs:20,45)
+--(axis cs:20,105);
+
+\path [draw=yellow, opacity=0.2, line width=7pt]
+(axis cs:21,45)
+--(axis cs:21,105);
+
+\path [draw=yellow, opacity=0.2, line width=7pt]
+(axis cs:22,45)
+--(axis cs:22,105);
+
+\path [draw=yellow, opacity=0.2, line width=7pt]
+(axis cs:23,45)
+--(axis cs:23,105);
+
+\path [draw=yellow, opacity=0.2, line width=7pt]
+(axis cs:24,45)
+--(axis cs:24,105);
+
+\path [draw=yellow, opacity=0.2, line width=7pt]
+(axis cs:25,45)
+--(axis cs:25,105);
+
+\path [draw=yellow, opacity=0.2, line width=7pt]
+(axis cs:26,45)
+--(axis cs:26,105);
+
+\path [draw=yellow, opacity=0.2, line width=7pt]
+(axis cs:27,45)
+--(axis cs:27,105);
+
+\path [draw=yellow, opacity=0.2, line width=7pt]
+(axis cs:28,45)
+--(axis cs:28,105);
+
+\path [draw=yellow, opacity=0.2, line width=7pt]
+(axis cs:29,45)
+--(axis cs:29,105);
+
+\path [draw=red, opacity=0.2, line width=7pt]
+(axis cs:30,45)
+--(axis cs:30,105);
+
+\path [draw=red, opacity=0.2, line width=7pt]
+(axis cs:31,45)
+--(axis cs:31,105);
+
+\path [draw=red, opacity=0.2, line width=7pt]
+(axis cs:32,45)
+--(axis cs:32,105);
+
+\path [draw=red, opacity=0.2, line width=7pt]
+(axis cs:33,45)
+--(axis cs:33,105);
+
+\path [draw=red, opacity=0.2, line width=7pt]
+(axis cs:34,45)
+--(axis cs:34,105);
+
+\path [draw=red, opacity=0.2, line width=7pt]
+(axis cs:35,45)
+--(axis cs:35,105);
+
+\path [draw=red, opacity=0.2, line width=7pt]
+(axis cs:36,45)
+--(axis cs:36,105);
+
+\path [draw=red, opacity=0.2, line width=7pt]
+(axis cs:37,45)
+--(axis cs:37,105);
+
+\path [draw=red, opacity=0.2, line width=7pt]
+(axis cs:38,45)
+--(axis cs:38,105);
+
+\path [draw=red, opacity=0.2, line width=7pt]
+(axis cs:39,45)
+--(axis cs:39,105);
+
+\path [draw=red, opacity=0.2, line width=7pt]
+(axis cs:40,45)
+--(axis cs:40,105);
+
+\path [draw=red, opacity=0.2, line width=7pt]
+(axis cs:41,45)
+--(axis cs:41,105);
+
+\path [draw=red, opacity=0.2, line width=7pt]
+(axis cs:42,45)
+--(axis cs:42,105);
+
+\path [draw=red, opacity=0.2, line width=7pt]
+(axis cs:43,45)
+--(axis cs:43,105);
+
+\path [draw=red, opacity=0.2, line width=7pt]
+(axis cs:44,45)
+--(axis cs:44,105);
+
+\path [draw=red, opacity=0.2, line width=7pt]
+(axis cs:45,45)
+--(axis cs:45,105);
+
+\path [draw=red, opacity=0.2, line width=7pt]
+(axis cs:46,45)
+--(axis cs:46,105);
+
+\path [draw=red, opacity=0.2, line width=7pt]
+(axis cs:47,45)
+--(axis cs:47,105);
+
+\path [draw=red, opacity=0.2, line width=7pt]
+(axis cs:48,45)
+--(axis cs:48,105);
+
+\path [draw=red, opacity=0.2, line width=7pt]
+(axis cs:49,45)
+--(axis cs:49,105);
+
+\addplot [semithick, darkorange25512714, dashed]
+table {%
+0 99
+1 98
+2 97.5
+3 95
+4 93
+5 89.5
+6 86.5
+7 86
+8 86
+9 83.1
+10 82.5
+11 79
+12 79
+13 78.8
+14 77.2
+15 76.5
+16 75.9
+17 75.5
+18 75.5
+19 72.5
+20 72.3
+21 70.5
+22 69.2
+23 69.1
+24 68.7
+25 68.5
+26 68
+27 67
+28 64
+29 63.5
+30 61
+31 59.5
+32 58.5
+33 58
+34 56.8
+35 56
+36 56
+37 55.8
+38 54
+39 53.8
+40 53.5
+41 53.5
+42 52.3
+43 52
+44 51.5
+45 51.3
+46 51.2
+47 51
+48 50.5
+49 49.2
+};
+\addlegendentry{EEGnet}
+\addplot [semithick, steelblue31119180, opacity=0.5, dashed]
+table {%
+0 98.5
+1 99
+2 96
+3 95
+4 89.5
+5 83
+6 92.5
+7 90
+8 88
+9 82.6
+10 92
+11 79
+12 82.5
+13 75.3
+14 84.4
+15 87
+16 72.3
+17 82.5
+18 77
+19 78
+20 74.4
+21 77
+22 82.1
+23 74.9
+24 78.3
+25 81
+26 79
+27 73
+28 66
+29 75.5
+30 79.5
+31 78
+32 73.5
+33 56
+34 57.8
+35 63
+36 76.5
+37 77.5
+38 66
+39 67.6
+40 63.5
+41 72.5
+42 53.3
+43 61.5
+44 62.5
+45 67.7
+46 75.2
+47 64.5
+48 60
+49 57.1
+};
+\addlegendentry{KCS-FCnet}
+
+
+\end{axis}
+
+\end{tikzpicture}

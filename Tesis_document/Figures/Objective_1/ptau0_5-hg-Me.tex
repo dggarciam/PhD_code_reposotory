@@ -1,0 +1,150 @@
+% This file was created by tikzplotlib v0.9.8.
+\documentclass[tikz]{standalone}
+
+
+
+
+\usepackage{pgfplots}
+\begin{document}
+	\begin{tikzpicture}
+		
+		\colorlet{color0}{blue!80!gray}% pearson *
+%\definecolor{color1}{rgb}{1,0.498039215686275,0.0549019607843137}
+\colorlet{color1}{blue!80!gray} %pearson **
+\colorlet{color2}{red!80!gray} %n-pearson*
+\colorlet{color3}{red!80!gray}%n-pearson**
+\colorlet{color4}{green!80!gray} %plv*
+\colorlet{color5}{green!80!gray} %plv**
+		
+		\begin{axis}[
+			ymode=log,
+			legend cell align={left},
+			ytick={50,40,50,60,70,80,90,100},
+			yticklabels={50,40,50,60,70,80,90,100},
+			ymin=50,
+			ymax=100,
+			width=1\textwidth,
+			height=.5\textwidth,
+			legend style={fill opacity=0.8, draw opacity=1, text opacity=1, draw=white!80!black},
+			tick align=outside,
+			tick pos=left,
+			x grid style={white!69.0196078431373!black},
+			xmin=-0.1, xmax=13.1,
+			xtick style={color=black},
+xtick={0,1,2,3,4,5,6,7,8,9,10,11,12,13},
+xticklabels={3,12,14,4,10,5,2,1,6,13,7,11,9,8},
+y grid style={white!69.0196078431373!black},
+ytick style={color=black}
+]
+\addplot [dashed,semithick, color0]
+table {%
+0 95.91
+1 95.34
+2 98.18
+3 97.11
+4 96.1
+5 95
+6 84.69
+7 80
+8 67.05
+9 60.87
+10 63.37
+11 77.39
+12 71.93
+13 69.7
+};
+%\addlegendentry{2a pearson *}
+\addplot [semithick, color1]
+table {%
+0 87.27
+1 87.05
+2 86.36
+3 86.22
+4 77.2
+5 74.03
+6 72.47
+7 69.69
+8 68.86
+9 67.38
+10 61.81
+11 61.7
+12 60.23
+13 59.09
+};
+%\addlegendentry{2a pearson **}
+\addplot [dashed,semithick, color2]
+table {%
+0 95.57
+1 97.27
+2 98.64
+3 97.11
+4 96.22
+5 92.78
+6 82.72
+7 92.5
+8 72.39
+9 70.62
+10 71.69
+11 65.57
+12 76.25
+13 72.73
+};
+%\addlegendentry{3 n-pearson *}
+\addplot [semithick, color3]
+table {%
+0 93.52
+1 97.05
+2 94.09
+3 95
+4 91.1
+5 80.28
+6 80.74
+7 81.56
+8 72.95
+9 70.38
+10 74.7
+11 67.61
+12 70.57
+13 66.36
+};
+%\addlegendentry{3 n-pearson **}
+\addplot [dashed,semithick, color4]
+table {%
+0 82.84
+1 64.32
+2 84.55
+3 63.44
+4 64.51
+5 70
+6 62.72
+7 85
+8 61.25
+9 57.5
+10 63.98
+11 57.5
+12 87.95
+13 61.21
+};
+%\addlegendentry{2b plv *}
+\addplot [semithick, color5]
+table {%
+0 82.61
+1 70.57
+2 83.07
+3 71.89
+4 66.34
+5 74.86
+6 63.09
+7 84.69
+8 72.5
+9 58.5
+10 63.01
+11 58.41
+12 80.11
+13 66.67
+};
+%\addlegendentry{2b plv **}
+\end{axis}
+
+\end{tikzpicture}
+\end{document}

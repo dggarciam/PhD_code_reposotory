@@ -1,0 +1,142 @@
+% This file was created with tikzplotlib v0.10.1.
+\begin{tikzpicture}
+
+\definecolor{darkgray176}{RGB}{176,176,176}
+\definecolor{darkorange25512714}{RGB}{255,127,14}
+\definecolor{steelblue31119180}{RGB}{31,119,180}
+
+\begin{axis}[
+tick align=outside,
+tick pos=left,
+x grid style={darkgray176},
+xmin=0.5, xmax=3.5,
+xtick style={color=black},
+y grid style={darkgray176},
+ylabel={Renyi's Entropy Value},
+ymin=0.770107169384725, ymax=2.83550014961814,
+ytick style={color=black},
+xtick={1,2,3},
+xticklabels={
+  G I,
+  G II,
+  G III
+  },
+% only scale the axis, not the axis including the ticks and labels
+scale only axis=true,
+% set `width' and `height' to the desired values
+width=\textwidth,
+height=0.5\textwidth,
+]
+\path [draw=black, fill=steelblue31119180]
+(axis cs:0.85,1.98710265444379)
+--(axis cs:1.15,1.98710265444379)
+--(axis cs:1.15,2.4692055467728)
+--(axis cs:0.85,2.4692055467728)
+--(axis cs:0.85,1.98710265444379)
+--cycle;
+\addplot [black]
+table {%
+1 1.98710265444379
+1 1.83340962365363
+};
+\addplot [black]
+table {%
+1 2.4692055467728
+1 2.74161865051662
+};
+\addplot [black]
+table {%
+0.925 1.83340962365363
+1.075 1.83340962365363
+};
+\addplot [black]
+table {%
+0.925 2.74161865051662
+1.075 2.74161865051662
+};
+\path [draw=black, fill=steelblue31119180]
+(axis cs:1.85,1.64091629667123)
+--(axis cs:2.15,1.64091629667123)
+--(axis cs:2.15,2.13763307187243)
+--(axis cs:1.85,2.13763307187243)
+--(axis cs:1.85,1.64091629667123)
+--cycle;
+\addplot [black]
+table {%
+2 1.64091629667123
+2 1.54325014822209
+};
+\addplot [black]
+table {%
+2 2.13763307187243
+2 2.39465148485741
+};
+\addplot [black]
+table {%
+1.925 1.54325014822209
+2.075 1.54325014822209
+};
+\addplot [black]
+table {%
+1.925 2.39465148485741
+2.075 2.39465148485741
+};
+\path [draw=black, fill=steelblue31119180]
+(axis cs:2.85,1.20701646656938)
+--(axis cs:3.15,1.20701646656938)
+--(axis cs:3.15,1.47736138105042)
+--(axis cs:2.85,1.47736138105042)
+--(axis cs:2.85,1.20701646656938)
+--cycle;
+\addplot [black]
+table {%
+3 1.20701646656938
+3 0.863988668486244
+};
+\addplot [black]
+table {%
+3 1.47736138105042
+3 1.7973903501163
+};
+\addplot [black]
+table {%
+2.925 0.863988668486244
+3.075 0.863988668486244
+};
+\addplot [black]
+table {%
+2.925 1.7973903501163
+3.075 1.7973903501163
+};
+\addplot [ultra thick, darkorange25512714]
+table {%
+0.85 2.14641792100428
+1.15 2.14641792100428
+};
+\addplot [ultra thick, darkorange25512714]
+table {%
+1.85 1.93151078195408
+2.15 1.93151078195408
+};
+\addplot [ultra thick, darkorange25512714]
+table {%
+2.85 1.3773748804191
+3.15 1.3773748804191
+};
+
+\path [draw=green, opacity=0.2, line width=140pt]
+(axis cs:1,0.1)
+--(axis cs:1,3);
+
+\path [draw=yellow, opacity=0.2, line width=140pt]
+(axis cs:2,0.1)
+--(axis cs:2,3);
+
+\path [draw=red, opacity=0.2, line width=140pt]
+(axis cs:3,0.1)
+--(axis cs:3,3);
+
+
+\end{axis}
+
+\end{tikzpicture}

@@ -1,0 +1,26 @@
+
+\begin{tikzpicture}
+\draw[draw=black] (0,0) rectangle ++(2,2) node[pos=.5] {Black screen};
+\draw[draw=black] (2,0) rectangle ++(3,3) node[pos=.5] {Motor Imagery};
+\draw[draw=black] (5,0) rectangle ++(2,2) node[pos=.5] {Black screen};
+\draw[dashed,draw=black] (7,0) rectangle ++(1,2) node[pos=.5] {Break};
+
+\draw[draw=red] (2.5,-0.2) rectangle ++(2,1) node[pos=.5] {\textcolor{red}{\small{Analysis span}}};
+\draw[dashed,draw=red] (2.5,0) -- (2.5,-1) node[pos=1.5] {\textcolor{red}{$2.5$~\textit{s}}};
+\draw[dashed,draw=red] (4.5,0) -- (4.5,-1) node[pos=1.5] {\textcolor{red}{$4.5$~\textit{s}}};
+
+\draw [-stealth](0,0) -- (9,0) node[below,pos=1.05] {t~[\textit{s}]};
+
+\draw[dashed,draw=black] (0,0) -- (0,-0.5) node[pos=1.5] {$0$~\textit{s}};
+\draw[dashed,draw=black] (1,0) -- (1,-0.5) node[pos=1.5] {$1$~\textit{s}};
+\draw[dashed,draw=black] (2,0) -- (2,-0.5) node[pos=1.5] {$2$~\textit{s}};
+
+\draw[-stealth,dashed,draw=red] (2,0) -- (2,3.5) node[pos=1.1] {\textcolor{red}{Cue}};
+
+\draw[dashed,draw=black] (3,0) -- (3,-0.5) node[pos=1.5] {$3$~\textit{s}};
+\draw[dashed,draw=black] (4,0) -- (4,-0.5) node[pos=1.5] {$4$~\textit{s}};
+\draw[dashed,draw=black] (5,0) -- (5,-0.5) node[pos=1.5] {$5$~\textit{s}};
+\draw[dashed,draw=black] (6,0) -- (6,-0.5) node[pos=1.5] {$6$~\textit{s}};
+\draw[dashed,draw=black] (7,0) -- (7,-0.5) node[pos=1.5] {$7$~\textit{s}};
+\draw[dashed,draw=black] (8,0) -- (8,-0.5) node[pos=1.5] {$8$~\textit{s}};
+\end{tikzpicture}

@@ -1,0 +1,302 @@
+%\chapter{\Objectivetwoname}
+\chapter[Kernel Cross-Spectral Functional Connectivity Network]{KCS-FCnet: Kernel Cross-Spectral Functional Connectivity Network for Automatic EEG Representation in MI-BCI}\label{chapter_2}
+
+
+Here we propose an end-to-end technique for classifying MI using EEG signals, termed Kernel Cross-Spectral Functional Connectivity Network (KCS-FCnet), as depicted in \cref{fig:contribution2}. Our approach overcomes current DL limitations by introducing a cross-spectral Gaussian functional connectivity data-driven estimator to classify MI tasks from raw data. KCS-FCnet utilizes 1D convolutional layers to extract temporal-frequency features from input channels and a cross-spectral distribution estimation that codes relevant temporal and spectral MI patterns. It also includes a functional connectivity feature map, which improves the interpretability of the model by extracting meaningful pairwise channel relationships. Our approach is evaluated on a publicly available dataset and achieves state-of-the-art results for EEG-based MI classification. Furthermore, it demonstrated robustness to different experimental settings and individual differences. Lastly, our results suggest that the KCS-FCnet architecture is a highly effective method for EEG-based MI classification and can potentially be applied in real-world BCI.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.6]{Figures/outline_and_contributions/contribution2.pdf}
+    \caption{Schematic diagram illustrating the proposed Kernel Cross-Spectral FC Network (KCS-FCnet), including the use of DL strategies and a CNN layer for artifact removal and spectral and temporal feature extraction. The diagram further outlines the process of spatial extraction via a custom layer incorporating the kernel cross-spectral function}\label{fig:contribution2}
+\end{figure}
+
+\section{Kernel Cross-Spectral Functional Connectivity Network}\label{sec:gcnet}
+	
+	The input-output EEG dataset, $\{\mat{X}_r \in \Real^{N_c \times N_t}, \ve{y}_r \in\{0,1\}^{N_y}\}^R_{r=1}$, comprises $R$ trials, $N_t$ time instants, $N_c$ channels, and $N_y$ classes. To enhance the most informative EEG spatial-temporal-spectral patterns from $\mat{X}_r$ and reduce noise for improved MI class prediction, we propose to estimate the cross-spectral distribution among channels using a function composition. This approach gathers 1-D convolutional-based feature layers for extracting time-frequency patterns within each EEG channel and a Gaussian kernel-based pairwise similarity, as follows:
+	\changes{
+	\begin{equation}\label{eq:CSf}
+		\hat{\mat{P}}_{r}(\ve{w}_f)  = \tilde{K}(\cdot;\sigma) \circ \varphi(\mat{X}_r; \ve{w}_f), 
+	\end{equation}
+	where $\hat{\mat{P}}_{r}~(\ve{w}_f)~\in~[0,1]^{N_c\times N_c \times N_f}$, $N_f$ is the number of convolutional filters, notation $\circ$ stands for function composition, $\varphi(\cdot; \mat{w}_f)$ is a 1-D convolutional layer that can be used to automatically extract frequency patterns ruled by the weight vector $\ve{w}_f\in \Real^{\Delta_t}$, with $\Delta_t<N_t.$ Of note, in Equation \eqref{eq:CSf} function $\tilde{K}(\cdot;\sigma)$ is the convolutional filter concatenation of all pair-wise values $\kappa_{x}(\ve{x}^{c}_{rf},\ve{x^{c'}_{rf}}; \sigma)$ and is obtained as:
+    \begin{equation}
+        \tilde{K}(\mat{\tilde{X}}_r;\sigma) = \left[ \mat{K}_{r1} , \mat{K}_{r2}, \cdots,\mat{K}_{rf},\cdots, \mat{K}_{rN_f} \right],
+    \end{equation}
+    where $\mat{K}_{rf} \in \Real^{N_c \times N_c}$ is the kernel matrix for a trial $r$ at a convolutional filter $f$ and it is calculated as follows:
+    \begin{equation}
+        \mat{K}_{rf} = \begin{bmatrix}
+            \kappa_{x}(\ve{x}^{1}_{rf}, \ve{x}^{1}_{rf}; \sigma) & \kappa_{x}(\ve{x}^{1}_{rf}, \ve{x}^{2}_{rf}; \sigma) & \cdots & \kappa_{x}(\ve{x}^{1}_{rf}, \ve{x}^{N_c}_{rf}; \sigma) \\
+            \kappa_{x}(\ve{x}^{2}_{rf}, \ve{x}^{1}_{rf}; \sigma) & \kappa_{x}(\ve{x}^{2}_{rf}, \ve{x}^{2}_{rf}; \sigma) & \cdots & \kappa_{x}(\ve{x}^{2}_{rf}, \ve{x}^{N_c}_{rf}; \sigma) \\
+            \vdots & \vdots & \ddots & \vdots \\
+            \kappa_{x}(\ve{x}^{N_c}_{rf}, \ve{x}^{1}_{rf}; \sigma) & \kappa_{x}(\ve{x}^{N_c}_{rf}, \ve{x}^{2}_{rf}; \sigma) & \cdots & \kappa_{x}(\ve{x}^{N_c}_{rf}, \ve{x}^{N_c}_{rf}; \sigma).
+        \end{bmatrix}
+    \end{equation}
+    We compute the average functional connectivity measure $\tilde{\mat{P}}_r \in \Real^{N_c \times N_c}$ over convolutional filters, as follows:
+    \begin{equation}
+		\tilde{\mat{P}}_r  = \operatorname{AvgPooling}_{f} \left(\hat{\mat{P}}_{r}(\ve{w}_f)\right), \label{eq:lastlayerFC}
+	\end{equation}
+    where $\ve{w}_f$ is the $f$-th convolutional filter, $N_f$ is the number of convolutional filters. This measure provides a way to analyze how different frequency bands of a single-trial EEG relate to each other across channels. After computing the average functional connectivity measure and taking advantage of the symmetric property of the Gaussian functional connectivity, the vectorized version of $\tilde{\mat{P}}_r$ is calculated as:
+    \begin{equation} 
+        \overline{\ve{p}}_r = \left[\tilde{p}_r^{12}, \tilde{p}_r^{13}, \cdots, \tilde{p}_r^{cc'}, \cdots, \tilde{p}_r^{(N_c-1) N_c} \right]; \forall c<c',
+    \end{equation}
+    where $\overline{\ve{p}}_r \in  \Real ^{N_c(N_c-1)/2}$. Next, a the softmax-based output layer is applied over vector $\overline{\ve{p}}_r$ to obtain the MI class probability membership $\hat{\ve{y}}_r \in [0,1]^{N_y}$ as:
+    }  
+    \changes{
+	\begin{equation}\label{eq:output}
+		\hat{\ve{y}}_r = {\rm{softmax}}\left(\mat{V}\overline{\ve{p}}_r + \ve{b}\right),
+	\end{equation}
+	where $\mat{V}\in \Real^{N_c(N_c-1)/2\times N_y}$, $\ve{b} \in \Real^{N_y}$. In addition, a gradient descent-based framework using back-propagation is employed to optimize the parameter set $\Theta=\{\ve{w}_f,\mat{V},\ve{b},\sigma;\forall f\in\{1,2,\dots,N_f\}\},$ as follows~\cite{zhang2021dive}:
+    }
+    
+	\begin{equation}\label{eq:opt}
+		\Theta^{*} = \underset{\Theta}{\arg\,\min} \quad \promeddd{r}{\mathcal{L}(\ve{y}_r,\hat{\ve{y}}_r|\Theta); \forall r\in\{1,2,\dots,R\}},
+	\end{equation}
+	being $\mathcal{L} \{\cdot\}$ a given loss function, i.e., cross-entropy. The optimization problem outlined in Equation~\eqref{eq:opt} enables the training of our Kernel Cross-Spectral Functional Connectivity Network (KCS-FCnet) for the classification of MI tasks. 
+
+
+\section{Experimental Set-Up} \label{sec:Experiment}
+
+\subsection{KCS-FCnet Implementation Details}
+
+In this study, we evaluate the efficacy of our proposed method for extracting subject-specific functional connectivity matrices from the KCS-FCnet that predicts MI output labels from EEG records. To accomplish this, we have developed a pipeline consisting of the following steps, which were tested on the Giga dataset (as detailed in Section \ref{sec:dataset}): 
+
+\begin{itemize}
+    \item[--] {{Raw EEG Preprocessing:} 
+    } First, we load subject recordings using a \changes{custom database loader} {module} 
+    ~(\url{https://github.com/UN-GCPDS/python-gcpds.databases} ({accessed on 27 January 2023}
+    )). Next, we downsample each signal from 512 Hz to 128 Hz using the Fourier method provided by the SciPy signal resample function~(\url{https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.resample.html} ). Then each time series trial was filtered between [4, 40] Hz, using a fifth-order Butterworth bandpass filter. In addition, we clipped the records from 0.5 s to 2.5 s post cue onset, retaining only information from the motor imagery task. Preprocessing step resembles the one provided by authors in~\cite{lawhern2018eegnet}. Note that since we are analyzing only the MI time segment, we assume the signal to be stationary. Our straightforward preprocessing aims to investigate five distinct brain rhythms within the 4 to 40 Hz range, including theta, alpha, and three beta waves. Theta waves (4--8 Hz), located in the hippocampus and various cortical structures, are believed to indicate an ``online state'' and are associated with sensorimotor and mnemonic functions, as stated by authors in \cite{ABHANG201651}. In contrast, sensory stimulation and movements suppress alpha-band activity (8--13 Hz). It is modulated by attention, working memory, and mental tasks, potentially serving as a marker for higher motor control functions. Besides, tested preprocessing also comprises three types of beta waves: Low beta waves (12--15 Hz) or ``beta one'' waves, mainly associated with focused and introverted concentration. Second, mid-range beta waves (15--20 Hz), or ``beta two'' waves, are linked to increased energy, anxiety, and performance. Third, high beta waves (18--40 Hz), or ``beta three'' waves, are associated with significant stress, anxiety, paranoia, high energy, and high arousal.
+    
+    \item[--] {{KCS-FCnet Training:}} We split trials within each subject data using the standard $5$-{fold} $80${--}$20$ scheme. That means shuffling the data and taking $80\%$ of it to train (training set), holding out the remaining $20\%$ to validate trained models (testing set), and repeating the process five times \cite{schirrmeister2017deep}. For the sake of comparison, we calculate the accuracy, Cohen's kappa, and the area under the ROC curve to compare performance between models~\cite{warrens2015five,geron2022hands}. It is worth noting that we rescale the kernel length according to the new sampling frequency as in \cite{lawhern2018eegnet}. The GridSearchCV class from SKlearn is used to find the best hyperparameter combination of our KCS-FCnet. The number of filters $N_f$ is searched within the set $\{2,3,4\}$.
+    
+    \item[--] {{Group-Level Analysis:}}  We build a scoring matrix that contains as many rows as subjects in the dataset, 50 for Giga, and six columns, including accuracy, Cohen's kappa, and the area under the ROC curve scores, along with their respective standard deviation. To keep the intuition of the higher, the better, and constrain all columns to be between $[0,1]$ in the score matrix, we replace the standard deviation with its complement and normalize the Cohen's kappa by adding to it the unit and dividing by two. Then, using the score matrix and the k-means clustering algorithm~\cite{geron2022hands}, with $k$ set as three, we trained a model to cluster subjects' results based on the baseline model EEGnet~\cite{lawhern2018eegnet} in one of three groups: best, intermediate, and worst performing subjects. Next, we order each subject based on a projected vector obtained from the first component of the well-known Principal Component Analysis (PCA) algorithm applied to the score matrix. Next, with the trained $k$-means, the subjects analyzed by our KCS-FCnet were clustered using the score matrix. The aim is to compare and check how subjects change between EEGnet and KCS-FCnet-based groups. 
+\end{itemize}    
+	
+A KCS-FCnet sketch can be visualized in \changes{Figure \ref{fig:contribution2}.} The detailed KCS-FCnet architecture is summarized in Table \ref{table:CS-GFCnet}. All experiments were carried out in{ Python 3.8}, with the {Tensorflow 2.4.1 API}, on Google Colaboratory and Kaggle environments. The fine-tuning process for the model's parameters begins by utilizing the training set for optimization. To evaluate the model's performance, the test set is employed solely for reporting scores. The categorical cross-entropy loss function is applied, and no additional callbacks are utilized. The training phase involves passing the entire batch of samples. Additionally, to support further analysis and experimentation, the model weights and performance scores are systematically saved for future reference.
+
+%KCS-FCnet 
+	\begin{table}[H]
+		\centering
+		\caption{Detailed KCS-FCnet architecture for MI classification.}\label{table:CS-GFCnet}
+		\begin{tabularx}{\textwidth}{lcc}
+			\hline
+			\textbf{Layer}     & \textbf{Output Dimension}           & \textbf{Params.}                                                       \\ \midrule
+			Input              & $N_c \times N_t \times 1$                 & $\cdot$                                                                  \\
+			Conv2D             & $N_c \times (N_t - \Delta_t + 1) \times N_f$     & \begin{tabular}[c]{@{}c@{}}max norm = 2.0, kernel size = (1, $\Delta_t$)\\ Stride size = (1, 1), Bias = False\end{tabular} \\
+			BatchNormalization & $N_c \times (N_t - \Delta_t + 1) \times N_f$     & $\cdot$                                                                  \\ \midrule
+			\multicolumn{3}{c}{ELU activation}                                                                                               \\ \midrule
+			KCS-FCblock           & $N_f \times (N_c \cdot (N_c-1)/2) \times 1$ & $\cdot$                                                                  \\
+			AveragePooling2D   & $1 \times (N_c \cdot (N_c-1)/2) \times 1$  & $\cdot$                                                                  \\
+			BatchNormalization & $1 \times (N_c \cdot (N_c-1)/2) \times 1$  & $\cdot$                                                                  \\ \midrule
+			\multicolumn{3}{c}{ELU activation}                                                                                               \\ \midrule
+			Flatten            & $N_c \cdot (N_c-1)/2$                  & $\cdot$                                                                  \\
+			Dropout            & $N_c \cdot (N_c-1)/2$                   & Dropout rate = 0.5                                                    \\
+			Dense              & $N_y$                                  & max norm = 0.5                                                        \\ \midrule
+			\multicolumn{3}{c}{Softmax}                                                                                                      \\ \midrule
+		\end{tabularx}
+	\end{table}
+
+	\subsection{Functional Connectivity Pruning and Visualization}
+	
+	To compare functional connectivity between the groups mentioned above, first, we have to check which connections are relevant for class separability. It is worth noting that a high correlation in the functional connectivity matrix does not guarantee a higher class separability. Therefore, we use the two-sample Kolmogorov–Smirnov (2KS) test to overcome this issue and select only relevant connections as in \cite{gu2020random}. The null hypothesis is that both samples are drawn from the same unknown distribution. Thus, we group the trials of each connection for a subject according to the label to build the samples ``right'' and ``left''. Then, every pair is passed through the 2KS test, and connections holding a $p$-value equal to or lower than $0.05$ are kept. Hence, we can state that both samples came from different distributions and the classes are distinguishable. Next, we build a $p$-value matrix containing the information on whether a connection is relevant. To visualize how each $p$-value matrix changes across subjects and groups, we plot each $p$-value matrix on a 2D visualization, where both dimensions are calculated using the well-known $t$-distributed Stochastic Neighbor Embedding ($t$-SNE) algorithm~\cite{van2008visualizing}, from the SKlearn library, over the EEGnet score matrix. It is noteworthy that the perplexity parameter has been specifically set to a value of ten, while all other parameters have been retained at their default settings.
+	
+	Next, to effectively depict the connections between various regions of the brain, we employ a specialized connectivity visualizer~(\url{https://github.com/UN-GCPDS/python-gcpds.visualizations} ) which utilizes the Circos plot technique to display only the most significant connections, specifically those that fall within the $99$-th percentile. To further enhance the analysis, we have chosen to plot the subject closest to the centroid of each group, thereby allowing for a detailed examination of one individual from each group.
+	
+	
+	\subsection{Method Comparison}
+	
+	We compare the proposed KCS-FCnet with four end-to-end DL models that have been reported recently for effectively extracting relevantly explainable information from raw EEG. As with our proposal, the contrasted architectures are selected because they benefit from convolutional layers to extract temporal-frequency features for improving MI classification performance. Namely, (i) the EEGnet architecture in~\cite{lawhern2018eegnet} operates depthwise separable convolutions to reduce the number of training parameters, extracting temporal and spatial convolution features from each channel of a previous feature map; (ii) Shallowconvnet in~\cite{schirrmeister2017deep} incorporates two convolution layers (for sequential bandpass and spatial filtering of the EEG channels) followed by a square and log activation function, an average pooling layer, and a fully connected layer to emulate the baseline strategy of Filter Bank Common Spatial Patterns~\cite{ang2008filter}; (iii) Deepconvnet proposed by~\cite{schirrmeister2017deep} employs three convolutional layers to extract DL features; and (iv) TCNet-Fusion comprises three filtering stages to extract temporal, bandpass spectral, and spatial features, as explained in detail in~\cite{musallam2021electroencephalography}.
+	
+	For concrete testing, individual subject accuracy and standard deviation scores are only compared between the EEGnet and our KCS-FCnet due to their similarity in architecture and the number of parameters. For all provided approaches, the average classification performance along the 50 subjects in Giga is computed. Every architecture is implemented using TensorFlow2 and the SciKeras library, which allows wrapping any deep learning model as a SKlearn classifier. For the EEGnet, Shallowconvnet, Deepconvnet, and TCNet-Fusion, we use the hyperparameters that each work reported as the best combination. The complete codes for training, validating, and saving the model are publicly available (EEGnet~\footnote{\url{https://www.kaggle.com/dggarciam94/eegnet-11-11-2022-version}}, Shallowconvnet~\footnote{\url{https://www.kaggle.com/dggarciam94/shallownet-11-11-2022-version}}, Deepconvnet~\footnote{\url{https://www.kaggle.com/dggarciam94/deepconvnet-11-11-2022-version}}, TCNet-Fusion~\footnote{\url{https://www.kaggle.com/dggarciam94/tcnet-fusion-11-11-2022-version}}, and KCS-FCnet~\footnote{\url{https://www.kaggle.com/code/dggarciam94/gfcnet-11-11-2022-version)}}.
+
+ \section{Results and Discussion}
+
+
+\subsection{Subject Dependent and Group Analysis Results}
+
+The proposed KCS-FCnet architecture is closely compared to the EEGnet architecture in this study, with a focus on subject-specific accuracy scores and their standard deviation. The comparison is illustrated in Figure \ref{fig:compeeggfc}, where the dotted orange line represents the EEGnet and the dotted blue line represents the proposed KCS-FCnet. The blue and red bars indicate whether a specific subject's accuracy improves or decreases when using the KCS-FCnet, respectively. Additionally, the background of the figure includes low-opacity green, yellow, and red bars to indicate the group belongingness of the subjects (best, intermediate, and worst-performing clusters). The X-axis of the figure displays the subjects sorted based on their maximum score values as determined by the EEGnet results. The average accuracy for EEGnet and KCS-FCnet is $69.0$ and $76.4$, respectively, resulting in an incremental of $7.4$ for our proposal. Overall, it is demonstrated that KCS-FCnet can effectively classify motor imagery tasks using raw EEG as input data.
+
+\begin{figure}[h!]
+    \centering
+    \resizebox{\linewidth}{!}{\input{Figures/Objective_2/acc_eeg_gfc_net.tikz}}
+    \caption{Subject specific results. EEGnet and KCS-FCnet average accuracies are depicted, with subjects being sorted based on their performance using   EEGnet. The blue bars represent an improvement in performance using the KCS-FCnet, while the red bars indicate a decrease in performance. The background codes the group membership (best---G I, medium---GII, and worst---GIII performance clusters).}\label{fig:compeeggfc}
+\end{figure}
+
+
+Moreover, our proposed method, KCS-FCnet, demonstrates mixed results in terms of accuracy for the subjects studied. On the one hand, seven subjects experienced a decrease in accuracy, of which only four experienced a reduction of three points or more. On the other hand, the remaining subjects experience an increase in accuracy, with the majority experiencing an increase of more than five points. Notably, our approach has a particularly strong impact on subjects in the third group, resulting in only one case where KCS-FCnet fails to surpass the baseline performance and two cases with less than one point of increase. Additionally, our data-driven functional connectivity method proves effective in extracting relevant feature maps for subjects in the second group, with over ten subjects experiencing an accuracy increment of at least three points. The first group, consisting of subjects with good performance, does not see remarkable results from KCS-FCnet, with only one subject experiencing a decrease in performance by five points and one subject experiencing an increase of more than five points. In general, subjects with the best performance appear to have a limitation when trying to include more relevant feature maps, yet our network is able to preserve their classification performance in most cases. In contrast, poor-performance subjects have more room for enhancement in the feature map, which is why we see a more significant increment in the third group.
+	
+Figure \ref{fig:belongcomp} illustrates the subject group belongingness and the impact of the KCS-FCnet method on group classification. The first row shows the subjects organized based on the EEGnet results, while the bottom row shows how each subject changes or maintains their group based on the KCS-FCnet results. For example, in the red group on the EEGnet row, subjects starting from S52, when we look at the new grouping based on KCS-FCnet for the same subset of subjects, it is evident that a total of eleven subjects significantly improved their performance, moving to the yellow cluster, while only nine remained in the red one. Additionally, six subjects had a major performance increase and were promoted to the best group (green), which demonstrates the effectiveness of the proposed framework. Furthermore, the subjects that were originally in the best group maintained their status, indicating that the best-performing subjects are less likely to improve. Then, our approach achieves better MI discrimination compared to EEGnet, particularly for bad and medium-performing subjects, which is important as it highlights the model's capacity to handle challenging cases. 
+
+%semaforo cambio grupos
+\begin{figure}[h!]
+    \centering
+    \resizebox{\linewidth}{!}{\input{Figures/Objective_2/semaforo.tex}}
+    \caption{KCS-FCnet subject group enhancement regarding the EEGnet performance. Note that green, yellow and red represent best, medium, and worst performance regarding the average accuracy along subjects. First row: Subjects organized based on the EEGnet classification. Second row: Subject membership changes based on the KCS-FCnet results. }\label{fig:belongcomp}
+\end{figure}
+
+
+Next, Table \ref{tab:groupacc} shows the accuracy results for each group for EEGnet and KCS-FCnet. It is important to note that while the difference in the first group is insignificant, with only $0.9$ points, there is a notable improvement in the second group, with an increment of 5.6 accuracy points. Additionally, the third group shows a considerable increment of $12.4$ points. A similar trend is observed in the standard deviation, where the second group has the most reduction of $2.6$ points. Hence, our proposal not only outperforms EEGnet in terms of accuracy but also reduces the variability for all clusters.
+	
+	
+
+\begin{table}[h!] 
+    \caption{{Group}%MDPI: Please check if the background color is unnecessary for tables and can be removed. Ans removed 
+        -based accuracy results for EEGnet and KCS-FCnet. The average accuracy for the best, medium, and worst-grouped subjects is depicted. The KCS-FCnet average increase for each cluster is also reported.\label{tab:groupacc}}
+    \newcolumntype{W}{>{\centering\arraybackslash}X}
+    \begin{tabularx}{\textwidth}{WWWW}
+        \toprule
+        \textbf{Approach}                    & \textbf{Group}                         & \textbf{Accuracy}                              &  \textbf{KCS-FCnet Gain}                 \\ \hline
+        \multirow{3}{*}{EEGnet}                        & G I   & $90.6 \pm 4.3$                                  & $\cdot$                             \\ \cline{2-4} 
+        & G II  & $72.2  \pm 7.3$                                & $\cdot$                                 \\ \cline{2-4} 
+        & G III & $54.3 \pm 6.6$                                 & $\cdot$                                  \\ \hline
+        
+        
+        
+        
+        \multirow{3}{*}{KCS-FCnet}                      & G I   & \textbf{$91.5 \pm 3.3$} & \textbf{{0.9} %MDPI: Please add an explanation for bold in the table footer. If the bold is unnecessary, please remove it. 
+        } \\ \cline{2-4} 
+        & G II  & \textbf{$77.8 \pm 4.7$} & \textbf{{5.6}} \\ \cline{2-4} 
+        & G III & \textbf{$66.7 \pm 5.6$} & \textbf{{12.4}} \\
+        
+        
+        
+        
+        
+        \noalign{\hrule height 0.5pt}
+    \end{tabularx}
+\end{table}
+
+
+
+
+Figure \ref{fig:stdcompeeggfc} compares the accuracy standard deviation for EEGnet and KCS-FCnet. The background boxes indicate the group membership. For the first group, we can see an improvement in the variability scores for our proposed method, with a difference of four points between the maximum values. The second group shows a slight reduction in all standard deviation values for our method; however, the variability proportion remains almost the same. For the last group, there is a similar behavior for both methods. Overall, our proposed strategy reduces the variability and maintains a similar average accuracy score among subjects in the best group while increasing the average accuracy and maintaining the variability for the second and third clusters.
+
+%variability results
+\begin{figure}[h!]
+    \centering
+    \resizebox{0.8\linewidth}{!}{\input{Figures/Objective_2/groped_std.tikz}}
+    \caption{Group comparison between EEGnet (blue boxplots) and KCS-FCnet (green boxplots) concerning the accuracy's standard deviation. The background codes the group membership (best---GI, medium---GII, and worst---GIII performance clusters).}\label{fig:stdcompeeggfc}
+\end{figure}
+
+\subsection{Estimated Functional Connectivity Results}
+	
+In this study, we employed the two-sample Kolmogorov--Smirnov test to calculate a functional connectivity matrix for each subject. The matrix includes information about the separability of the MI classes. The null hypothesis asserts that the distribution of connection pairs for classes $0$ and $1$ is identical. A $p$-value is calculated, and we reject the null hypothesis only if the $p$-value is less than $5\%$. In other words, connection pairs with lower $p$-values indicate higher class separability and are considered more informative for the classification task Figure \ref{fig:p-valuematrix} depicts the results of the test in the form of $p$-value-based matrices for each subject, which are plotted in a 2D projection using the $t$-SNE algorithm to reduce the dimensionality of the score matrix. Each matrix has a colored outer square that indicates the group membership. The matrices in the top left corner (first group) have the lowest $p$-values for every connection pair, indicating that almost every pair has a different class distribution, resulting in high accuracy scores, e.g., more than $90\%$. Conversely, matrices in the bottom right corner (third group) have the least significant $p$-values, indicating that only a few connection pairs can reject the null hypothesis; then, the class probability distribution for almost every pair cannot be distinguished. There is a gradual transition between matrices from the highest $p$-values in the bottom right corner to the lowest in the top left corner. Additionally, each group keeps an intra-subject $p$-value similarity for similar EEG channel connections.
+
+Furthermore, Figure \ref{fig:renyipvalue} details the amount of information preserved within each subject representative connectivity matrix. We utilize the widely used quadratic Rényi's entropy~\cite{bromiley2004shannon} to quantify the interpretability performance from pruned functional connectivity matrices. Namely, a higher entropy value indicates a higher interpretability of that particular group of subjects concerning both relevant pair-wise channel relationships and MI discrimination capability. The background boxes represent the group membership, and the box-and-whisker plots depict each cluster's distribution of Rényi's entropy values. The first group displays the most significant values, indicating that most connections discriminate highly between classes. In contrast, the third group has the lowest values, suggesting poor class discriminability. As expected, the groups that perform better show higher retention of information by the KSC-FCnet-based functional connectivity matrix.
+
+
+%2D tsne
+\begin{figure}[!h]
+    \centering
+    \resizebox{0.9\linewidth}{!}{\input{Figures/Objective_2/pvalue-matrix_2.tex}}
+    \caption{
+        {{$t$-SNE 2D projection}
+            of pruned functional connectivity matrices based on KSC-FCnet and two-sample Kolmogorov--Smirnov test. The color bar depicts the $p$-value of every connection for each subject matrix, where deep blue means more class separability. Therefore, the bluer the matrix, the better the discriminability. Outer boxes indicate subject group belongingness: green G I, yellow G II, and red G III.  $p$-values below $5\%$ are taken as significant.}
+    }\label{fig:p-valuematrix}
+\end{figure}
+
+
+%%entropy
+\begin{figure}[H]%[h!]
+    %\centering
+    \resizebox{0.90\linewidth}{!}{\input{Figures/Objective_2/renyi_boxplot.tikz}}
+    \caption{Rényi's entropy-based retained information within the estimated functional connectivity matrices using KSC-FCnet. The background codes the group membership (best, medium, and worst performance clusters). Boxplot representation is used to present the retained information within each group.}\label{fig:renyipvalue}
+\end{figure}
+
+
+Further, the Circos plot is a valuable tool to visualize which EEG channels are most important for each subject's experiment. Figure \ref{fig:topoplot_graphs} shows that relevant channel dependencies are kept mainly for the best performance group. Note that all connections are normalized between the three subjects (connectivities above the 99th percentile are shown). For the G I case, the most robust connections are found between the frontal, central left, and right areas, with a few connections in the posterior region. This pattern is consistent with a good-performing subject who presents the most relevant information in the sensorimotor area (central left and right).
+Conversely, G II shows significant connections between the center-right and frontal areas, with fewer robust connections in the central left. It is worth noting that EEG noise may be present in the connectivity feature map around the central left region. Notably, G III has no significant connections, indicating that the model could not extract noise-free and discriminative connectivities.
+
+The second and third rows in Figure \ref{fig:topoplot_graphs} depict the most significant brain areas using 2KS and the weights of the last layer in the KCS-FCnet. In G I, similar results are observed, highlighting the sensorimotor area; however, the results in the third row are more concentrated around C4 and C3. It suggests that subjects in the best-performing group do not exhibit much noise and the MI task can be completed using only a few sensors. For G II, there is a slight difference between the results. In particular, a high activation in the left frontal area is observed, while the information is more focused on the sensorimotor area. Finally, for the last group, the most significant difference is observed. While in the 2KS test, some importance (below 0.4) is observed around C4 and C3, in the weight-based approach, there is no clear pattern, indicating that our DL approach can not find relevant information in the sensorimotor area. 
+
+
+% %% Connectivity
+\begin{figure}
+     \centering
+    \begin{subfigure}[b]{.3\linewidth}
+        \centering
+        \resizebox{1\linewidth}{!}{\input{Figures/Objective_2/circonnecitvity_good_2}}
+    \end{subfigure}
+    ~
+    \begin{subfigure}[b]{.3\linewidth}
+        \centering 	\resizebox{1\linewidth}{!}{\input{Figures/Objective_2/circonnecitvity_medium_2}}	
+    \end{subfigure}
+    ~
+    \begin{subfigure}[b]{.3\linewidth}
+        \centering
+        \resizebox{1\linewidth}{!}{\input{Figures/Objective_2/circonnecitvity_bad_2}}	
+    \end{subfigure}
+    \\
+    \begin{subfigure}[b]{.3\linewidth}
+        \centering
+        \resizebox{1\linewidth}{!}{\input{Figures/Objective_2/topoplot_good_2}}	
+    \end{subfigure}
+    ~ 
+    \begin{subfigure}[b]{.3\linewidth}
+        \centering
+        \resizebox{1\linewidth}{!}{\input{Figures/Objective_2/topoplot_medium_2}}	
+    \end{subfigure}
+    ~ 
+    \begin{subfigure}[b]{0.3\linewidth}
+        \centering
+        \resizebox{1\linewidth}{!}{\input{Figures/Objective_2/topoplot_bad_2}}	
+    \end{subfigure}
+    \\
+    \begin{subfigure}[b]{.3\linewidth}
+        \centering
+        \resizebox{1\linewidth}{!}{\input{Figures/Objective_2/topoplot_weights_model_good_2}}	
+    \end{subfigure}
+    ~ 
+    \begin{subfigure}[b]{.3\linewidth}
+        \centering
+        \resizebox{1\linewidth}{!}{\input{Figures/Objective_2/topoplot_weights_model_medium_2}}
+    \end{subfigure}
+    ~ 
+    \begin{subfigure}[b]{0.3\linewidth}
+        \centering
+        \resizebox{1\linewidth}{!}{\input{Figures/Objective_2/topoplot_weights_model_bad_2}}
+    \end{subfigure}
+    \\
+    \begin{subfigure}[b]{\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Figures/Objective_2/colorbar.pdf}
+    \end{subfigure}
+    \caption{KSC-FCnet functional connectivity results (Circos plots and topoplots). The first row illustrates the 99th percentile of the most significant functional connections across the centroid subjects concerning the studied best, medium, and worst performance clusters (see Figure \ref{fig:dataset_sensors}), with the opacity representing the strength of the connectivity. The second and third rows display topoplots of the two-sampled Kolmogorov--Smirnov test and the weights of the classification layer on the KCS-FCnet, respectively. The purer the purple color, the more important the brain area is. The left to right column represents each group from G I to G III.}
+    \label{fig:topoplot_graphs}
+\end{figure}
+
+Table \ref{table:compmod} summarizes the results of KCS-FCnet and the contrasted end-to-end architectures of Convolutional neural network models. Deepconvnet performs the poorest, making it unsuitable for handling high intra-class variability. By contrast, Shallowconvnet and TCNet-Fusion have values of quality measures that are very close to each other, being more competitive. Despite this, KCS-FCnet achieves the highest scores, outperforming the other models.
+
+
+Another essential aspect to quantify the model performance is the number of trainable parameters. Figure \ref{fig:paramsvsacc} presents the required number of trainable parameters vs. the attained MI classification performance for each studied DL approach. As seen, a higher number of trainable parameters does not necessarily imply a higher classification accuracy. In fact, two clusters are evident: models holding less than 20k trainable parameters and algorithms requiring more than 100k parameters. Notably, the EEGnet gathers 2.194 trainable parameters and got a $69\%$ accuracy score. Then,  the Deepconvnet has the most significant number of trainable parameters (178.927) but only achieves a $62.5\%$ accuracy score. The overfitting issue can explain the latter, especially when dealing with a high intra-class variability MI dataset. As previously stated, the Shallowconvnet, TCNet-Fusion, and KCS-FCnet have the highest accuracy scores. However, the Shallowconvnet has more than 100k trainable parameters, and the TCNet-Fusion has more than 25k. Conversely, our KCS-FCnet, not only outperforms these architectures in terms of accuracy but also requires the lowest complexity to achieve competitive discrimination results.
+
+\begin{table}[H]
+    \caption{Method Comparison results regarding the average MI classification for the Giga database.}\label{table:compmod}
+    \centering
+    \begin{tabular}{lccc}
+        \toprule
+        \textbf{Approach}         &  \textbf{Accuracy}  & \textbf{Kappa}  & \textbf{AUC}  \\ 
+        \midrule
+        Deepconvnet~\cite{schirrmeister2017deep}    & $62.5 \pm 13.0$  & $24.5 \pm 25.9$   & $68.9 \pm 17.8$  \\ 
+        EEGnet~\cite{lawhern2018eegnet}             & $69.0 \pm 14.6$  & $38.0 \pm 29.1$   & $75.4 \pm 16.6$  \\ 
+        TCNet-Fusion~\cite{musallam2021electroencephalography}   & $72.7 \pm 14.0$  & $45.0 \pm 28.2$   & $79.6 \pm 15.9$  \\ 
+        Shallowconvnet~\cite{schirrmeister2017deep} & $74.9 \pm 13.9$  & $49.5 \pm 27.8$   & $79.9 \pm 15.1$  \\ 
+        \midrule
+        KCS-FCnet                   & \textbf{$76.4 \pm 11.3$}  &  \textbf{$52.6 \pm 22.7$}  & \textbf{$82.2 \pm 12.2$}  \\ 
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\vspace{-6pt}
+%%acc vs. #parameters
+\begin{figure}[h!]
+    \centering
+    \resizebox{0.9\linewidth}{!}{\input{Figures/Objective_2/paramscompa.tikz}}
+    \caption{{Method}
+        comparison results: number of trainable parameters vs. average motor imagery classification accuracy for the Giga database.}\label{fig:paramsvsacc}
+\end{figure}
+
+
+\section{Summary}
+
+We have designed a novel end-to-end DL EEG-based MI classification method, termed the Kernel Cross-Spectral Functional Connectivity Network (KCS-FCnet). This strategy directly addresses fundamental issues like the elimination of handcrafted feature extraction steps and artifact removal that often generate false connectivities, as elaborated in \cref{sec:problem2}. Our methodology combines cross-spectral analysis with a data-driven KCS-FC block to model the non-linear connections between different channels and a CNN layer to automatically refine temporal, spectral, and spatial representations from EEGs. We appraised the efficacy of our approach alongside other end-to-end DL techniques using an extensively utilized public dataset. The results demonstrated that our KCS-FCnet approach consistently outperforms prevalent state-of-the-art methods in terms of both EEG-based MI classification and spatio-temporal-frequency interpretability. This system also minimizes the number of trainable parameters, thus reducing architectural complexity.
+
+Although our approach outperforms other DL solutions when it comes to accuracy, it remains a challenge to conclusively affirm if our system offers enhanced interpretability as discussed in \cref{sec:problem3}. To ensure a comprehensive analysis of the interpreted results, it is essential to employ both qualitative and quantitative methodologies. Future studies, as suggested in \cref{sec:sota3}, should aim to incorporate post-hoc and intrinsic strategies to develop MI-BCI models that are more transparent and interpretable.
