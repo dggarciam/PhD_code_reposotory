@@ -1,0 +1,86 @@
+\usetheme{Rochester}
+
+\RequirePackage{pgf}
+
+\pgfdeclareimage[width=1\paperwidth]{unal_header}{header-unal}
+
+\setbeamertemplate{blocks}[rounded][shadow=true]
+\setbeamercovered{transparent}
+
+\beamer@headheight=0.13\paperwidth
+
+\definecolor{oxygenorange}{cmyk}{0.98,0.83,0.04,0}
+\definecolor{oxygengray}{HTML}{686868}
+\definecolor{oxygenlightgray}{HTML}{EEEEEE}
+\definecolor{oxygenblue}{cmyk}{1,0.5,0,0}
+
+
+
+
+\setbeamercolor*{Title bar}{fg=white}
+\setbeamercolor*{Location bar}{fg=oxygenorange,bg=oxygenlightgray}
+\setbeamercolor*{frametitle}{parent=Title bar}
+\setbeamercolor*{block title}{bg=oxygenblue,fg=white}
+\setbeamercolor*{block body}{bg=oxygenlightgray,fg=oxygengray}
+\setbeamercolor*{normal text}{bg=white,fg=oxygengray}
+\setbeamercolor*{section in head/foot}{bg=oxygenblue,fg=white}
+
+\usecolortheme[named=oxygenorange]{structure}
+
+\setbeamerfont{section in head/foot}{size=\tiny,series=\normalfont}
+\setbeamerfont{frametitle}{size=\Large}
+
+
+% \setbeamertemplate{frametitle}
+% {
+%   \vskip-0.25\beamer@headheight
+%   \vskip-\baselineskip
+%   \usebeamerfont*{frametitle}\insertframetitle
+%   \vskip-0.10em
+%   \hskip0.7cm\usebeamerfont*{framesubtitle}\insertframesubtitle
+% }
+
+\setbeamertemplate{headline}
+{
+ 
+  %\vspace{-.43cm}
+  \pgfuseimage{unal_header}
+  \vspace{-1.65cm}
+  \linethickness{0cm}
+
+  \framelatex{
+  \begin{beamercolorbox}[wd=\paperwidth,ht=0.3\beamer@headheight]{Title bar}
+    \usebeamerfont{section in head/foot}%
+    \insertsectionnavigationhorizontal{0pt}{\hskip0.0cm}{}%
+  \end{beamercolorbox}}
+
+}
+
+\setbeamertemplate{frametitle}{%
+\ifbeamercolorempty[bg]{frametitle}{}{\nointerlineskip}%
+\pgfsetfillopacity{.001}  
+\begin{beamercolorbox}[wd=\paperwidth, ht=2.5ex, dp=1ex, leftskip=10pt]{section in head/foot}%
+    \strut\pgfsetfillopacity{1}\insertframetitle\strut\par%
+
+    
+\end{beamercolorbox}%
+}
+
+
+
+
+\setbeamertemplate{footline}
+{   
+
+  \linethickness{0.25pt}
+  \framelatex{
+  \begin{beamercolorbox}[leftskip=.3cm,wd=\paperwidth,ht=0.17\beamer@headheight,sep=0.05cm]{Location bar}
+    \usebeamerfont{section in head/foot}%
+    %\insertshortauthor~|~
+    \insertshorttitle
+    \hfill
+    \insertframenumber/\inserttotalframenumber
+  \end{beamercolorbox}}
+
+
+}

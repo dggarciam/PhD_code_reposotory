@@ -1,0 +1,18 @@
+\documentclass[tikz]{standalone}
+\usepackage{tikz}
+\usepackage{pgf-pie}
+
+\begin{document}
+
+\begin{tikzpicture}
+    \pie[explode={0.4, 0, 0, 0, 0, 0}]{
+        57/Medical,
+        7/Other,
+        8/Research,
+        8/Multi-industry,
+        10/Gaming,
+        10/Mental Wellness
+    }
+\end{tikzpicture}
+
+\end{document}
