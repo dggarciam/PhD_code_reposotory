@@ -296,7 +296,7 @@ Co-advisor: César Germán Castellanos-Domíguez, Ph.D.\\
     \end{columns}
     \vspace{3em}
     \centering
-    Executing or imagining motor tasks activates multiple brain areas, patterns that single-channel features fail to capture \cite{chiarion2023connectivity}.
+    Executing or imagining motor tasks activates multiple brain areas,\\patterns that single-channel features fail to capture \cite{chiarion2023connectivity}.
 \end{frame}
 
 
@@ -317,11 +317,12 @@ Co-advisor: César Germán Castellanos-Domíguez, Ph.D.\\
     \end{columns}
     \vspace{3em}
     \centering
-    FC's simplicity, low computational demands, and lack of rigid assumptions make it ideal for MI-BCI applications \cite{he2019electrophysiological}.
+    FC's simplicity, low computational demands, and lack of rigid assumptions\\ make it ideal for MI-BCI applications \cite{he2019electrophysiological}.
 \end{frame}
 
 \begin{frame}{Signal Processing and Recognition Group - SPRG}
-    The SPRG has been working on the design of ML and DL models to improve the performance and explainability of EEG-based MI-BCIs \cite{collazos2023posthoc}.
+    \centering
+    The SPRG has been working on the design of ML and DL models to improve\\ the performance and explainability of EEG-based MI-BCIs \cite{collazos2023posthoc}.
     \centering
     \includegraphics[width=0.7\linewidth]{figures/bcisoft.jpeg}
 \end{frame}
@@ -452,19 +453,15 @@ How can a single-trail FC be developed to manage non-stationary EEG subject-spec
 \section{Datasets}
 
 \begin{frame}{BCI Competition IV Dataset IIa - DBI MI}
-    \textbf{One-day data collection}
-    \begin{figure}[!h]
+    \textbf{Acquisition protocol}
+    \begin{figure}[!ht]
         \centering
-        \includegraphics[width=\linewidth]{../Tesis_document/Figures/preliminaries/BCI2a_schema.pdf}
-      \end{figure}
+        \resizebox{0.3\linewidth}{!}{\input{../Tesis_document/Figures/preliminaries/procedure_BCI2a.tikz}}
+    \end{figure}
       \begin{columns}
         \column{0.5\textwidth}
             \centering
-            \textbf{Acquisition protocol}
-            \begin{figure}[!ht]
-                \centering
-                \resizebox{0.9\linewidth}{!}{\input{../Tesis_document/Figures/preliminaries/procedure_BCI2a.tikz}}
-            \end{figure}
+
         \column{0.5\textwidth}
             \centering
             \textbf{Electrode montage}
@@ -475,8 +472,17 @@ How can a single-trail FC be developed to manage non-stationary EEG subject-spec
     \end{columns}
 \end{frame}
 
+
 \begin{frame}{Gamma Motor Execution Database—DBII ME}
-    b
+    \begin{figure}[h!]
+        \centering
+            \resizebox{0.9\linewidth}{!}{\input{../Tesis_document/Figures/preliminaries/procedure_gamma.tikz}}
+    \end{figure}
+
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.3\linewidth]{../Tesis_document/Figures/preliminaries/gammaelectrodes.PNG}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{MI BCI EEG Giga Science Database - DBIII MI}
