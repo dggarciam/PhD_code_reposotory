@@ -25,7 +25,7 @@ Therefore, we compute the cross-spectral distribution $ P^{cc'}_{r}(\varpi)$ wit
 \begin{equation}
 	\begin{aligned}\label{eq:CSDist}
 		P^{cc'}_{r}(\varpi) &= 2\int_{\varpi \in \varOmega} S^{cc'}_{r}(\varpi)d\varpi,\\
-		&=2\int_{\varpi \in \varOmega} \mathscr{F}\left\{\kappa(\ve{x}^{c}_{r},\ve{x}^{c'}_{r}) \right\}d,
+		&=2\int_{\varpi \in \varOmega} \mathscr{F}\left\{\kappa(\ve{x}^{c}_{r},\ve{x}^{c'}_{r}) \right\}d\varpi,
 	\end{aligned}
 \end{equation}
 where notation $\mathscr{F}\{\cdot\}$ stands for the Fourier transform. 
@@ -47,14 +47,14 @@ With the aim to implement the single-trial extraction, \changes{we estimate the 
 \begin{equation}\label{eq:fcc}
 	\hat{P}^{cc'}_{r}(\ve{u}^{cc'},\kappa_x\left(\cdot;\sigma\right)) = \sum_{n=1}^{N_f}\sum_{w_t=1}^{N_t} u_{nw_t}^{cc'}\kappa_x\left(\ve{x}^{c}_{rnw_t},\ve{x}^{c'}_{rnw_t};\sigma\right),
 \end{equation}
-where $\ve{u}^{cc'} \in \Real^{N_f N_t}$ is the spatio-temporal-frequency (textit{s-t-f}) relevance vector that codes the pairwise undirected dependency between channels and contains the values $u_{nw_t}^{cc'}$ holding the relevance value estimated at $n$-th frequency and $w_t$ window.
+where $\ve{u}^{cc'} \in \Real^{N_f N_t}$ is the spatio-temporal-frequency (\textit{s-t-f}) relevance vector that codes the pairwise undirected dependency between channels and contains the values $u_{nw_t}^{cc'}$ holding the relevance value estimated at $n$-th frequency and $w_t$ window.
 }
 
 \changes{Using the single-trial kernel-based spectral distribution representation in~Equation~\eqref{eq:fcc}, we propose extracting the sparse functional connectivity, using the Elastic Net regularization \cite{tay2023elastic}, aiming to finding discriminative and interpretable brain activity patterns.
 \begin{equation}\label{eq:SRC}
 	\ve{u}^* = \arg \min_{\ve{u}} \promed{ \sum_{r=1}^{R} \left\|\sum_{c,c'=1}^{N_c}\hat{P}^{cc'}_{r}(\ve{u}^{cc'},\kappa_x(\cdot;\sigma))-y_r\right\|^2_2} + \alpha \sum_{c,c'=1}^{N_c}\|\ve{u}^{cc'}\|_1 + \frac{1-\alpha}{2} \sum_{c,c'=1}^{N_c}\|\ve{u}^{cc'}\|_2 \quad :  \forall c < c',
 \end{equation}
-where $\alpha \in \Real^+$ is the regularization hyperparameters, $\| \cdot \|_q$ is the $\ell_q$-norm.
+where $\alpha \in \Real^+$ is the regularization hyperparameters, and $\| \cdot \|_q$ is the $\ell_q$-norm.
 }
 
 \changes{Without loss of generallity, equation~\eqref{eq:SRC} can be rewritten as:

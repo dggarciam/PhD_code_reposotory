@@ -1,0 +1,932 @@
+\documentclass[aspectratio=169]{beamer}
+\usepackage[utf8]{inputenc}
+
+\setbeamersize{text margin left=3mm,text margin right=3mm} 
+
+\usetheme{Oxygen}
+\usepackage{hyperref}
+%\usepackage{movie15}
+\usepackage{textpos}
+\usepackage{fancybox}
+\usepackage{colortbl}
+\usepackage{rotating}
+\usepackage{pgfplots}
+% \usepackage{subfigure}
+%\usepackage{subcaption}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{amsmath,amssymb,amsfonts,amsbsy,dsfont}
+\usepackage{mathrsfs}
+\usepackage{amsthm}
+\usepackage{bm}
+\usepackage{array}
+%\usepackage[caption=false]{subfig}
+\usepackage{arydshln}
+\usepackage{breakcites}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{makecell}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{pgf-pie}
+\usepackage{epsfig,epic,eepic,threeparttable,amscd,here,lscape,tabularx,graphicx }
+\usepackage{booktabs}
+\usepackage{tabu,array}
+\usepackage{overpic}
+\usepackage{microtype}
+
+\usepackage{subcaption}
+\usetikzlibrary{decorations.pathreplacing}
+
+\providecommand{\promed}[1]{{\mathbb{E}}\left\lbrace #1\right\rbrace}% operador de promedio
+
+\let\oldcite\cite % store the original \cite command
+\renewcommand{\cite}[1]{{\tiny\oldcite{#1}}}
+
+\usepackage{bm}
+
+\usepackage{etoolbox}
+
+\DeclareUnicodeCharacter{2212}{-}
+
+
+\usepackage[nopar]{lipsum} 
+
+\newif\ifcomment
+\newcommand{\Com}{\par\footnotesize\itshape\commenttrue}
+
+\newenvironment{Itemize}
+ {%
+  \edef\Itemizecurrent{\the\font}%
+  \itemize
+  \preto{\item}{\ifcomment\par\Itemizecurrent\fi}%
+ }{%
+  \enditemize
+ }
+
+
+\title[]{Regularized Gaussian Functional Connectivity Network with Post-Hoc Interpretation for Improved EEG-based Motor Imagery-BCI Classification}
+\vskip -0.7cm
+\author{\normalsize{Daniel Guillermo Garc\'ia Murillo}\\ \scriptsize{dggarciam@unal.edu.co
+}}
+\institute{\includegraphics[width=0.15\textwidth]{../Tesis_document/Figures/EscudoUN2016.jpg}\\\scriptsize{
+Universidad Nacional de Colombia \\ Signal Processing and Recognition Group - SPRG
+\\
+Advisor: Andrés Marino Álvarez-Meza, Ph.D.\\
+Co-advisor: César Germán Castellanos-Domíguez, Ph.D.\\
+\vspace{-0.3cm}
+}}
+
+% \date[]{\scriptsize{Signal Processing and Recognition Group - SPRG\\
+% Department of Electrical, Electronic and Computer Engineering\\
+% Universidad Nacional de Colombia - Sede Manizales\\
+% 2024}}
+\date[]{\scriptsize{\today}}
+
+
+
+\setbeamercovered{dynamic}
+\setbeamertemplate{navigation symbols}{}
+
+\begin{document}
+
+{\setbeamertemplate{headline}{}
+\setbeamertemplate{footline}{}
+\begin{frame}{}
+\vspace{-0.7cm}
+    \titlepage 
+\end{frame}
+}
+
+
+\newif\iflattersubsect
+
+% \AtBeginSection[] {
+%     \begin{frame}
+%     \frametitle{Outline} %
+%     \tableofcontents[currentsection, sections={1-6}]  
+%     \end{frame}
+%     \lattersubsectfalse
+% }
+
+% \AtBeginSection[] {
+%     \begin{frame}
+%     \frametitle{Outline I} %
+%     \tableofcontents[currentsection, sections={1-6}]  
+%     \end{frame}
+%     \only<7-9>{
+%         \begin{frame}
+%         \frametitle{Outline II} %
+%         \tableofcontents[currentsection, sections={7-9}]  
+%         \end{frame}
+%     }
+%     \lattersubsectfalse
+% }
+
+\AtBeginSection[] {
+    \ifnum\thesection<7
+        \begin{frame}
+        \frametitle{Outline I} %
+        \tableofcontents[currentsection, sections={1-6}]  
+        \end{frame}
+    \else
+        \begin{frame}
+        \frametitle{Outline II} %
+        \tableofcontents[currentsection, sections={7-9}]  
+        \end{frame}
+    \fi
+    \lattersubsectfalse
+}
+
+\AtBeginSubsection[] {
+    \ifnum\thesection<7
+        \begin{frame}
+        \frametitle{Outline I} %
+        \tableofcontents[currentsubsection, sections={1-6}]  
+        \end{frame}
+    \else
+        \begin{frame}
+        \frametitle{Outline II} %
+        \tableofcontents[currentsubsection, sections={7-9}]  
+        \end{frame}
+    \fi
+    \lattersubsectfalse
+}
+
+\section[Motivation]{Motivation}
+
+\begin{frame}{Brain computer interface (BCI)}
+    \centering
+    BCI provide people external world communication by translating brain signals~\cite{khan2020review}
+    \begin{figure}[!ht]
+        \centering
+        \resizebox{0.8\linewidth}{!}{\includegraphics{figures/Motivation_BCI.png}}
+        % \caption{Functional connectivity estimators classified based on direct or indirect, time or frequency domain and linear or nonlinear. The varying shades of orange represent different sensitivities to volume conduction.}
+    \end{figure}
+
+\end{frame}
+
+\begin{frame}{Brain computer interface (BCI)}
+    \begin{columns}
+        \column{0.6\textwidth}
+        \begin{figure}
+            \centering
+            \resizebox{0.7\linewidth}{!}{\includegraphics{figures/pie_bci}}
+            % \includegraphics[width=0.7\linewidth]{figures/BCI_applications.png}
+            % \caption{Distribution of BCI Applications~\footnotemark[1].}
+        \end{figure}
+        \column{0.4\textwidth}
+            \begin{itemize}
+                \item Over 150 companies specializing in BCI as of 2019.
+                \item BCI market valued at $228$ million in 2019, projected to reach $460$ million by 2029~\footnotemark[2].
+            \end{itemize}
+    \end{columns}
+    \footnotetext[1]{\textbf{{Image}:} {Adapted from} \href{https://www.weforum.org/agenda/2024/06/the-brain-computer-interface-market-is-growing-but-what-are-the-risks/}{The World Economic Forum 2024}}
+    \footnotetext[2]{\href{https://www.marketreportsworld.com/enquiry/request-sample/23789843}{Global Brain Computer Interface Market Research Report 2023}}
+\end{frame}
+
+
+\begin{frame}{Motor Imagery (MI)}
+    \centering
+    MI is a widely studied BCI paradigm that allows external motor communication~\cite{cattan2018recommendations}.
+    \vspace{3em}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \centering
+        \includegraphics[width=0.7\linewidth]{figures/Motor_imagery.png}
+        \column{0.5\textwidth}
+            \textbf{Applications:}
+            \begin{itemize}
+                \item Recovery of motor functionality \cite{bonci2021introductory}.
+                \item Motor rehabilitation \cite{sitaram2017closed}.
+                \item Virtual reality  \cite{cattan2018recommendations}.
+                \item Gaming \cite{ahn2014review}.
+                \item Skill acquisition \cite{casimo2017bci}.
+            \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Neuroimaging techniques}
+    \begin{columns}
+        \column{0.3\textwidth}
+            \begin{itemize}
+                \item MI involves fast-evolving cognitive processes \cite{varbu2022past}
+                \item EEG and MEG have remarkable temporal precision \cite{alsharif2020neuromarketing}
+                \item EEG is portabile and cost-effective \cite{janapati2023advances, hosseini2020review}
+            \end{itemize}
+        \column{0.7\textwidth}
+            \begin{figure}[h!]
+                \centering
+                \resizebox{1\linewidth}{!}{\input{../Tesis_document/Figures/preliminaries/neuroimaging_techniques.tikz}}
+                % \caption{Comparison of neuroimaging techniques: spatial and temporal resolutions, and relative costs}\label{fig:neuroimagig}
+            \end{figure}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Experimental setup for MI-based BCIs}
+    \begin{columns}
+        \column{0.6\textwidth}
+            \begin{figure}[!ht]
+                \centering
+                \includegraphics[width=0.8\linewidth]{../Tesis_document/Figures/preliminaries/EEG-setup.png}
+                % \caption{Experimental setup for MI-based BCIs. \textbf{{Source}
+                %         :} {Adapted from} \cite{grigorev2021bci}}
+            \end{figure}
+        \column{0.4\textwidth}
+            \begin{itemize}
+                \item EEG headsets are equipped with $1$ to $256$ electrodes \cite{grigorev2021bci}.
+                \item Visual cues are often used to guide MI tasks during EEG recordings \cite{hosseini2020review}.
+            \end{itemize}
+    \end{columns}
+    \footnotetext[1]{\textbf{{Image}:} {Adapted from} \cite{grigorev2021bci}}
+\end{frame}
+
+
+\begin{frame}{Sensorimotor rhythms (SMRs)}
+    \begin{columns}
+        \column{0.4\textwidth}
+            \begin{itemize}
+                \item EEG signals contains multiple electrical variations (rhythms) \cite{barios2019synchronization}.
+                \item Sensorimotor Rhythms (SMRs) occur in the brain's sensorimotor cortex \cite{altaheri2023deep}. 
+                \item SMRs contain spectral-spatio-temporal patterns of MI tasks \cite{li2019motor}.
+            \end{itemize}
+        \column{0.6\textwidth}
+            \begin{figure}[!ht]
+                \centering
+                \includegraphics[width=0.7\linewidth]{figures/SM_area.png}
+            \end{figure}
+    \end{columns}
+    \footnotetext[1]{\textbf{{Image}:} {Adapted from} \cite{bookbiology20001}}
+\end{frame} 
+
+
+\begin{frame}{MI-EEG feature extraction}
+    \begin{columns}
+        \column{0.7\textwidth}
+            \begin{figure}[!ht]
+                \centering
+                \includegraphics[width=0.7\linewidth,trim={0 0 0 10},clip]{figures/RAW_EEG.png}
+                % \caption{Raw EEG signal representation}
+            \end{figure}
+        \column{0.3\textwidth}
+            \begin{itemize}
+                \item High number of channels and sampling rate \cite{chevallier2024largest}.
+                \item Huge number of data points \cite{singh2021comprehensive}.
+                \item Feature extraction strategies are required to reduce dimentionality \cite{ai2019feature}.
+            \end{itemize}
+    \end{columns}
+    \centering
+    
+\end{frame}
+
+\begin{frame}{Single channel feature extraction}
+    \begin{columns}
+        \column{0.4\textwidth}
+            \begin{itemize}
+                \item Capture rhythms on specific EEG channels \cite{samuel2017towards}.
+                \item Time domain: statistical \cite{hamedi2014neural}, Hjorth \cite{yilmaz2018quasi}, etc.
+                \item Spetral doamin: Power spectral density \cite{oikonomou2017comparison}, Welch's periodigram \cite{roy2022comparative}, spectral entropy \cite{sarraf2017eeg}, etc.
+            \end{itemize}
+        \column{0.6\textwidth}
+            \begin{figure}[!ht]
+                \centering
+                \includegraphics[width=0.6\linewidth,trim={0 110 40 40},clip]{figures/Cxsbj1gaussacc86.85-eps-converted-to.pdf}
+                % \caption{Brain area activation when performing motor imagery tasks}
+            \end{figure}
+    \end{columns}
+    \vspace{3em}
+    \centering
+    Executing or imagining motor tasks activates multiple brain areas,\\patterns that single-channel features fail to capture \cite{chiarion2023connectivity}.
+\end{frame}
+
+
+\begin{frame}{Multi channel feature extraction}
+    \begin{columns}
+        \column{0.5\textwidth}
+            \begin{figure}[!ht]
+                \centering
+                \includegraphics[width=1\linewidth]{figures/connectivities.png}
+                % \caption{Three  types of brain connectivity: structural, effective, and functional, each describing interactions between brain regions \cite{ismail2020graph}.}
+            \end{figure}
+        \column{0.5\textwidth}
+            \begin{itemize}
+                \item Structural connectivity (SC) focuses on physical connections, fails to capture short-living events \cite{thiebaut2020brain}
+                \item Effective connectivity (EC) describes direct connections and requires deep cognitive process understanding to select the best causal model \cite{chiarion2023connectivity}.
+                \item Functional connectivity (FC) can describe directed or non-directed connectives usually via statistical correlation \cite{cao2022brain}
+            \end{itemize}
+    \end{columns}
+    \vspace{3em}
+    \centering
+    FC's simplicity, low computational demands, and lack of rigid assumptions\\ make it ideal for MI-BCI applications \cite{he2019electrophysiological}.
+\end{frame}
+
+\begin{frame}{Signal Processing and Recognition Group - SPRG}
+    \centering
+    The SPRG has been working on the design of ML and DL models to improve\\ the performance and explainability of EEG-based MI-BCIs \cite{collazos2023posthoc}.
+    \centering
+    \includegraphics[width=0.7\linewidth]{figures/bcisoft.jpeg}
+\end{frame}
+
+\section{Problem statement}
+
+\begin{frame}{Problem statement}
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[width=1\linewidth]{../Tesis_document/Figures/problem_statement/general_problem.pdf}
+        % \caption{Illustration of the three key challenges in FC EEG-based MI-BCI: noise and variability in single
+        % trial FC estimators, handcrafted-based subject-specific EEG-based MI-BCI Representation, and the need for
+        % model transparency}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Single-Trial FC MI Classification Inefficiency}
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[width=1\linewidth]{../Tesis_document/Figures/problem_statement/problem1_FV.pdf}
+        % \caption{Single-trial FC-based MI classification inefficiency graphical scheme.}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Handcrafted-based Subject-Specific EEG-based MI-BCI Representation}
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[width=0.9\linewidth]{../Tesis_document/Figures/problem_statement/problem2_VF.pdf}
+        % \caption{llustration of challenges in EEG signal representation, including strategies for artifact removal and implementing spatial, temporal, and frequency filters.}
+    \end{figure}
+\end{frame}
+
+
+\begin{frame}{Lack of Transparency and Interpretability Strategies in MI-BCI}
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[width=1\linewidth]{../Tesis_document/Figures/problem_statement/problem3_FV.pdf}
+        % \caption{Transparency and interpretability challenges in MI-BCI models graphical scheme.}
+    \end{figure}
+\end{frame}
+
+
+\begin{frame}{Research question}
+\centering
+How can a single-trail FC be developed to manage non-stationary EEG subject-specific representations, handle spurious connectivities, and encode non-linear spatial, temporal, and spectral discriminative and interpretable MI patterns?
+\end{frame}
+
+\section{State of the art}
+\subsection{Single-Trial FC in MI-BCI}
+
+\begin{frame}{Functional Connectivity Estimators}
+    \begin{figure}[!ht]
+        \centering
+        \resizebox{0.7\linewidth}{!}{\includegraphics{../Tesis_document/Figures/state_of_art/sota1_EFC.pdf}}
+        % \caption{Functional connectivity estimators classified based on direct or indirect, time or frequency domain and linear or nonlinear. The varying shades of orange represent different sensitivities to volume conduction.}
+        % Abbreviations: Corr, correlation \cite{fagerholm2020dynamic}; MSC, magnitude square coherence \cite{cattai2021phase}; IPC, imaginary part of the coherence  \cite{cao2022brain}; PC, partial coherence \cite{gonzalez2020network}; PLI, phase lag index  \cite{siviero2023functional}; WPLI, weighted phase lag index \cite{gonzalez2020network}; PLV, phase locking value \cite{cattai2021phase}; MI, mutual information \cite{gu2023decoding}; SL, synchronization likelihood \cite{gonzalez2021network}; Cross-corr, cross-correlation \cite{roy2022comparative}; GC, Granger causality \cite{rezaei2023classification}; TE, transfer entropy \cite{rezaei2023classification}; DTF, directed transfer function \cite{rezaei2023classification}; PDC, partial directed coherence\cite{gaxiola2017using}}
+    \end{figure}
+\end{frame}
+
+
+\begin{frame}{Feature Extraction from FC}
+    \begin{figure}[!ht]
+        \centering
+        \resizebox{0.95\linewidth}{!}{\includegraphics{../Tesis_document/Figures/state_of_art/sota1_FE.pdf}}
+        % \caption{Functional connectivity estimators classified based on direct or indirect, time or frequency domain and linear or nonlinear. The varying shades of orange represent different sensitivities to volume conduction.}
+    \end{figure}
+\end{frame}
+
+
+\subsection{Subject-Specific EEG Representation for MI-BCI}
+
+
+\begin{frame}{Input Formulation in Deep Learning}
+    \begin{figure}[!ht]
+        \centering
+        \resizebox{0.85\linewidth}{!}{\includegraphics{../Tesis_document/Figures/state_of_art/sota2_input_v2.pdf}}
+        % \caption{Functional connectivity estimators classified based on direct or indirect, time or frequency domain and linear or nonlinear. The varying shades of orange represent different sensitivities to volume conduction.}
+    \end{figure}
+\end{frame}
+
+
+\begin{frame}{Deep Learning Architectures}
+    \begin{figure}[!ht]
+        \centering
+        \resizebox{0.85\linewidth}{!}{\includegraphics{../Tesis_document/Figures/state_of_art/sota2_DLAV2.pdf}}
+        % \caption{Functional connectivity estimators classified based on direct or indirect, time or frequency domain and linear or nonlinear. The varying shades of orange represent different sensitivities to volume conduction.}
+    \end{figure}
+\end{frame}
+
+\subsection{Interpretability Strategies in MI-BCI}
+
+\begin{frame}{Interpretability Strategies in MI-BCI}
+    \begin{figure}[!ht]
+        \centering
+        \resizebox{0.9\linewidth}{!}{\includegraphics{../Tesis_document/Figures/state_of_art/sota3_methods.pdf}}
+        % \caption{Functional connectivity estimators classified based on direct or indirect, time or frequency domain and linear or nonlinear. The varying shades of orange represent different sensitivities to volume conduction.}
+    \end{figure}
+\end{frame}
+
+\section{Aims}
+
+\begin{frame}{General Objective}
+    To develop a single-trial indirect functional connectivity framework, accompanied by regularized deep learning approaches, to extract pertinent subject-specific non-linear spatio-temporal-frequency patterns from non-stationary EEG data, improving the MI-BCI system's accuracy and interpretability.
+\end{frame}
+
+\begin{frame}{Specific Objectives}
+\centering
+\begin{itemize}
+    \setlength\itemsep{2em}
+	\item[1] To develop a single-trial indirect FC for enhanced nonlinear feature extraction, preserving the spatio-temporal-frequency interpretability while favoring the classification performance in MI-BCI and avoiding spurious connectivities.
+ 
+	\item[2] To extend the proposed single-trial FC within a deep learning scheme that handles artifacts and EEG representations, necessitating minimal preprocessing efforts from raw signals.
+ 
+	\item[3] To develop a transparency and interpretability strategy dedicated to MI-BCI classification that emphasizes spatial-temporal-spectral pattern domains, incorporating a qualitative and quantitative relevance analysis assessment.
+\end{itemize}
+\end{frame}
+
+\section{Outline and contributions}
+
+\begin{frame}{Outline and contributions}
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[scale=0.65]{../Tesis_document/Figures/outline_and_contributions/general_contributions.pdf}
+        % \caption{Schematic display of the main thesis contributions, including the single-trial FC estimator and feature extraction, an end-to-end approach from EEG representations to MI classification, and quantitative and qualitative strategies for model interpretation\label{fig:img_gen_outline}}
+    \end{figure}
+\end{frame}
+
+\section{Datasets}
+
+\begin{frame}{Datasets}
+    \begin{table}[h]
+        \centering
+        \resizebox{0.9\textwidth}{!}{%
+        \begin{tabular}{|c|c|c|c|c|c|c|c|}
+            \hline
+            \textbf{Dataset} & \textbf{Subjects} & \textbf{Trials} & \textbf{Paradigm} & \textbf{Classes} & \textbf{Channels} & \textbf{Sampling rate} \\
+            \hline
+            BCI Competition IV Dataset IIa (DBI MI)~\footnotemark[1] & 9 & 288 & Motor imagery & 2 & 22 & $250$Hz \\
+            \hline
+            Gamma Motor Execution Database (DBII ME)~\footnotemark[2] & 14 & 260 & Motor execution & 2 & 44 & $500$Hz \\
+            \hline
+            MI BCI EEG Giga Science Databas (DBIII MI)~\footnotemark[3] & 50 & 200 & Motor imagery & 2 & 64 & $500$Hz \\
+            \hline
+        \end{tabular}
+        }
+    \end{table}
+    \vspace{1em}
+    \begin{columns}
+        \column{0.33\textwidth}
+            \centering
+            \textbf{DBI MI}
+            \vspace{2em}
+            \resizebox{0.9\linewidth}{!}{\input{../Tesis_document/Figures/preliminaries/procedure_BCI2a.tikz}}
+        \column{0.33\textwidth}
+            \centering
+            \textbf{DBII ME}
+            \vspace{2em}
+            \resizebox{1\linewidth}{!}{\input{../Tesis_document/Figures/preliminaries/procedure_gamma.tikz}}
+        \column{0.33\textwidth}
+            \centering
+            \textbf{DBIII MI}
+            \vspace{2em}
+            \includegraphics[width=0.9\linewidth]{../Tesis_document/Figures/preliminaries/protocol_giga.PNG}
+    \end{columns}
+
+    \footnotetext[1]{\url{http://www.bbci.de/competition/iv}}
+    \footnotetext[2]{\url{https://gin.g-node.org/robintibor/high-gamma-dataset}}
+    \footnotetext[3]{\url{http://gigadb.org/dataset/100295}}
+\end{frame}
+
+\section{Proposal and Results}
+
+\subsection{Single-Trial Kernel-based Functional Connectivity for Enhanced Feature Extraction in EEG-based MI-BCI}
+
+\begin{frame}[allowframebreaks]{Single-Trial Kernel-based Functional Connectivity}
+    \begin{enumerate}
+        \item \textbf{Wiener-Khinchin's theorem:} 
+        \[
+        R^{c}_{r}(\tau) = \int_{\varpi \in \Omega} \exp(j2\pi \tau \varpi) \, dP^{c}_{r}(\varpi),
+        \]
+        where $P^{c}_{r}(\varpi) \in \mathbb{R}[0,1]$ is the spectral distribution function.
+        
+        \item \textbf{Bochner's theorem:} 
+        \[
+        \kappa^{cc'}_{r}(\Delta_{x}) = \int_{\varpi \in \Omega} \exp(j2\pi \Delta_{x} \varpi) S^{cc'}_{r}(\varpi) \, d\varpi,
+        \]
+        where $\Delta_{x} = \mathbf{x}^{c}_{r} - \mathbf{x}^{c'}_{r}$ is the vector delay, $\varpi \subseteq \varOmega$ is the frequency domain that contains the bandwidth set of analysis $\varOmega$, and $S^{cc'}_{r}(\varpi)$ is the cross-spectral density.
+
+        \item \textbf{Cross-spectral distribution:} 
+        \[
+        P^{cc'}_{r}(\varpi) = 2 \int_{\varpi \in \varOmega} \mathscr{F}\left\{\kappa(\mathbf{x}^{c}_{r}, \mathbf{x}^{c'}_{r}) \right\} \, d\varpi,
+        \]
+        where the notation $\mathscr{F}\{\cdot\}$ stands for the Fourier transform.
+
+        \item \textbf{Kernel-based spectral distribution estimation:}
+        \[
+        \hat{P}^{cc'}_{r}(\mathbf{u}^{cc'},\kappa_x\left(\cdot;\sigma\right)) = \sum_{n=1}^{N_f}\sum_{w_t=1}^{N_t} u_{nw_t}^{cc'}\kappa_x\left(\mathbf{x}^{c}_{rnw_t},\mathbf{x}^{c'}_{rnw_t};\sigma\right),
+        \]
+        where $\mathbf{u}^{cc'} \in \mathbb{R}^{N_f N_t}$ is the spatio-temporal-frequency relevance vector.
+
+        \item \textbf{Optimization Formulation:}
+        {\scriptsize
+        \[
+        \mathbf{u}^* = \arg \min_{\mathbf{u}} \left\langle \sum_{r=1}^{R} \left\|\sum_{c,c'=1}^{N_c}\hat{P}^{cc'}_{r}(\mathbf{u}^{cc'},\kappa_x(\cdot;\sigma))-y_r\right\|^2_2 \right\rangle + \alpha \sum_{c,c'=1}^{N_c}\|\mathbf{u}^{cc'}\|_1 + \frac{1-\alpha}{2} \sum_{c,c'=1}^{N_c}\|\mathbf{u}^{cc'}\|_2 \quad :  \forall c < c',
+        \]}
+
+        where $\alpha \in \mathbb{R}^+$ is the regularization hyperparameter, $y_r$ is the label corresponding to the $r$-th trial, and $\| \cdot \|_q$ is the $\ell_q$-norm.
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Single-Trial Kernel-based Functional Connectivity proposal}
+    \includegraphics[scale=0.5]{../Tesis_document/Figures/outline_and_contributions/contribution1_C.pdf}
+\end{frame}
+
+\begin{frame}{Experimental set-up}
+    \begin{enumerate}
+        \item Sliding window of length $\tau=[0.5,1.0,1.5,2.0]$\,{s}, and overlap of $75\%$.
+        \item Frequency bands from $4$ Hz to $40$ Hz, and overlap of $50\%$.
+        \item Gaussian kernel
+        \[
+        \kappa_x\left(\mathbf{x}^{c}_{rnw_t}, \mathbf{x}^{c'}_{rnw_t};\sigma\right) = \exp{\left( {-\|\mathbf{x}^{c}_{rnw_t}-\mathbf{x}^{c'}_{rnw_t}\|^2_2}/{2\sigma^2}\right)},
+        \]
+        \item We compare our proposal with {Cross-Correlation Coefficient} (CCF) and {Phase Lag Value} (PLV)
+        \[
+        \rho(\mathbf{x}^{c}_{rnw_t},\mathbf{x}^{c'}_{rnw_t}) ={\left<\mathbf{x}^{c}_{rnw_t},\mathbf{x}^{c'}_{rnw_t}\right>}
+        \]
+        \[
+        \Delta\phi(\mathbf{x}^{c}_{rnw_t},\mathbf{x}^{c'}_{rnw_t}) = {|\exp(j(\phi_{rnw_t}^{c}-\phi_{rnw_t}^{c'}))|}
+        \]
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Impact of Prior CSP Filtering}
+
+\def \kerrwidth {.2\linewidth}
+\begin{figure}[h!]
+\centering
+	\hbox{\hspace{4.5cm} {PLV}\hspace{2.2cm} {CCF}\hspace{2cm} {KCS-FC}}
+	\rotatebox{90}{ \quad\, \textbf{\tiny DBI MI}}
+	\rotatebox{90}{\quad\,\tiny{Accuracy ($\%$)}}
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_plv_BCI_MI.png}}}
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_pearson_BCI_MI.png}}}
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_gauss_BCI_MI.png}}}\\	
+	\rotatebox{90}{ \quad\, \textbf{\tiny DBI MI-CSP} }
+	\rotatebox{90}{\quad\,\tiny{Accuracy ($\%$)}}
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_csp_plv_BCI_MI.png}}}
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_csp_pearson_BCI_MI.png}}}
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_csp_gauss_BCI_MI.png}}}
+\end{figure}  
+    
+\begin{figure}[h!]
+    \centering
+        \hbox{\hspace{4.5cm} {PLV}\hspace{2.2cm} {CCF}\hspace{2cm} {KCS-FC}}
+	\rotatebox{90}{ \quad\, \textbf{\tiny DBII ME}}
+	\rotatebox{90}{\quad\,\tiny{Accuracy ($\%$)}}
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_plv_HG_ME.png}}}
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_pearson_HG_ME.png}}}
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_gauss_HG_ME.png}}}\\
+	\rotatebox{90}{ \quad\, \textbf{\tiny DBII ME-CSP}}
+	\rotatebox{90}{ \quad\,\tiny{Accuracy ($\%$)}}
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_CSP_plv_HG_ME.png}}}
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_CSP_pearson_HG_ME.png}}}
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_CSP_gauss_HG_ME.png}}}\\
+\end{figure}
+\begin{figure}[h!]
+    \centering
+        \hbox{\hspace{4.5cm} {PLV}\hspace{2.2cm} {CCF}\hspace{2cm} {KCS-FC}}	
+    \rotatebox{90}{ \quad\, \textbf{\tiny DBIII MI}}
+	\rotatebox{90}{ \quad\,\tiny{Accuracy ($\%$)}}
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_plv_giga_MI.png}}}
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_pearson_giga_MI.png}}}
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_gauss_giga_MI.png}}}\\
+	\rotatebox{90}{\quad \textbf{\tiny DBIII MI-CSP}}
+	\rotatebox{90}{ \quad\,\tiny{Accuracy ($\%$)}}
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_csp_plv_giga_MI.png}}}
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_csp_pearson_giga_MI.png}}}
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_csp_gauss_giga_MI.png}}}\\
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{Influence of Sliding Windows}
+\begin{figure}[h!]
+    \centering
+    \resizebox{0.5\linewidth}{!}{
+        \begin{tabular}{c}
+            \rotatebox{90}{\qquad \quad\, \textbf{DBI-MI}}
+            \rotatebox{90}{\qquad \quad\, \footnotesize{Accuracy ($\%$)}}
+            \includegraphics[width=0.9\linewidth]{../Tesis_document/Figures/Objective_1/acc_regularizacionDBII} \\
+            \rotatebox{90}{\qquad \quad\, \textbf{DBII-ME}}
+            \rotatebox{90}{\qquad \quad\, \footnotesize{Accuracy ($\%$)}}
+            \includegraphics[width=0.9\linewidth]{../Tesis_document/Figures/Objective_1/acc_regularizacionHG_ME} \\
+            \rotatebox{90}{\qquad \quad\, \textbf{DBIII-MI}}
+            \rotatebox{90}{\qquad \quad\, \footnotesize{Accuracy ($\%$)}}
+            \includegraphics[width=0.9\linewidth]{../Tesis_document/Figures/Objective_1/acc_regularizacion} \\
+            \hbox{\hspace{2cm} \textbf{Window length}}
+        \end{tabular}
+    }
+\end{figure}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Classifier Accuracy of Individuals}
+\def \kerrwidth {0.35\linewidth} 
+\begin{figure}[h!]
+	\hbox{\hspace{4.5cm} \textbf{DBII-ME}\hspace{4cm} \textbf{DBIII-MI}}
+	\rotatebox{90}{\qquad \,\footnotesize{Window size}}
+	\rotatebox{90}{\qquad \, \footnotesize{$\tau= 2.0$\,{s}}}
+	\rotatebox{90}{\qquad \,\tiny{Accuracy ($\%$)}}
+	{\resizebox{\kerrwidth }{!}{\includegraphics{../Tesis_document/Figures/Objective_1/ptau2-hg-Me}}}
+	{\resizebox{\kerrwidth }{!}{\includegraphics{../Tesis_document/Figures/Objective_1/ptau2-giga-Mi}}} \\
+	\rotatebox{90}{\qquad \,\footnotesize{Window size}}	
+	\rotatebox{90}{\qquad \, \footnotesize{$\tau= 1.5$\,{s}}}
+	\rotatebox{90}{\qquad \,\tiny{Accuracy ($\%$)}}
+	{\resizebox{\kerrwidth }{!}{\includegraphics{../Tesis_document/Figures/Objective_1/ptau1_5-hg-Me}}}
+	{\resizebox{\kerrwidth }{!}{\includegraphics{../Tesis_document/Figures/Objective_1/ptau1_5-giga-Mi}}}\\
+    \hbox{\hspace{4.5cm} \footnotesize{Subject id}\hspace{4cm} \footnotesize{Subject id}}
+\end{figure}
+\begin{figure}[h!]
+    \hbox{\hspace{4.5cm} \textbf{DBII-ME}\hspace{4cm} \textbf{DBIII-MI}}
+	\rotatebox{90}{\qquad \,\footnotesize{Window size}}	
+	\rotatebox{90}{\qquad \, \footnotesize{$\tau= 1.0$\,{s}}}
+	\rotatebox{90}{\qquad \,\tiny{Accuracy ($\%$)}}
+	{\resizebox{\kerrwidth }{!}{\includegraphics{../Tesis_document/Figures/Objective_1/ptau1-hg-Me}}}
+	{\resizebox{\kerrwidth }{!}{\includegraphics{../Tesis_document/Figures/Objective_1/ptau1-giga-Mi}}}\\
+	\rotatebox{90}{\qquad \,\footnotesize{Window size}}	
+	\rotatebox{90}{\qquad \, \footnotesize{$\tau= 0.5$\,{s}}}
+	\rotatebox{90}{\qquad \,\tiny{Accuracy ($\%$)}}
+	{\resizebox{\kerrwidth }{!}{\includegraphics{../Tesis_document/Figures/Objective_1/ptau0_5-hg-Me}}}
+	{\resizebox{\kerrwidth }{!}{\includegraphics{../Tesis_document/Figures/Objective_1/ptau0_5-giga-Mi}}} \\
+	\hbox{\hspace{4.5cm} \footnotesize{Subject id}\hspace{4cm} \footnotesize{Subject id}}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Interpretation of Subject Clusters}
+    \def \kerrwidthME {.32\linewidth}
+    \def \kerrwidthMI {.55\linewidth}
+    \begin{figure}[h!]    
+        \centering
+        \resizebox{0.7\linewidth}{!}{
+            \begin{tabular}{c c c}
+                & \textbf{DBII~ME} & \textbf{DBIII~MI} \\
+                \rotatebox{90}{\footnotesize{PLV}} 
+                \rotatebox{90}{\footnotesize{Window size}} &
+                \includegraphics[width=\kerrwidthME]{../Tesis_document/Figures/Objective_1/plv_hg} &
+                \includegraphics[width=\kerrwidthMI]{../Tesis_document/Figures/Objective_1/plv_giga} \\
+                \rotatebox{90}{\footnotesize{CCF}} 
+                \rotatebox{90}{\footnotesize{Window size}} &
+                \includegraphics[width=\kerrwidthME]{../Tesis_document/Figures/Objective_1/pearson_hg} &
+                \includegraphics[width=\kerrwidthMI]{../Tesis_document/Figures/Objective_1/pearson_giga} \\
+                \rotatebox{90}{\footnotesize{KCS-FC}} 
+                \rotatebox{90}{\footnotesize{Window size}} &
+                \includegraphics[width=\kerrwidthME]{../Tesis_document/Figures/Objective_1/gauss_hg} &
+                \includegraphics[width=\kerrwidthMI]{../Tesis_document/Figures/Objective_1/gauss_giga} \\
+                & \footnotesize{Subject id} & \footnotesize{Subject id}
+            \end{tabular}
+        }
+    \end{figure} 
+\end{frame}
+
+\begin{frame}{asd}
+    \nointerlineskip
+\def \kerrwidth {0.15\linewidth}
+\def \kerrwidthc {0.022\linewidth}
+\def \kerrg {0.12\linewidth}
+\def \kerrgg {0.05\linewidth}
+\def \kerrggg {0.04\linewidth}
+%\begingroup
+\tabcolsep = 2.0pt
+\def\arraystretch{1.0}
+\begin{figure}[h!]
+%\widefigure
+\scalebox{0.6}[0.6]{\begin{tabular}{cccccccc}
+\centering
+& & \textbf{DBII~ME}& & & \textbf{DBIII~MI}&\\
+\cmidrule{2-7}
+& {I} & {II}&{III}&{I} & {II}&{III}&
+\multirow{6}{*}{{\includegraphics[trim=660 0 0 0, clip,scale=0.35]{../Tesis_document/Figures/Objective_1/Cxsbj1hg-gaussacc95.28.eps}}}\\
+\cmidrule{2-7}
+& \textbf{$84.13\%$}& \textbf{$74.91\%$} & \textbf{$64.21\%$} & \textbf{$72.2\%$} & \textbf{$68.76\%$} & \textbf{$55.94\%$}&\\
+{\rotatebox{90}{\hspace{7mm} {PLV}}}&{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj1hg-plvacc84.13.eps}}}&
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj2hg-plvacc74.91.eps}}}&
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj3hg-plvacc64.21.eps}}}&
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj1plvacc72.2.eps}}}&
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj2plvacc68.76.eps}}}&
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj3plvacc55.94.eps}}}&\\
+	& \textbf{$90.06\%$} & \textbf{$79.35\%$} & \textbf{$70.59\%$} &  \textbf{$76.67\%$} & \textbf{$64.62\%$} & \textbf{$60.69\%$}&\\
+	\rotatebox{90}{\hspace{7mm} {CCF}}&
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj1hg-pearsonacc90.06.eps}}}&
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj2hg-pearsonacc79.35.eps}}}&
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj3hg-pearsonacc70.59.eps}}}&
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj1pearsonacc76.67.eps}}}&
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj2pearsonacc64.62.eps}}}&
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj3pearsonacc60.69.eps}}}&\\
+	& \textbf{$\mathbf{95.28}\%$}& \textbf{$\mathbf{81.16}\%$}& \textbf{$\mathbf{76.09}\%$}& \textbf{$\mathbf{86.85}\%$}& \textbf{$\mathbf{68.93}\%$}& \textbf{$\mathbf{64.4}5\%$}&\\
+	\rotatebox{90}{\hspace{7mm} {KCS-FC}}&
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj1hg-gaussacc95.28.eps}}}&
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj2hg-gaussacc81.16.eps}}}&
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj3hg-gaussacc76.09.eps}}}&
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj1gaussacc86.85.eps}}}&
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj2gaussacc68.93.eps}}}&
+	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj3gaussacc64.45.eps}}}&\\
+	&\multicolumn{6}{c}{\resizebox{0.85\linewidth}{!}{\includegraphics[trim=0 0 50 600, clip]{../Tesis_document/Figures/Objective_1/Cxsbj1hg-gaussacc95.28.eps}}}&
+\end{tabular}}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{Classifier accuracy comparison of FC approaches}
+    \begin{table}[h!]    
+    \resizebox{\columnwidth}{!}{
+    \begin{tabular}{cccccc}
+        \toprule
+            \textbf{Data}& \textbf{Time Window} & \textbf{Filter Band} & \textbf{Interpretation} & \textbf{Feature Extraction}  & \textbf{Accuracy} (\%)\\
+            \midrule
+            {\multirow{4}{*}{\rotatebox[origin=c]{90}{{DBI-MI}%MDPI: please confirm the text direction. We confirm.
+    }}} &
+            \checkmark&\checkmark&\checkmark&TSGSP~\cite{Zhang2018}&\textbf{82.50} $\pm$ \textbf{12.2}\\
+            &-&-&\checkmark&STR connectivity~\cite{rodrigue2019}&69.56$\pm$15.02\\
+            & \checkmark & - & \checkmark & Renyi's $\alpha$-entropy~\cite{de2019data} & 72.40 $\pm$ 6.50\\					
+            &\checkmark&\checkmark&\checkmark&{Proposed KCS-FC}& {81.92} $\pm$ {9.44}\\
+            \midrule	
+            {\multirow{4}{*}{\rotatebox[origin=c]{90}{DBIII-MI}}} &		
+            - &\checkmark&\checkmark & CSP~\cite{cho2017eeg}&67.60 $\pm$ 13.17\\
+            &\checkmark&\checkmark&-&OPTICAL~\cite{kumar2019brain}&68.19 $\pm$ 9.36\\
+            &-&-&\checkmark&STR connectivity~\cite{rodrigue2019}&62.00 $\pm$ 13.00\\	
+            &\checkmark&\checkmark&\checkmark&{Proposed KCS-FC}&\textbf{74.12} $\pm$ \textbf{12.13} \\\bottomrule
+        \end{tabular}
+     }
+    \end{table}
+\end{frame}
+
+\subsection{KCS-FCnet: Kernel Cross-Spectral Functional Connectivity Network for Automatic EEG Representation in MI-BCI}
+
+\begin{frame}[allowframebreaks]{Kernel Cross-Spectral Functional Connectivity Network}
+    \begin{enumerate}
+        \item matematica
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Kernel Cross-Spectral Functional Connectivity Network proposal}
+    imagen
+\end{frame}
+
+\begin{frame}{Experimental set-up}
+    \begin{enumerate}
+        \item experimental
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Experimental set-up}
+    \begin{enumerate}
+        \item experimental
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Subject Dependent and Group Analysis Results I}
+    \centering
+    \resizebox{0.7\linewidth}{!}{\input{../Tesis_document/Figures/Objective_2/acc_eeg_gfc_net.tikz}}
+\end{frame}
+
+\begin{frame}{Subject Dependent and Group Analysis Results II}
+    \centering
+    \resizebox{0.7\linewidth}{!}{\input{figures/semaforo.tex}}
+\end{frame}
+
+\begin{frame}{Subject Dependent and Group Analysis Results III}
+    \centering
+    \begin{table}[h!] 
+        \newcolumntype{W}{>{\centering\arraybackslash}X}
+        \resizebox{0.9\linewidth}{!}{
+        \begin{tabularx}{\textwidth}{WWWW}
+            \toprule
+            \textbf{Approach}                    & \textbf{Group}                         & \textbf{Accuracy}                              &  \textbf{KCS-FCnet Gain}                 \\ \hline
+            \multirow{3}{*}{EEGnet}                        & G I   & $90.6 \pm 4.3$                                  & $\cdot$                             \\ \cline{2-4} 
+            & G II  & $72.2  \pm 7.3$                                & $\cdot$                                 \\ \cline{2-4} 
+            & G III & $54.3 \pm 6.6$                                 & $\cdot$                                  \\ \hline
+            
+
+            \multirow{3}{*}{KCS-FCnet}                      & G I   & \textbf{$91.5 \pm 3.3$} & \textbf{{0.9} %MDPI: Please add an explanation for bold in the table footer. If the bold is unnecessary, please remove it. 
+            } \\ \cline{2-4} 
+            & G II  & \textbf{$77.8 \pm 4.7$} & \textbf{{5.6}} \\ \cline{2-4} 
+            & G III & \textbf{$66.7 \pm 5.6$} & \textbf{{12.4}} \\
+            
+            \noalign{\hrule height 0.5pt}
+        \end{tabularx}
+        }
+    \end{table} 
+\end{frame}
+
+\begin{frame}{Subject Dependent and Group Analysis Results IV}
+        \centering
+        \resizebox{0.7\linewidth}{!}{\input{../Tesis_document/Figures/Objective_2/groped_std.tikz}}
+\end{frame}
+
+
+\begin{frame}{Functional connectivity analysis I}
+    \centering
+    \resizebox{0.7\linewidth}{!}{\input{figures/pvalue-matrix_2.tex}}
+\end{frame}
+
+\begin{frame}{Functional connectivity analysis II}
+    \centering
+    \resizebox{0.7\linewidth}{!}{\input{../Tesis_document/Figures/Objective_2/renyi_boxplot.tikz}}
+\end{frame}
+
+
+\begin{frame}{Functional connectivity analysis III}
+    \begin{figure}
+        \centering
+       \begin{subfigure}[b]{.3\linewidth}
+           \centering
+           \resizebox{1\linewidth}{!}{\input{../Tesis_document/Figures/Objective_2/circonnecitvity_good_2}}
+       \end{subfigure}
+       ~
+       \begin{subfigure}[b]{.3\linewidth}
+           \centering 	\resizebox{1\linewidth}{!}{\input{../Tesis_document/Figures/Objective_2/circonnecitvity_medium_2}}	
+       \end{subfigure}
+       ~
+       \begin{subfigure}[b]{.3\linewidth}
+           \centering
+           \resizebox{1\linewidth}{!}{\input{../Tesis_document/Figures/Objective_2/circonnecitvity_bad_2}}	
+       \end{subfigure}
+       \\
+       \begin{subfigure}[b]{.3\linewidth}
+           \centering
+           \resizebox{1\linewidth}{!}{\input{../Tesis_document/Figures/Objective_2/topoplot_good_2}}	
+       \end{subfigure}
+       ~ 
+       \begin{subfigure}[b]{.3\linewidth}
+           \centering
+           \resizebox{1\linewidth}{!}{\input{../Tesis_document/Figures/Objective_2/topoplot_medium_2}}	
+       \end{subfigure}
+       ~ 
+       \begin{subfigure}[b]{0.3\linewidth}
+           \centering
+           \resizebox{1\linewidth}{!}{\input{../Tesis_document/Figures/Objective_2/topoplot_bad_2}}	
+       \end{subfigure}
+       \\
+       \begin{subfigure}[b]{.3\linewidth}
+           \centering
+           \resizebox{1\linewidth}{!}{\input{../Tesis_document/Figures/Objective_2/topoplot_weights_model_good_2}}	
+       \end{subfigure}
+       ~ 
+       \begin{subfigure}[b]{.3\linewidth}
+           \centering
+           \resizebox{1\linewidth}{!}{\input{../Tesis_document/Figures/Objective_2/topoplot_weights_model_medium_2}}
+       \end{subfigure}
+       ~ 
+       \begin{subfigure}[b]{0.3\linewidth}
+           \centering
+           \resizebox{1\linewidth}{!}{\input{../Tesis_document/Figures/Objective_2/topoplot_weights_model_bad_2}}
+       \end{subfigure}
+       \\
+       \begin{subfigure}[b]{\linewidth}
+           \centering
+           \includegraphics[width=\linewidth]{../Tesis_document/Figures/Objective_2/colorbar.pdf}
+       \end{subfigure}
+   \end{figure}
+\end{frame}
+
+
+\begin{frame}{Classifier accuracy comparison of DL approaches I}
+    \begin{table}[H]
+        \centering
+        \resizebox{0.8\linewidth}{!}{
+        \begin{tabular}{lccc}
+            \toprule
+            \textbf{Approach}         &  \textbf{Accuracy}  & \textbf{Kappa}  & \textbf{AUC}  \\ 
+            \midrule
+            Deepconvnet~\cite{schirrmeister2017deep}    & $62.5 \pm 13.0$  & $24.5 \pm 25.9$   & $68.9 \pm 17.8$  \\ 
+            EEGnet~\cite{lawhern2018eegnet}             & $69.0 \pm 14.6$  & $38.0 \pm 29.1$   & $75.4 \pm 16.6$  \\ 
+            TCNet-Fusion~\cite{musallam2021electroencephalography}   & $72.7 \pm 14.0$  & $45.0 \pm 28.2$   & $79.6 \pm 15.9$  \\ 
+            Shallowconvnet~\cite{schirrmeister2017deep} & $74.9 \pm 13.9$  & $49.5 \pm 27.8$   & $79.9 \pm 15.1$  \\ 
+            \midrule
+            KCS-FCnet                   & \textbf{$76.4 \pm 11.3$}  &  \textbf{$52.6 \pm 22.7$}  & \textbf{$82.2 \pm 12.2$}  \\ 
+            \bottomrule
+        \end{tabular}
+        }
+    \end{table}
+\end{frame}
+
+
+\begin{frame}{Classifier accuracy comparison of DL approaches II}
+    \centering
+    \resizebox{0.7\linewidth}{!}{\input{../Tesis_document/Figures/Objective_2/paramscompa.tikz}}
+\end{frame}
+
+
+\subsection{IRKCS-FCnet: Interpretable Regularized Kernel Cross-Spectral Functional Connectivity Network with Qualitative and Quantitative Post-Hoc and Intrinsic Explainability}
+
+\begin{frame}{a}
+    a
+\end{frame}
+
+% Electrical variations can be used to describe cognitive states \cite{li2019brain}
+
+\section{References}
+% ------------------------------------------------------------------------
+\begin{frame}[allowframebreaks]%,noframenumbering]
+\frametitle{References}
+{\tiny 
+\bibliographystyle{apalike}
+\bibliography{../Tesis_document/References}
+}
+\end{frame}
+
+\end{document}
