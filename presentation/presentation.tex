@@ -11,6 +11,7 @@
 \usepackage{colortbl}
 \usepackage{rotating}
 \usepackage{pgfplots}
+\usepackage{ragged2e}
 % \usepackage{subfigure}
 %\usepackage{subcaption}
 \usepackage{multicol}
@@ -42,6 +43,29 @@
 \definecolor{GI}{RGB}{72,197,72}
 \definecolor{GIII}{RGB}{214, 36, 47}
 
+\colorlet{color0}{blue!40!gray}% pearson *
+\colorlet{color1}{blue!80!gray} %pearson **
+\colorlet{color2}{red!40!gray} %n-pearson*
+\colorlet{color3}{red!80!gray}%n-pearson**
+\colorlet{color4}{green!40!gray} %plv*
+\colorlet{color5}{green!80!gray} 
+
+
+\definecolor{GI_b}{RGB}{255, 233, 0}
+\definecolor{GII_b}{RGB}{0, 140, 140}
+\definecolor{GIII_b}{RGB}{74, 0, 74}
+% yellow
+% purple
+% turquoise
+
+\newcommand{\lineplot}[1]{
+	\tikz[baseline=-0.5ex] \draw[#1,thick] (0,0) -- (0.3,0);
+}
+
+\newcommand{\dashlineplot}[1]{
+    \tikz[baseline=-0.5ex] \draw[#1, dashed, thick] (0,0) -- (0.3,0);
+}
+
 \providecommand{\ppunto}[2]{\langle#1, #2 \rangle}% producto punto
 \providecommand{\promed}[1]{{\mathbb{E}}\left\lbrace #1\right\rbrace}% operador de promedio
 \providecommand{\promeddd}[2]{\mathbb{E}_{#1}\!\left\{#2\right\}}% op{\tiny }erador de promedio
@@ -61,6 +85,10 @@
 \usepackage{etoolbox}
 
 \DeclareUnicodeCharacter{2212}{-}
+
+\DeclareRobustCommand{\legend}[1]{%
+	\textcolor{#1}{\rule{1ex}{2ex}}%
+}
 
 \newcommand{\ve}[1]{\bm {#1}}
 \newcommand{\mat}[1]{\bm {#1}}
@@ -169,7 +197,7 @@ Co-advisor: César Germán Castellanos-Domíguez, Ph.D.\\
 
 \section[Motivation]{Motivation}
 
-\begin{frame}{Brain computer interface (BCI)}
+\begin{frame}{Brain Computer Interface (BCI)}
     \centering
     BCI provides people with external world communication by translating brain signals.~\cite{khan2020review}
     \begin{figure}[!ht]
@@ -180,23 +208,22 @@ Co-advisor: César Germán Castellanos-Domíguez, Ph.D.\\
 
 \end{frame}
 
-\begin{frame}{Socioeconomic facts}
+\begin{frame}{Socioeconomic Facts}
     \begin{columns}
         \column{0.6\textwidth}
         \begin{figure}
             \centering
             \resizebox{0.7\linewidth}{!}{\includegraphics{figures/pie_bci}}
-            % \includegraphics[width=0.7\linewidth]{figures/BCI_applications.png}
-            % \caption{Distribution of BCI Applications~\footnotemark[1].}
         \end{figure}
         \column{0.4\textwidth}
             \begin{itemize}
-                \item Over 150 companies specializing in BCI as of 2019.
-                \item BCI market valued at $228$ million in 2019, projected to reach $460$ million by 2029~\footnotemark[2].
+                \item More than 87 BCI startups across the U.S. as of 2022~\footnotemark[2].
+                \item BCI market valued at $1800$ million in 2022, projected to reach $6100$ million by 2030~\footnotemark[3].
             \end{itemize}
     \end{columns}
     \footnotetext[1]{\textbf{{Image}:} {Adapted from} \href{https://www.weforum.org/agenda/2024/06/the-brain-computer-interface-market-is-growing-but-what-are-the-risks/}{The World Economic Forum 2024}}
-    \footnotetext[2]{\href{https://www.marketreportsworld.com/enquiry/request-sample/23789843}{Global Brain Computer Interface Market Research Report 2023}}
+    \footnotetext[2]{\href{https://www.sphericalinsights.com/reports/brain-computer-interface-market}{Brain Computer Interface Market Size, Report 2024-2033}}
+    \footnotetext[3]{\href{https://www.marketreportsworld.com/enquiry/request-sample/23789843}{Brain-Computer Interface Market 2022}}
 \end{frame}
 
 
@@ -220,7 +247,7 @@ Co-advisor: César Germán Castellanos-Domíguez, Ph.D.\\
     \end{columns}
 \end{frame}
 
-\begin{frame}{Neuroimaging techniques}
+\begin{frame}{Neuroimaging Techniques}
     \begin{columns}
         \column{0.3\textwidth}
             \begin{itemize}
@@ -237,14 +264,12 @@ Co-advisor: César Germán Castellanos-Domíguez, Ph.D.\\
     \end{columns}
 \end{frame}
 
-\begin{frame}{Experimental setup for MI-based BCIs}
+\begin{frame}{Experimental Setup for MI-based BCIs}
     \begin{columns}
         \column{0.6\textwidth}
             \begin{figure}[!ht]
                 \centering
                 \includegraphics[width=0.8\linewidth]{../Tesis_document/Figures/preliminaries/EEG-setup.png}
-                % \caption{Experimental setup for MI-based BCIs. \textbf{{Source}
-                %         :} {Adapted from} \cite{grigorev2021bci}}
             \end{figure}
         \column{0.4\textwidth}
             \begin{itemize}
@@ -255,13 +280,12 @@ Co-advisor: César Germán Castellanos-Domíguez, Ph.D.\\
     \footnotetext[1]{\textbf{{Image}:} {Adapted from} \cite{grigorev2021bci}}
 \end{frame}
 
-
-\begin{frame}{Sensorimotor rhythms (SMRs)}
+\begin{frame}{Sensorimotor Rhythms (SMRs)}
     \begin{columns}
-        \column{0.4\textwidth}
+        \column{0.46\textwidth}
             \begin{itemize}
                 \item EEG signals contains multiple electrical variations (rhythms) \cite{barios2019synchronization}.
-                \item Sensorimotor Rhythms (SMRs) occur in the brain's sensorimotor cortex \cite{altaheri2023deep}. 
+                \item Sensorimotor Rhythms (SMRs) occur in the sensorimotor cortex \cite{altaheri2023deep}. 
                 \item SMRs contain spectral-spatio-temporal patterns of MI tasks \cite{li2019motor}.
             \end{itemize}
         \column{0.6\textwidth}
@@ -274,7 +298,7 @@ Co-advisor: César Germán Castellanos-Domíguez, Ph.D.\\
 \end{frame} 
 
 
-\begin{frame}{MI-EEG feature extraction}
+\begin{frame}{MI-EEG Feature Extraction}
     \begin{columns}
         \column{0.7\textwidth}
             \begin{figure}[!ht]
@@ -293,7 +317,7 @@ Co-advisor: César Germán Castellanos-Domíguez, Ph.D.\\
     
 \end{frame}
 
-\begin{frame}{Single channel feature extraction}
+\begin{frame}{Single Channel Feature Extraction}
     \begin{columns}
         \column{0.4\textwidth}
             \begin{itemize}
@@ -314,7 +338,7 @@ Co-advisor: César Germán Castellanos-Domíguez, Ph.D.\\
 \end{frame}
 
 
-\begin{frame}{Multi channel feature extraction}
+\begin{frame}{Multi Channel Feature Extraction}
     \begin{columns}
         \column{0.5\textwidth}
             \begin{figure}[!ht]
@@ -336,36 +360,36 @@ Co-advisor: César Germán Castellanos-Domíguez, Ph.D.\\
 
 \begin{frame}{Signal Processing and Recognition Group - SPRG}
     \centering
-    The SPRG has been working on the design of ML and DL models to improve\\ the performance and explainability of EEG-based MI-BCIs \cite{collazos2023posthoc}.
+    The SPRG designs Machine Learning (ML) and Deep Learning (DL) models to improve\\ the performance and explainability of EEG-based MI-BCIs \cite{collazos2023posthoc}.
     \centering
     \includegraphics[width=0.7\linewidth]{figures/bcisoft.jpeg}
 \end{frame}
 
 \section{Problem statement}
 
-\begin{frame}{Problem statement}
-    \begin{figure}[!ht]
-        \centering
-        \includegraphics[width=1\linewidth]{../Tesis_document/Figures/problem_statement/general_problem.pdf}
-        % \caption{Illustration of the three key challenges in FC EEG-based MI-BCI: noise and variability in single
-        % trial FC estimators, handcrafted-based subject-specific EEG-based MI-BCI Representation, and the need for
-        % model transparency}
-    \end{figure}
+\begin{frame}{Problem Statement}
+    \begin{tikzpicture}
+        \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=0.9\linewidth]{../Tesis_document/Figures/problem_statement/general_problem.pdf}};
+        \begin{scope}[x={(image.south east)},y={(image.north west)}]
+            \node[anchor=south west, color=black, font=\footnotesize] at (0.01,0.05) {\parbox{10cm}{EEG-based MI-BCI systems require automatic feature extraction,\\ single-trial FC estimators, and interpretability strategies}};
+        \end{scope}
+    \end{tikzpicture}
+    \footnotetext[1]{\cite{chiarion2023connectivity, cao2022brain, altaheri2023deep, chamola2020brain, xiao2018opportunities, fan2021interpretability}}
 \end{frame}
 
 \begin{frame}{Single-Trial FC MI Classification Inefficiency}
     \begin{figure}[!ht]
         \centering
-        \includegraphics[width=1\linewidth]{../Tesis_document/Figures/problem_statement/problem1_FV.pdf}
-        % \caption{Single-trial FC-based MI classification inefficiency graphical scheme.}
+        \includegraphics[width=0.9\linewidth]{../Tesis_document/Figures/problem_statement/problem1_FV.pdf}
+        \footnotetext[1]{\cite{chiarion2023connectivity, cao2022brain}}
     \end{figure}
 \end{frame}
 
 \begin{frame}{Handcrafted-based Subject-Specific EEG-based MI-BCI Representation}
     \begin{figure}[!ht]
         \centering
-        \includegraphics[width=0.9\linewidth]{../Tesis_document/Figures/problem_statement/problem2_VF.pdf}
-        % \caption{llustration of challenges in EEG signal representation, including strategies for artifact removal and implementing spatial, temporal, and frequency filters.}
+        \includegraphics[width=0.8\linewidth]{../Tesis_document/Figures/problem_statement/problem2_VF.pdf}
+        \footnotetext[1]{\cite{altaheri2023deep, chamola2020brain}}
     \end{figure}
 \end{frame}
 
@@ -373,15 +397,15 @@ Co-advisor: César Germán Castellanos-Domíguez, Ph.D.\\
 \begin{frame}{Lack of Transparency and Interpretability Strategies in MI-BCI}
     \begin{figure}[!ht]
         \centering
-        \includegraphics[width=1\linewidth]{../Tesis_document/Figures/problem_statement/problem3_FV.pdf}
-        % \caption{Transparency and interpretability challenges in MI-BCI models graphical scheme.}
+        \includegraphics[width=0.9\linewidth]{../Tesis_document/Figures/problem_statement/problem3_FV.pdf}
+        \footnotetext[1]{\cite{xiao2018opportunities, fan2021interpretability}}
     \end{figure}
 \end{frame}
 
 
-\begin{frame}{Research question}
+\begin{frame}{Research Question}
 \centering
-How can a single-trail FC be developed to manage non-stationary EEG subject-specific representations, handle spurious connectivities, and encode non-linear spatial, temporal, and spectral discriminative and interpretable MI patterns?
+How can a \textbf{single-trail FC} be developed to manage non-stationary EEG subject-specific representations, handle spurious connectivities, and encode non-linear spatial, temporal, and spectral \textbf{discriminative} and \textbf{interpretable} MI patterns?
 \end{frame}
 
 \section{State of the art}
@@ -441,24 +465,24 @@ How can a single-trail FC be developed to manage non-stationary EEG subject-spec
 \section{Aims}
 
 \begin{frame}{General Objective}
-    To develop a single-trial indirect functional connectivity framework, accompanied by regularized deep learning approaches, to extract pertinent subject-specific non-linear spatio-temporal-frequency patterns from non-stationary EEG data, improving the MI-BCI system's accuracy and interpretability.
+    To develop a \textbf{single-trial indirect functional connectivity} framework, accompanied by \textbf{regularized deep learning} approaches, to extract pertinent subject-specific non-linear \textbf{spatio-temporal-frequency patterns} from non-stationary EEG data, improving the MI-BCI system's accuracy and \textbf{interpretability}.
 \end{frame}
 
 \begin{frame}{Specific Objectives}
 \centering
 \begin{itemize}
     \setlength\itemsep{2em}
-	\item[1] To develop a single-trial indirect FC for enhanced nonlinear feature extraction, preserving the spatio-temporal-frequency interpretability while favoring the classification performance in MI-BCI and avoiding spurious connectivities.
+	\item[1] To develop a \textbf{single-trial indirect FC} for enhanced nonlinear feature extraction, preserving the spatio-temporal-frequency interpretability while favoring the \textbf{classification performance} in MI-BCI and avoiding spurious connectivities.
  
-	\item[2] To extend the proposed single-trial FC within a deep learning scheme that handles artifacts and EEG representations, necessitating minimal preprocessing efforts from raw signals.
+	\item[2] To extend the proposed single-trial FC within a \textbf{deep learning scheme} that handles artifacts and EEG representations, necessitating \textbf{minimal preprocessing} efforts from raw signals.
  
-	\item[3] To develop a transparency and interpretability strategy dedicated to MI-BCI classification that emphasizes spatial-temporal-spectral pattern domains, incorporating a qualitative and quantitative relevance analysis assessment.
+	\item[3] To develop a \textbf{transparency and interpretability} strategy dedicated to MI-BCI classification that emphasizes spatial-temporal-spectral pattern domains, incorporating a \textbf{qualitative and quantitative} relevance analysis assessment.
 \end{itemize}
 \end{frame}
 
-\section{Outline and contributions}
+\section{Contributions}
 
-\begin{frame}{Outline and contributions}
+\begin{frame}{Contributions}
     \begin{figure}[h!]
         \centering
         \includegraphics[scale=0.65]{../Tesis_document/Figures/outline_and_contributions/general_contributions.pdf}
@@ -542,21 +566,22 @@ How can a single-trail FC be developed to manage non-stationary EEG subject-spec
         \item \textbf{Optimization Formulation:}
         {\scriptsize
         \[
-        \mathbf{u}^* = \arg \min_{\mathbf{u}} \left\langle \sum_{r=1}^{R} \left\|\sum_{c,c'=1}^{N_c}\hat{P}^{cc'}_{r}(\mathbf{u}^{cc'},\kappa_x(\cdot;\sigma))-y_r\right\|^2_2 \right\rangle + \alpha \sum_{c,c'=1}^{N_c}\|\mathbf{u}^{cc'}\|_1 + \frac{1-\alpha}{2} \sum_{c,c'=1}^{N_c}\|\mathbf{u}^{cc'}\|_2 \quad :  \forall c < c',
+        \mathbf{u}^* = \arg \min_{\mathbf{u}} \sum_{r=1}^{R} \left\|\sum_{c,c'=1}^{N_c}\hat{P}^{cc'}_{r}(\mathbf{u}^{cc'},\kappa_x(\cdot;\sigma))-y_r\right\|^2_2 + \alpha \sum_{c,c'=1}^{N_c}\|\mathbf{u}^{cc'}\|_1 + \frac{1-\alpha}{2} \sum_{c,c'=1}^{N_c}\|\mathbf{u}^{cc'}\|_2 \quad :  \forall c < c',
         \]}
 
         where $\alpha \in \mathbb{R}^+$ is the regularization hyperparameter, $y_r$ is the label corresponding to the $r$-th trial, and $\| \cdot \|_q$ is the $\ell_q$-norm.
     \end{enumerate}
 \end{frame}
 
-\begin{frame}{Single-Trial Kernel-based Functional Connectivity proposal}
+\begin{frame}{Single-Trial Kernel-based Functional Connectivity Proposal}
     \includegraphics[scale=0.5]{../Tesis_document/Figures/outline_and_contributions/contribution1_C.pdf}
 \end{frame}
 
-\begin{frame}{Experimental set-up}
+\begin{frame}{Experimental Set-up}
     \begin{enumerate}
         \item Sliding window of length $\tau=[0.5,1.0,1.5,2.0]$\,{s}, and overlap of $75\%$.
-        \item Frequency bands from $4$ Hz to $40$ Hz, window bandwidth of $4$Hz, and overlap of $50\%$.
+        \item Frequency bands from $4$ Hz to $40$ Hz, window bandwidth of $4$ Hz, and overlap of $50\%$.
+        \item Data split using 5-fold 80-20 scheme.
         \item Gaussian kernel
         \[
         \kappa_x\left(\mathbf{x}^{c}_{rnw_t}, \mathbf{x}^{c'}_{rnw_t};\sigma\right) = \exp{\left( {-\|\mathbf{x}^{c}_{rnw_t}-\mathbf{x}^{c'}_{rnw_t}\|^2_2}/{2\sigma^2}\right)},
@@ -606,9 +631,9 @@ How can a single-trail FC be developed to manage non-stationary EEG subject-spec
     \begin{columns}
         \column{0.35\textwidth}
             \begin{itemize}
-                \item PLV shows high variance and low accuracy..
-                \item KCS-FC outperforms other FC measures, with less variance in accuracy across subjects.
-                \item CSP accuracy drops at $\tau=0.5$ due to its reliance on FC estimation, with less information leading to poorer estimates.
+                \item PLV shows high variance and low accuracy.
+                \item CSP accuracy drops at $\tau=0.5$ due to its reliance on FC estimation, where less information leads to poorer estimates.
+                \item KCS-FC (ours) outperforms other FC measures, with less variance in accuracy across subjects.
             \end{itemize}
         \column{0.65\textwidth}
             \begin{figure}[h!]
@@ -630,132 +655,157 @@ How can a single-trail FC be developed to manage non-stationary EEG subject-spec
 
 
 \begin{frame}{Influence of Sliding Windows}
-\begin{figure}[h!]
-    \centering
-    \resizebox{0.5\linewidth}{!}{
-        \begin{tabular}{c}
-            \rotatebox{90}{\qquad \quad\, \textbf{DBI-MI}}
-            \rotatebox{90}{\qquad \quad\, \footnotesize{Accuracy ($\%$)}}
-            \includegraphics[width=0.9\linewidth]{../Tesis_document/Figures/Objective_1/acc_regularizacionDBII} \\
-            \rotatebox{90}{\qquad \quad\, \textbf{DBII-ME}}
-            \rotatebox{90}{\qquad \quad\, \footnotesize{Accuracy ($\%$)}}
-            \includegraphics[width=0.9\linewidth]{../Tesis_document/Figures/Objective_1/acc_regularizacionHG_ME} \\
-            \rotatebox{90}{\qquad \quad\, \textbf{DBIII-MI}}
-            \rotatebox{90}{\qquad \quad\, \footnotesize{Accuracy ($\%$)}}
-            \includegraphics[width=0.9\linewidth]{../Tesis_document/Figures/Objective_1/acc_regularizacion} \\
-            \hbox{\hspace{2cm} \textbf{Window length}}
-        \end{tabular}
-    }
-\end{figure}
+    \begin{columns}
+        \column{0.6\textwidth}
+        \centering
+        \begin{tikzpicture}
+            \node[anchor=south west,inner sep=0] (image) at (0,0) {
+                \resizebox{0.82\linewidth}{!}{
+                    \begin{tabular}{c}
+                        \rotatebox{90}{\qquad \quad\, \textbf{DBI-MI}}
+                        \rotatebox{90}{\qquad \quad\, \footnotesize{Accuracy ($\%$)}}
+                        \includegraphics[width=1.5\linewidth]{../Tesis_document/Figures/Objective_1/acc_regularizacionDBII} \\
+                        \rotatebox{90}{\qquad \quad\, \textbf{DBII-ME}}
+                        \rotatebox{90}{\qquad \quad\, \footnotesize{Accuracy ($\%$)}}
+                        \includegraphics[width=1.5\linewidth]{../Tesis_document/Figures/Objective_1/acc_regularizacionHG_ME} \\
+                        \rotatebox{90}{\qquad \quad\, \textbf{DBIII-MI}}
+                        \rotatebox{90}{\qquad \quad\, \footnotesize{Accuracy ($\%$)}}
+                        \includegraphics[width=1.5\linewidth]{../Tesis_document/Figures/Objective_1/acc_regularizacion} \\
+                        \hbox{\hspace{2cm} \textbf{Window length}}
+                    \end{tabular}
+                }
+            };
+            \begin{scope}[x={(image.south east)},y={(image.north west)}]
+                \node[anchor=south west, color=black, font=\tiny] at (0.3,-0.06) {PLV(\legend{green!40!gray}),~CCF(\legend{blue!40!gray}), and KCS-FC (ours \legend{red!40!gray})};
+            \end{scope}
+        \end{tikzpicture}
+        \column{0.4\textwidth}
+            \begin{itemize}
+                \item Solid bars represent concatenated data; striped bars show CSP-filtered.
+                \item DBIII-MI shows the highest subject variability, with all FC measures, especially PLV, dropping in accuracy.
+                \item CSP filtering effectiveness depends more on the selected sliding window.
+                \item PLV and CCF accuracy are sensitive to sliding window size, while KCS-FC (ours) remains consistent across $\tau$.
+            \end{itemize}
+    \end{columns}
 \end{frame}
 
-\begin{frame}[allowframebreaks]{Classifier Accuracy of Individuals}
-\def \kerrwidth {0.35\linewidth} 
-\begin{figure}[h!]
-	\hbox{\hspace{4.5cm} \textbf{DBII-ME}\hspace{4cm} \textbf{DBIII-MI}}
-	\rotatebox{90}{\qquad \,\footnotesize{Window size}}
-	\rotatebox{90}{\qquad \, \footnotesize{$\tau= 2.0$\,{s}}}
-	\rotatebox{90}{\qquad \,\tiny{Accuracy ($\%$)}}
-	{\resizebox{\kerrwidth }{!}{\includegraphics{../Tesis_document/Figures/Objective_1/ptau2-hg-Me}}}
-	{\resizebox{\kerrwidth }{!}{\includegraphics{../Tesis_document/Figures/Objective_1/ptau2-giga-Mi}}} \\
-	\rotatebox{90}{\qquad \,\footnotesize{Window size}}	
-	\rotatebox{90}{\qquad \, \footnotesize{$\tau= 1.5$\,{s}}}
-	\rotatebox{90}{\qquad \,\tiny{Accuracy ($\%$)}}
-	{\resizebox{\kerrwidth }{!}{\includegraphics{../Tesis_document/Figures/Objective_1/ptau1_5-hg-Me}}}
-	{\resizebox{\kerrwidth }{!}{\includegraphics{../Tesis_document/Figures/Objective_1/ptau1_5-giga-Mi}}}\\
-    \hbox{\hspace{4.5cm} \footnotesize{Subject id}\hspace{4cm} \footnotesize{Subject id}}
-\end{figure}
-\begin{figure}[h!]
-    \hbox{\hspace{4.5cm} \textbf{DBII-ME}\hspace{4cm} \textbf{DBIII-MI}}
-	\rotatebox{90}{\qquad \,\footnotesize{Window size}}	
-	\rotatebox{90}{\qquad \, \footnotesize{$\tau= 1.0$\,{s}}}
-	\rotatebox{90}{\qquad \,\tiny{Accuracy ($\%$)}}
-	{\resizebox{\kerrwidth }{!}{\includegraphics{../Tesis_document/Figures/Objective_1/ptau1-hg-Me}}}
-	{\resizebox{\kerrwidth }{!}{\includegraphics{../Tesis_document/Figures/Objective_1/ptau1-giga-Mi}}}\\
-	\rotatebox{90}{\qquad \,\footnotesize{Window size}}	
-	\rotatebox{90}{\qquad \, \footnotesize{$\tau= 0.5$\,{s}}}
-	\rotatebox{90}{\qquad \,\tiny{Accuracy ($\%$)}}
-	{\resizebox{\kerrwidth }{!}{\includegraphics{../Tesis_document/Figures/Objective_1/ptau0_5-hg-Me}}}
-	{\resizebox{\kerrwidth }{!}{\includegraphics{../Tesis_document/Figures/Objective_1/ptau0_5-giga-Mi}}} \\
-	\hbox{\hspace{4.5cm} \footnotesize{Subject id}\hspace{4cm} \footnotesize{Subject id}}
-\end{figure}
+
+
+\begin{frame}{Classifier Accuracy of Individuals}
+    \begin{tikzpicture}
+        % First image with rotated labels
+        \node[anchor=south west,inner sep=0] (image1) at (0,0) {
+            \resizebox{0.45\linewidth}{!}{\includegraphics{../Tesis_document/Figures/Objective_1/ptau2-hg-Me}}
+        };
+        \node[anchor=south west, font=\footnotesize] at (3,3.2) {DBII-ME};
+        \node[anchor=south west, rotate=90, font=\footnotesize] at (-0.11,0.7) {Accuracy ($\%$)};
+        \node[anchor=south west, rotate=90, font=\footnotesize] at (0.11,0.8) {$\tau= 2$ s};
+    
+        % Second image with rotated labels
+        \node[anchor=south west,inner sep=0] (image2) at (7,0) {
+            \resizebox{0.45\linewidth}{!}{\includegraphics{../Tesis_document/Figures/Objective_1/ptau2-giga-Mi}}
+        };
+        \node[anchor=south west, font=\footnotesize] at (9.7, 3.2) {DBIII-MI};
+        % \node[anchor=south west, rotate=90, font=\tiny] at (3.7,1.75) {Accuracy ($\%$)};
+    
+        % Subject id label
+        \node[anchor=south west, font=\footnotesize] at (1,-0.5) {PLV (${\lineplot{color5}}$), CSP-PLV (${\dashlineplot{color5}}$), CCF (${\lineplot{color1}}$), CSP (${\dashlineplot{color1}}$), KCS-FC (${\lineplot{color3}}$), and CSP-KCS-FC (${\dashlineplot{color3}}$)};
+    \end{tikzpicture}
+    \begin{itemize}
+        \item CSP algorithm reduces the effectiveness of KCS-FC (ours) in handling subject variability.
+        \item Both versions of the PLV algorithm achieve the lowest accuracy.
+        \item KCS-FC (ours) ensures several subjects exceed the BCI-inefficiency threshold (below 60\%).
+    \end{itemize}
 \end{frame}
 
 \begin{frame}{Interpretation of Subject Clusters}
-    \def \kerrwidthME {.32\linewidth}
-    \def \kerrwidthMI {.55\linewidth}
-    \begin{figure}[h!]    
-        \centering
-        \resizebox{0.7\linewidth}{!}{
-            \begin{tabular}{c c c}
-                & \textbf{DBII~ME} & \textbf{DBIII~MI} \\
-                \rotatebox{90}{\footnotesize{PLV}} 
-                \rotatebox{90}{\footnotesize{Window size}} &
-                \includegraphics[width=\kerrwidthME]{../Tesis_document/Figures/Objective_1/plv_hg} &
-                \includegraphics[width=\kerrwidthMI]{../Tesis_document/Figures/Objective_1/plv_giga} \\
-                \rotatebox{90}{\footnotesize{CCF}} 
-                \rotatebox{90}{\footnotesize{Window size}} &
-                \includegraphics[width=\kerrwidthME]{../Tesis_document/Figures/Objective_1/pearson_hg} &
-                \includegraphics[width=\kerrwidthMI]{../Tesis_document/Figures/Objective_1/pearson_giga} \\
-                \rotatebox{90}{\footnotesize{KCS-FC}} 
-                \rotatebox{90}{\footnotesize{Window size}} &
-                \includegraphics[width=\kerrwidthME]{../Tesis_document/Figures/Objective_1/gauss_hg} &
-                \includegraphics[width=\kerrwidthMI]{../Tesis_document/Figures/Objective_1/gauss_giga} \\
-                & \footnotesize{Subject id} & \footnotesize{Subject id}
-            \end{tabular}
-        }
-    \end{figure} 
+    \begin{columns}
+        \column{0.66\textwidth}
+            \centering
+            \def \kerrwidthME {.4\linewidth}
+            \def \kerrwidthMI {.65\linewidth}
+            \begin{figure}[h!]    
+                \centering
+                \resizebox{1\linewidth}{!}{
+                    \begin{tabular}{c c c}
+                        & \textbf{DBII~ME} & \textbf{DBIII~MI} \\
+                        \rotatebox{90}{\quad\footnotesize{PLV}} 
+                        \rotatebox{90}{\footnotesize{Window size}} &
+                        \includegraphics[width=\kerrwidthME]{../Tesis_document/Figures/Objective_1/plv_hg} &
+                        \includegraphics[width=\kerrwidthMI]{../Tesis_document/Figures/Objective_1/plv_giga} \\
+                        \rotatebox{90}{\quad\footnotesize{CCF}} 
+                        \rotatebox{90}{\footnotesize{Window size}} &
+                        \includegraphics[width=\kerrwidthME]{../Tesis_document/Figures/Objective_1/pearson_hg} &
+                        \includegraphics[width=\kerrwidthMI]{../Tesis_document/Figures/Objective_1/pearson_giga} \\
+                        \rotatebox{90}{\quad\footnotesize{KCS-FC}} 
+                        \rotatebox{90}{\footnotesize{Window size}} &
+                        \includegraphics[width=\kerrwidthME]{../Tesis_document/Figures/Objective_1/gauss_hg} &
+                        \includegraphics[width=\kerrwidthMI]{../Tesis_document/Figures/Objective_1/gauss_giga} \\
+                        & \footnotesize{Subject id} & \footnotesize{Subject id}
+                    \end{tabular}
+                }
+            \end{figure} 
+        \column{0.33\textwidth}
+            \begin{itemize}
+                \item Groups are ranked in decreasing order of accuracy: Group I (\legend{GI_b}), Group II (\legend{GII_b}), Group III (\legend{GIII_b}).
+                \item Different window values cause frequent changes between groups for PLV and CCF measures.
+                \item KCS-FC (ours) is less affected by different window values.
+            \end{itemize}
+        \end{columns}
 \end{frame}
 
-\begin{frame}{asd}
-    \nointerlineskip
-\def \kerrwidth {0.15\linewidth}
-\def \kerrwidthc {0.022\linewidth}
-\def \kerrg {0.12\linewidth}
-\def \kerrgg {0.05\linewidth}
-\def \kerrggg {0.04\linewidth}
-%\begingroup
-\tabcolsep = 2.0pt
-\def\arraystretch{1.0}
-\begin{figure}[h!]
-%\widefigure
-\scalebox{0.6}[0.6]{\begin{tabular}{cccccccc}
-\centering
-& & \textbf{DBII~ME}& & & \textbf{DBIII~MI}&\\
-\cmidrule{2-7}
-& {I} & {II}&{III}&{I} & {II}&{III}&
-\multirow{6}{*}{{\includegraphics[trim=660 0 0 0, clip,scale=0.35]{../Tesis_document/Figures/Objective_1/Cxsbj1hg-gaussacc95.28.eps}}}\\
-\cmidrule{2-7}
-& \textbf{$84.13\%$}& \textbf{$74.91\%$} & \textbf{$64.21\%$} & \textbf{$72.2\%$} & \textbf{$68.76\%$} & \textbf{$55.94\%$}&\\
-{\rotatebox{90}{\hspace{7mm} {PLV}}}&{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj1hg-plvacc84.13.eps}}}&
-	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj2hg-plvacc74.91.eps}}}&
-	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj3hg-plvacc64.21.eps}}}&
-	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj1plvacc72.2.eps}}}&
-	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj2plvacc68.76.eps}}}&
-	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj3plvacc55.94.eps}}}&\\
-	& \textbf{$90.06\%$} & \textbf{$79.35\%$} & \textbf{$70.59\%$} &  \textbf{$76.67\%$} & \textbf{$64.62\%$} & \textbf{$60.69\%$}&\\
-	\rotatebox{90}{\hspace{7mm} {CCF}}&
-	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj1hg-pearsonacc90.06.eps}}}&
-	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj2hg-pearsonacc79.35.eps}}}&
-	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj3hg-pearsonacc70.59.eps}}}&
-	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj1pearsonacc76.67.eps}}}&
-	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj2pearsonacc64.62.eps}}}&
-	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj3pearsonacc60.69.eps}}}&\\
-	& \textbf{$\mathbf{95.28}\%$}& \textbf{$\mathbf{81.16}\%$}& \textbf{$\mathbf{76.09}\%$}& \textbf{$\mathbf{86.85}\%$}& \textbf{$\mathbf{68.93}\%$}& \textbf{$\mathbf{64.4}5\%$}&\\
-	\rotatebox{90}{\hspace{7mm} {KCS-FC}}&
-	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj1hg-gaussacc95.28.eps}}}&
-	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj2hg-gaussacc81.16.eps}}}&
-	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj3hg-gaussacc76.09.eps}}}&
-	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj1gaussacc86.85.eps}}}&
-	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj2gaussacc68.93.eps}}}&
-	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj3gaussacc64.45.eps}}}&\\
-	&\multicolumn{6}{c}{\resizebox{0.85\linewidth}{!}{\includegraphics[trim=0 0 50 600, clip]{../Tesis_document/Figures/Objective_1/Cxsbj1hg-gaussacc95.28.eps}}}&
-\end{tabular}}
-\end{figure}
+\begin{frame}{Functional Connectivity Analysis}
+    \begin{columns}
+        \column{0.33\textwidth}
+            \begin{itemize}
+                % \item Pairwise FC links fulfilling the 99th percentile of normalized relevance weights.
+                \item PLV shows high background activity, CCF has fewer amplitudes, and KCS-FC shows localized activity over SMR hemispheres.
+                \item GII and GIII generate abnormally conenctions over the frontal and occipital lobe. 
+                %This issue may be explained because of acquisition artifacts, which may introduce noise and distortions, severely damaging the EEG data quality.
+            \end{itemize}
+        \column{0.66\textwidth}
+            \def \kerrwidth {0.15\linewidth}
+            \tabcolsep = 2.0pt
+            \def\arraystretch{1.0}
+            \scalebox{0.8}[0.8]{
+                \begin{tabular}{cccccccc}
+                    \centering
+                    & & \textbf{DBII~ME}& & & \textbf{DBIII~MI}&\\
+                    \cmidrule{2-7}
+                    & {GI} & {GII}&{GIII}&{GI} & {GII}&{GIII}&
+                    \multirow{6}{*}{{\includegraphics[trim=660 0 0 0, clip,scale=0.35]{../Tesis_document/Figures/Objective_1/Cxsbj1hg-gaussacc95.28.eps}}}\\
+                    \cmidrule{2-7}
+                    & \textbf{$84.13\%$}& \textbf{$74.91\%$} & \textbf{$64.21\%$} & \textbf{$72.2\%$} & \textbf{$68.76\%$} & \textbf{$55.94\%$}&\\
+                    {\rotatebox{90}{\hspace{1mm} {PLV}}}&{\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj1hg-plvacc84.13.eps}}}&
+                        {\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj2hg-plvacc74.91.eps}}}&
+                        {\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj3hg-plvacc64.21.eps}}}&
+                        {\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj1plvacc72.2.eps}}}&
+                        {\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj2plvacc68.76.eps}}}&
+                        {\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj3plvacc55.94.eps}}}&\\
+                        & \textbf{$90.06\%$} & \textbf{$79.35\%$} & \textbf{$70.59\%$} &  \textbf{$76.67\%$} & \textbf{$64.62\%$} & \textbf{$60.69\%$}&\\
+                        \rotatebox{90}{\hspace{1mm} {CCF}}&
+                        {\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj1hg-pearsonacc90.06.eps}}}&
+                        {\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj2hg-pearsonacc79.35.eps}}}&
+                        {\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj3hg-pearsonacc70.59.eps}}}&
+                        {\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj1pearsonacc76.67.eps}}}&
+                        {\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj2pearsonacc64.62.eps}}}&
+                        {\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj3pearsonacc60.69.eps}}}&\\
+                        & \textbf{$\mathbf{95.28}\%$}& \textbf{$\mathbf{81.16}\%$}& \textbf{$\mathbf{76.09}\%$}& \textbf{$\mathbf{86.85}\%$}& \textbf{$\mathbf{68.93}\%$}& \textbf{$\mathbf{64.45}\%$}&\\
+                        \rotatebox{90}{\hspace{1mm} {KCS-FC}}&
+                        {\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj1hg-gaussacc95.28.eps}}}&
+                        {\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj2hg-gaussacc81.16.eps}}}&
+                        {\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj3hg-gaussacc76.09.eps}}}&
+                        {\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj1gaussacc86.85.eps}}}&
+                        {\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj2gaussacc68.93.eps}}}&
+                        {\resizebox{\kerrwidth}{!}{\includegraphics[trim=100 120 90 90, clip]{../Tesis_document/Figures/Objective_1/Cxsbj3gaussacc64.45.eps}}}&\\
+                        &\multicolumn{6}{c}{\resizebox{0.85\linewidth}{!}{\includegraphics[trim=0 0 50 600, clip]{../Tesis_document/Figures/Objective_1/Cxsbj1hg-gaussacc95.28.eps}}}&
+                \end{tabular}
+            }
+    \end{columns}
 \end{frame}
 
 
-\begin{frame}{Classifier accuracy comparison of FC approaches}
+\begin{frame}{Classifier Accuracy Comparison of FC Approaches}
     \begin{table}[h!]    
     \resizebox{0.8\columnwidth}{!}{
     \begin{tabular}{cccccc}
@@ -776,7 +826,11 @@ How can a single-trail FC be developed to manage non-stationary EEG subject-spec
             &\checkmark&\checkmark&\checkmark&{Proposed KCS-FC}&\textbf{74.12} $\pm$ \textbf{12.13} \\\bottomrule
         \end{tabular}
      }
+    \vspace{3em}\\
+    KCS-FC (ours) achieves competitive classifier performance compared to state-of-the-art FC strategies.
     \end{table}
+
+
 \end{frame}
 
 \subsection{KCS-FCnet: Kernel Cross-Spectral Functional Connectivity Network for Automatic EEG Representation in MI-BCI}
@@ -812,15 +866,15 @@ How can a single-trail FC be developed to manage non-stationary EEG subject-spec
     \end{enumerate}
 \end{frame}
 
-\begin{frame}{Kernel Cross-Spectral Functional Connectivity Network proposal}
+\begin{frame}{Kernel Cross-Spectral Functional Connectivity Network Proposal}
     \centering
     \includegraphics[scale=0.5]{../Tesis_document/Figures/outline_and_contributions/contribution2.pdf}
 \end{frame}
 
-\begin{frame}{Kernel Cross-Spectral Functional Connectivity Network architecture}
+\begin{frame}{Kernel Cross-Spectral Functional Connectivity Network Architecture}
     \begin{table}[H]
 		\centering
-        \resizebox{0.7\textwidth}{!}{
+        \resizebox{0.85\textwidth}{!}{
 		\begin{tabularx}{\textwidth}{lcc}
 			\hline
 			\textbf{Layer}     & \textbf{Output Dimension}           & \textbf{Params.}                                                       \\ \midrule
@@ -842,7 +896,7 @@ How can a single-trail FC be developed to manage non-stationary EEG subject-spec
 
 \end{frame}
 
-\begin{frame}{Experimental set-up}
+\begin{frame}{Experimental Set-up}
     \begin{enumerate}
         \item \textbf{Raw EEG Preprocessing:} 
         \begin{itemize}
@@ -851,10 +905,10 @@ How can a single-trail FC be developed to manage non-stationary EEG subject-spec
             \item Filtering from $4$ Hz to $40$ Hz. 
             \item Records clipped from $0.5$ s to $2.5$ s post cue.
         \end{itemize}
-        \item \textbf{KCS-FCnet Training:}
+        \item \textbf{KCS-FCnet Training \cite{lawhern2018eegnet, schirrmeister2017deep}:}
         \begin{itemize}
             \item Data split using 5-fold 80-20 scheme.
-            \item 1-D convolutional kernel length set to $20$ as in \cite{lawhern2018eegnet}
+            \item 1-D convolutional kernel length set to $20$ as in
             \item Number of filters were searched within the set $\{2,3,4\}$
         \end{itemize}
         \item \textbf{Group-Level Analysis:}
@@ -867,13 +921,33 @@ How can a single-trail FC be developed to manage non-stationary EEG subject-spec
 \end{frame}
 
 \begin{frame}{Subject Dependent and Group Analysis Results I}
-    \centering
-    \resizebox{0.7\linewidth}{!}{\input{../Tesis_document/Figures/Objective_2/acc_eeg_gfc_net.tikz}}
+    \begin{columns}
+        \column{0.7\textwidth}
+            \centering
+            \resizebox{1.1\linewidth}{!}{\input{../Tesis_document/Figures/Objective_2/acc_eeg_gfc_net.tikz}}
+        \column{0.3\textwidth}
+        \begin{itemize}
+            \item KCS-FCnet (ours) shows strong impact on subjects in the third group.
+            \item Seven subjects experienced a decrease in accuracy.
+            \item 47 subjects experience an increase of +five points in accuracy.
+        \end{itemize}
+    \end{columns}
+
 \end{frame}
 
-\begin{frame}{Subject Dependent and Group Analysis Results II}
-    \centering
-    \resizebox{0.7\linewidth}{!}{\input{figures/semaforo.tex}}
+\begin{frame}{Subject Dependent and Group Analysis Results II}    
+    \begin{columns}
+        \column{0.33\textwidth}
+        \begin{itemize}
+            \item Eleven subjects significantly improved their performance, moving to the GII cluster.
+            \item Nine remained in GIII and six promoted to GI.
+            \item Subjects that were originally in the best group maintained their status.
+        \end{itemize}
+        \column{0.66\textwidth}
+            \centering
+            \resizebox{1\linewidth}{!}{\input{figures/semaforo.tex}}
+
+    \end{columns}
 \end{frame}
 
 \begin{frame}{Subject Dependent and Group Analysis Results III}
@@ -883,96 +957,204 @@ How can a single-trail FC be developed to manage non-stationary EEG subject-spec
         \resizebox{0.9\linewidth}{!}{
         \begin{tabularx}{\textwidth}{WWWW}
             \toprule
-            \textbf{Approach}                    & \textbf{Group}                         & \textbf{Accuracy}                              &  \textbf{KCS-FCnet Gain}                 \\ \hline
-            \multirow{3}{*}{EEGnet}                        & G I   & $90.6 \pm 4.3$                                  & $\cdot$                             \\ \cline{2-4} 
-            & G II  & $72.2  \pm 7.3$                                & $\cdot$                                 \\ \cline{2-4} 
-            & G III & $54.3 \pm 6.6$                                 & $\cdot$                                  \\ \hline
-            
-
-            \multirow{3}{*}{KCS-FCnet}                      & G I   & \textbf{$91.5 \pm 3.3$} & \textbf{{0.9} %MDPI: Please add an explanation for bold in the table footer. If the bold is unnecessary, please remove it. 
-            } \\ \cline{2-4} 
-            & G II  & \textbf{$77.8 \pm 4.7$} & \textbf{{5.6}} \\ \cline{2-4} 
-            & G III & \textbf{$66.7 \pm 5.6$} & \textbf{{12.4}} \\
-            
-            \noalign{\hrule height 0.5pt}
+            \textbf{Approach} & \textbf{Group} & \textbf{Accuracy} & \textbf{KCS-FCnet Gain} \\ 
+            \midrule
+            \multirow{3}{*}{EEGnet} 
+            & G I & $90.6 \pm 4.3$ & $\cdot$ \\ 
+            \cline{2-4} 
+            & G II & $72.2 \pm 7.3$ & $\cdot$ \\ 
+            \cline{2-4} 
+            & G III & $54.3 \pm 6.6$ & $\cdot$ \\ 
+            \midrule
+            \multirow{3}{*}{KCS-FCnet} 
+            & G I & \textbf{$91.5 \pm 3.3$} & \textbf{0.9} \\ 
+            \cline{2-4} 
+            & G II & \textbf{$77.8 \pm 4.7$} & \textbf{5.6} \\ 
+            \cline{2-4} 
+            & G III & \textbf{$66.7 \pm 5.6$} & \textbf{12.4} \\ 
+            \bottomrule
         \end{tabularx}
         }
     \end{table} 
+    \vspace{2em}
+    Our proposal not only outperforms EEGnet in terms of accuracy but also reduces the variability for all clusters.
 \end{frame}
 
 \begin{frame}{Subject Dependent and Group Analysis Results IV}
-        \centering
-        \resizebox{0.7\linewidth}{!}{\input{../Tesis_document/Figures/Objective_2/groped_std.tikz}}
+    \begin{columns}
+        \column{0.66\textwidth}
+            \centering
+            \resizebox{1\linewidth}{!}{\input{../Tesis_document/Figures/Objective_2/groped_std.tikz}}
+    \column{0.33\textwidth}
+        \begin{itemize}
+            \item For GI, KCS-FCnet (ours) reduces variability.
+            \item For GII, KCS-FCnet (ours) lowers standard deviation, with similar variability proportion.
+            \item For GIII, both approaches behave similarly.
+        \end{itemize}
+    \end{columns}
 \end{frame}
 
 
-\begin{frame}{Functional connectivity analysis I}
+\begin{frame}{Functional Connectivity Analysis I}
+    \begin{columns}
+        \column{0.33\textwidth}
+            \begin{itemize}
+                \item Two-sample Kolmogorov–Smirnov (2KS) test for MI separability.
+                \item Lower p-values indicate higher class separability and more informative results.
+                \item For GIII, most class PDFs are indistinguishable.
+            \end{itemize}
+        \column{0.66\textwidth}
+            \centering
+            \resizebox{0.8\linewidth}{!}{\input{figures/pvalue-matrix_2.tex}}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Functional Connectivity Analysis II}
+    \begin{columns}
+        \column{0.6\textwidth}
+            \centering
+            \resizebox{1\linewidth}{!}{\input{../Tesis_document/Figures/Objective_2/renyi_boxplot.tikz}}
+        \column{0.4\textwidth}
+            \begin{itemize}
+                \item The Rényi's entropy $\alpha=2$ quantifies the interpretability performance from 2KS test matrices.
+                \item Higher entropy values indicates a higher class distribution separability. 
+                \item Groups that perform better show higher entropy values.
+            \end{itemize}
+    \end{columns}   
+\end{frame}
+
+
+\begin{frame}{Functional Connectivity Analysis III}
+    \begin{columns}
+        \column{0.4\textwidth}
+        \begin{itemize}
+            \item Relevant connections identified from 2KS test matrices.
+            \item In GI, most relevant connections are found in motor-related areas.
+            \item In GII lacks relevant connections.
+        \end{itemize}
+        \column{0.6\textwidth}
+        \begin{figure}
+            \centering
+            \resizebox{2\linewidth}{!}{%
+                \begin{minipage}{\linewidth}
+                    % Column headers
+                    \begin{subfigure}[b]{.13\linewidth}
+                        \centering
+                        \textbf{GI}
+                    \end{subfigure}
+                    ~
+                    \begin{subfigure}[b]{.13\linewidth}
+                        \centering
+                        \textbf{GII}
+                    \end{subfigure}
+                    ~
+                    \begin{subfigure}[b]{.13\linewidth}
+                        \centering
+                        \textbf{GIII}
+                    \end{subfigure}
+                    \\
+                    \begin{subfigure}[b]{.13\linewidth}
+                        \centering
+                        \resizebox{1.3\linewidth}{!}{\input{figures/circonnecitvity_good_2}}
+                    \end{subfigure}
+                    ~
+                    \begin{subfigure}[b]{.13\linewidth}
+                        \centering
+                        \resizebox{1.3\linewidth}{!}{\input{figures/circonnecitvity_medium_2}}    
+                    \end{subfigure}
+                    ~
+                    \begin{subfigure}[b]{.13\linewidth}
+                        \centering
+                        \resizebox{1.3\linewidth}{!}{\input{figures/circonnecitvity_bad_2}}    
+                    \end{subfigure}
+                    \\
+                \end{minipage}
+                }
+                \end{figure}
+                \end{columns}
+
+\end{frame}
+
+
+\begin{frame}{Functional Connectivity Analysis IV}
+    \begin{columns}
+        \column{0.6\textwidth}
+\begin{figure}
     \centering
-    \resizebox{0.7\linewidth}{!}{\input{figures/pvalue-matrix_2.tex}}
-\end{frame}
-
-\begin{frame}{Functional connectivity analysis II}
-    \centering
-    \resizebox{0.7\linewidth}{!}{\input{../Tesis_document/Figures/Objective_2/renyi_boxplot.tikz}}
-\end{frame}
-
-
-\begin{frame}{Functional connectivity analysis III}
-    \begin{figure}
+    \resizebox{1.5\linewidth}{!}{%
+        \begin{minipage}{\linewidth}
+            % Column headers
+            \hspace{1em}
+            \begin{subfigure}[b]{.13\linewidth}
+                \centering
+                \textbf{GI}
+            \end{subfigure}
+            ~
+            \begin{subfigure}[b]{.13\linewidth}
+                \centering
+                \textbf{GII}
+            \end{subfigure}
+            ~
+            \begin{subfigure}[b]{.13\linewidth}
+                \centering
+                \textbf{GIII}
+            \end{subfigure}
+            \\
+        \begin{subfigure}[b]{.04\linewidth}
+            \centering
+            \rotatebox{90}{\textbf{\quad \tiny 2KS}}
+        \end{subfigure}
+        \begin{subfigure}[b]{.13\linewidth}
+            \centering
+            \resizebox{1.1\linewidth}{!}{\input{figures/topoplot_good_2}}    
+        \end{subfigure}
+        ~ 
+        \begin{subfigure}[b]{.13\linewidth}
+            \centering
+            \resizebox{1.1\linewidth}{!}{\input{figures/topoplot_medium_2}}    
+        \end{subfigure}
+        ~ 
+        \begin{subfigure}[b]{0.13\linewidth}
+            \centering
+            \resizebox{1.1\linewidth}{!}{\input{figures/topoplot_bad_2}}    
+        \end{subfigure}
+        \\
+        \begin{subfigure}[b]{.04\linewidth}
+            \centering
+            \rotatebox{90}{\textbf{\vspace{0.5em} \tiny \shortstack{KCS-FCnet \\ weights}}}
+        \end{subfigure}
+        \begin{subfigure}[b]{.13\linewidth}
+            \centering
+            \resizebox{1.1\linewidth}{!}{\input{figures/topoplot_weights_model_good_2}}    
+        \end{subfigure}
+        ~ 
+        \begin{subfigure}[b]{.13\linewidth}
+            \centering
+            \resizebox{1.1\linewidth}{!}{\input{figures/topoplot_weights_model_medium_2}}
+        \end{subfigure}
+        ~ 
+        \begin{subfigure}[b]{0.13\linewidth}
+            \centering
+            \resizebox{1.1\linewidth}{!}{\input{figures/topoplot_weights_model_bad_2}}
+        \end{subfigure}
+        \\
         \centering
-       \begin{subfigure}[b]{.13\linewidth}
-           \centering
-           \resizebox{1\linewidth}{!}{\input{figures/circonnecitvity_good_2}}
-       \end{subfigure}
-       ~
-       \begin{subfigure}[b]{.13\linewidth}
-           \centering 	\resizebox{1\linewidth}{!}{\input{figures/circonnecitvity_medium_2}}	
-       \end{subfigure}
-       ~
-       \begin{subfigure}[b]{.13\linewidth}
-           \centering
-           \resizebox{1\linewidth}{!}{\input{figures/circonnecitvity_bad_2}}	
-       \end{subfigure}
-       \\
-       \begin{subfigure}[b]{.13\linewidth}
-           \centering
-           \resizebox{1\linewidth}{!}{\input{figures/topoplot_good_2}}	
-       \end{subfigure}
-       ~ 
-       \begin{subfigure}[b]{.13\linewidth}
-           \centering
-           \resizebox{1\linewidth}{!}{\input{figures/topoplot_medium_2}}	
-       \end{subfigure}
-       ~ 
-       \begin{subfigure}[b]{0.13\linewidth}
-           \centering
-           \resizebox{1\linewidth}{!}{\input{figures/topoplot_bad_2}}	
-       \end{subfigure}
-       \\
-       \begin{subfigure}[b]{.13\linewidth}
-           \centering
-           \resizebox{1\linewidth}{!}{\input{figures/topoplot_weights_model_good_2}}	
-       \end{subfigure}
-       ~ 
-       \begin{subfigure}[b]{.13\linewidth}
-           \centering
-           \resizebox{1\linewidth}{!}{\input{figures/topoplot_weights_model_medium_2}}
-       \end{subfigure}
-       ~ 
-       \begin{subfigure}[b]{0.13\linewidth}
-           \centering
-           \resizebox{1\linewidth}{!}{\input{figures/topoplot_weights_model_bad_2}}
-       \end{subfigure}
-       \\
-       \begin{subfigure}[b]{\linewidth}
-           \centering
-           \includegraphics[width=0.4\linewidth]{../Tesis_document/Figures/Objective_2/colorbar.pdf}
-       \end{subfigure}
-   \end{figure}
+        \begin{subfigure}[b]{0.4\linewidth}
+            \includegraphics[width=1\linewidth]{../Tesis_document/Figures/Objective_2/colorbar.pdf}
+        \end{subfigure}
+    \end{minipage}
+    }
+\end{figure}
+\column{0.4\textwidth}
+\begin{itemize}
+    \item GI shows similar results for both approaches.
+    \item In GII, weighting approach highlights relevance around C4, while 2KS highlights C3 and C4.
+    \item For GIII, the 2KS test reveals some importance around C3 and C4, whereas the weight-based approach lacks a clear pattern.
+\end{itemize}
+\end{columns}
 \end{frame}
 
-
-\begin{frame}{Classifier accuracy comparison of DL approaches I}
+\begin{frame}{Classifier Accuracy Comparison of DL Approaches I}
     \begin{table}[H]
         \centering
         \resizebox{0.8\linewidth}{!}{
@@ -990,12 +1172,25 @@ How can a single-trail FC be developed to manage non-stationary EEG subject-spec
         \end{tabular}
         }
     \end{table}
+    \vspace{1em}
+    \begin{itemize}
+        \item DeepConvNet performs the worst, making it unsuitable for high intra-class variability.
+        \item CS-FCNet (ours) achieves the highest scores with the lowest standard deviation.
+    \end{itemize}
 \end{frame}
 
 
-\begin{frame}{Classifier accuracy comparison of DL approaches II}
-    \centering
-    \resizebox{0.7\linewidth}{!}{\input{../Tesis_document/Figures/Objective_2/paramscompa.tikz}}
+\begin{frame}{Classifier Accuracy Comparison of DL Approaches II}
+    \begin{columns}
+        \column{0.33\textwidth}
+            \begin{itemize}
+                \item A higher number of trainable parameters does not guarantee better classification accuracy.
+                \item KCS-FCNet outperforms ShallowConvNet while using 20 times fewer parameters.
+            \end{itemize}
+        \column{0.67\textwidth}
+            \centering
+            \resizebox{1\linewidth}{!}{\input{../Tesis_document/Figures/Objective_2/paramscompa.tikz}}
+    \end{columns}
 \end{frame}
 
 
@@ -1031,7 +1226,7 @@ How can a single-trail FC be developed to manage non-stationary EEG subject-spec
 \end{frame}
 
 
-\begin{frame}{Interpretable regularized kernel cross-spectral FC network proposal}
+\begin{frame}{Interpretable Regularized Kernel Cross-Spectral FC Network Proposal}
     \centering
     \includegraphics[scale=0.55]{../Tesis_document/Figures/outline_and_contributions/contribution3.pdf}
 \end{frame}
@@ -1045,7 +1240,7 @@ How can a single-trail FC be developed to manage non-stationary EEG subject-spec
             \item Filtering from $4$ Hz to $40$ Hz. 
             \item Records clipped from $0.5$ s to $2.5$ s post cue.
         \end{itemize}
-        \item \textbf{KCS-FCnet Training:}
+        \item \textbf{IRKCS-FCnet Training \cite{lawhern2018eegnet, schirrmeister2017deep}:}
         \begin{itemize}
             \item Data split using 5-fold 80-20 scheme.
             \item 1-D convolutional kernel length set to $20$ as in \cite{lawhern2018eegnet}
@@ -1061,22 +1256,48 @@ How can a single-trail FC be developed to manage non-stationary EEG subject-spec
 \end{frame}
 
 
-\begin{frame}{Model level analysis I} 
-        \centering
-        \resizebox{0.7\linewidth}{!}{\input{../Tesis_document/Figures/Objective_3/acc_windows}}
+\begin{frame}{Model Level Analysis I} 
+    \begin{columns}
+        \column{0.7\textwidth}
+            \centering
+            \resizebox{0.9\linewidth}{!}{\input{../Tesis_document/Figures/Objective_3/acc_windows}}
+        \column{0.3\textwidth}
+            \begin{itemize}
+                \item All three models show reduced accuracy with no or insufficient MI information.
+                \item All models achieve peak accuracy in the [$2.5$~−~$5$]s window.
+            \end{itemize}
+    \end{columns}        
 \end{frame}
 
-\begin{frame}{Model level analysis II} 
-    \centering
-    \resizebox{0.7\linewidth}{!}{\input{../Tesis_document/Figures/Objective_3/accuracy_comparison}}
+\begin{frame}{Model Level Analysis II} 
+    \begin{columns}
+        \column{0.35\textwidth}
+            \begin{itemize}
+                \item Regularized version consistently performs at least as well as, or better than, the plain version.
+                \item Accuracy boost of more than four percentage points observed for subjects 1, 20, 26, and 15.
+                \item Increases in accuracy were not significant in subjects already achieving more than $80\%$ accuracy.
+            \end{itemize}
+        \column{0.65\textwidth}
+            \centering
+            \resizebox{1\linewidth}{!}{\input{../Tesis_document/Figures/Objective_3/accuracy_comparison}}
+    \end{columns}     
 \end{frame}
 
-\begin{frame}{Group level analysis I}
-    \centering
-    \resizebox{0.7\linewidth}{!}{\input{figures/semaforo_3.tex}}
+\begin{frame}{Group Level Analysis I}
+    \begin{columns}
+        \column{0.7\textwidth}
+            \centering
+            \resizebox{1\linewidth}{!}{\input{figures/semaforo_3.tex}}
+        \column{0.3\textwidth}
+            \begin{itemize}
+                \item Light-colored symbols mark subjects who remain with same accuracy.
+                \item Subjects 14, 10, and 49 are promoted from the intermediate to the best group.
+                \item Subjects 13 and 18 moved up from the worst to the intermediate grou
+            \end{itemize}
+    \end{columns}       
 \end{frame}
 
-\begin{frame}{Group level analysis II}
+\begin{frame}{Group Level Analysis II}
     \begin{table}
         \centering
         \begin{tabular}{|c|c|c|c|}
@@ -1089,41 +1310,68 @@ How can a single-trail FC be developed to manage non-stationary EEG subject-spec
             \hline
         \end{tabular}
     \end{table}
+    \begin{itemize}
+        \item The standard deviation for the regularized version decreases by over one percentage point, indicating enhanced performance consistency.
+        \item Accuracy improvement from $72.15\%$ in EEGnet to nearly $80\%$ in IRKCS-FCnet (ours).
+    \end{itemize}
 \end{frame}
 
-\begin{frame}{Group level analysis III}
-  \centering
-  \resizebox{0.7\linewidth}{!}{\input{../Tesis_document/Figures/Objective_3/group_renyi_entropy}}
-\end{frame}
-
-\begin{frame}{Post-hoc interpretability}
-    \begin{table}[h!]
-        \centering
-        \begin{tabular}{|c|c|c|}
-        \hline
-        \textbf{Group} & \textbf{KCS-FCnet vs. Random} & \textbf{RKCS-FCnet vs. Random} \\ \hline
-        \textbf{G I} & 0.00077* & 0.00230* \\
-        \textbf{G II} & 0.00368* & 0.00434* \\
-        \textbf{G III} & 0.00108* & 0.00074* \\ \hline
-        \end{tabular}
-        \end{table}
-
-        \begin{table}[h!]
+\begin{frame}{Group Level Analysis III}
+    \begin{columns}
+        \column{0.3\textwidth}
+        \begin{itemize}
+            \item IRKCS-FCnet (ours) consistently shows higher entropy values across all groups.
+            \item Except for one, all samples exceed 1.5 in GI for IRKCS-FCnet (ours).
+            \item Best-performing subjects may rely on fewer connections to achieve high accuracy.
+        \end{itemize}
+        \column{0.7\textwidth}
             \centering
-            \begin{tabular}{|l|l|c|c|c|c|c|}
-            \hline
-            \textbf{Strategy} & \textbf{Group} & \textbf{25\%} & \textbf{20\%} & \textbf{15\%} & \textbf{10\%} & \textbf{5\%} \\ \hline
-            \multirow{3}{*}{\textbf{KCS-FCnet}} & \textbf{G I} & 40.51 & 37.93 & 35.97 & 30.25 & 17.12 \\
-             & \textbf{G II} & 40.10 & 39.00 & 36.46 & \cellcolor{GII!80}28.60 & 17.72 \\
-             & \textbf{G III} & 39.05 & 36.98 & 31.99 & 25.28 & 15.02 \\ \hline
-            \multirow{3}{*}{\textbf{RKCS-FCnet}} & \textbf{G I} &  44.80 & 39.21 &  37.79 &  30.55 & \cellcolor{GI!80} 22.46 \\
-             & \textbf{G II} & 41.08 & 40.01 & 36.77 & 27.28 & 18.84 \\
-             & \textbf{G III} & 39.65 & 37.30 & 33.12 & \cellcolor{GIII!70}27.10 & 16.80 \\ \hline
-            \end{tabular}
-            \end{table}
+            \resizebox{1\linewidth}{!}{\input{../Tesis_document/Figures/Objective_3/group_renyi_entropy}}
+    \end{columns}  
 \end{frame}
 
-\begin{frame}{Intrinsic interpretability I}
+\begin{frame}{Post-Hoc Interpretability}
+    \begin{columns}
+        \column{0.6\textwidth}
+            \begin{table}[h!]
+                \centering
+                \resizebox{\textwidth}{!}{%
+                \begin{tabular}{|c|c|c|}
+                \hline
+                \textbf{Group} & \textbf{KCS-FCnet vs. Random} & \textbf{RKCS-FCnet vs. Random} \\ \hline
+                \textbf{G I} & 0.00077* & 0.00230* \\
+                \textbf{G II} & 0.00368* & 0.00434* \\
+                \textbf{G III} & 0.00108* & 0.00074* \\ \hline
+                \end{tabular}
+                }
+                \end{table}
+        
+                \begin{table}[h!]
+                    \centering
+                    \resizebox{\textwidth}{!}{%
+                    \begin{tabular}{|l|l|c|c|c|c|c|}
+                    \hline
+                    \textbf{Strategy} & \textbf{Group} & \textbf{25\%} & \textbf{20\%} & \textbf{15\%} & \textbf{10\%} & \textbf{5\%} \\ \hline
+                    \multirow{3}{*}{\textbf{KCS-FCnet}} & \textbf{G I} & 40.51 & 37.93 & 35.97 & 30.25 & 17.12 \\
+                    & \textbf{G II} & 40.10 & 39.00 & 36.46 & \cellcolor{GII!80}28.60 & 17.72 \\
+                    & \textbf{G III} & 39.05 & 36.98 & 31.99 & 25.28 & 15.02 \\ \hline
+                    \multirow{3}{*}{\textbf{RKCS-FCnet}} & \textbf{G I} &  44.80 & 39.21 &  37.79 &  30.55 & \cellcolor{GI!80} 22.46 \\
+                    & \textbf{G II} & 41.08 & 40.01 & 36.77 & 27.28 & 18.84 \\
+                    & \textbf{G III} & 39.65 & 37.30 & 33.12 & \cellcolor{GIII!70}27.10 & 16.80 \\ \hline
+                    \end{tabular}
+                }
+                    \end{table}
+        \column{0.4\textwidth}
+        \begin{itemize}
+            \item The accuracy drop upon important feature removal in both models is statistically different from the random drop.
+            \item Plain model drops $17.12$ accuracy points, while the regularized model drops $22.46$ points, a difference of over 5 points.
+            \item As feature removal increases, the accuracy drop discrepancy diminishes, plateauing around $40\%$ from $15\%$ to $25\%$ removal.
+        \end{itemize}
+    \end{columns}  
+  
+\end{frame}
+
+\begin{frame}{Intrinsic Interpretability I}
     \def \kerrwidth {0.3\linewidth}
 \def \kerrg {0.3\linewidth}
 \begin{figure}[h!]
@@ -1137,13 +1385,27 @@ How can a single-trail FC be developed to manage non-stationary EEG subject-spec
 \end{tabular}
 }
 \end{figure}
+\centering
+    \begin{itemize}
+        \item For GI, the best-performing group, most channels are located in the sensorimotor cortex (CP3, CP4, CP6), central sulcus (C1, C2, C3, C4, C6), and motor cortex (FC2, FC4).
+        \item For GII, $60\%$ of the most relevant channels are in the motor-related brain area.
+        \item For GIII, only $30\%$ of the most relevant channels are in the motor-related area.
+    \end{itemize}
 \end{frame}
 
 
-\begin{frame}{Intrinsic interpretability II}
+\begin{frame}{Intrinsic Interpretability II}
+    \begin{columns}
+        \column{0.4\textwidth}
+        \begin{itemize}
+            \item In GI, the spectrum is stable, with power concentrated between 10 and 14 Hz, consistent with studies showing MI present on Mu rhythm (8–13 Hz) \cite{al2021deep,hobson2017interpretation,llanos2013mu}.
+            \item GII shows a similar pattern, but the spectral power is slightly skewed to the right.
+            \item In GIII, the Fp2 channel dominates spectral power, indicating significant artifact introduction \cite{han2023cepstral}.
+        \end{itemize}
+        \column{0.6\textwidth}
     \def \kerrwidth {0.63\linewidth}
     \centering
-    \scalebox{0.7}{
+    \scalebox{1}{
         \begin{tabular}{cc}
             \rotatebox{90}{\hspace{12mm} \textbf{G I}} &
             \resizebox{\kerrwidth}{!}{\includegraphics[trim=25 115 35 120, clip]{../Tesis_document/Figures/Objective_3/group_G I_top10_channels_PSD.pdf}} \\
@@ -1155,10 +1417,11 @@ How can a single-trail FC be developed to manage non-stationary EEG subject-spec
             \resizebox{\kerrwidth}{!}{\includegraphics[trim=25 80 35 120, clip]{../Tesis_document/Figures/Objective_3/group_G III_top10_channels_PSD.pdf}} \\
         \end{tabular}
     }
+    \end{columns}
 \end{frame}
 
 
-\begin{frame}{Intrinsic interpretability III}
+\begin{frame}{Intrinsic Interpretability III}
 \def \kerrwidth {0.3\linewidth}
 \begin{figure}[h!]
 \centering
@@ -1179,7 +1442,7 @@ How can a single-trail FC be developed to manage non-stationary EEG subject-spec
 
 \end{frame}
 
-\begin{frame}{Individual subject analysis I}
+\begin{frame}{Individual Subject Analysis I}
 \def \kerrwidth {0.95\linewidth}
 \begin{figure}[h!]
 \centering
@@ -1196,7 +1459,7 @@ How can a single-trail FC be developed to manage non-stationary EEG subject-spec
 \end{figure}
 \end{frame}
 
-\begin{frame}{Individual subject analysis II}
+\begin{frame}{Individual Subject Analysis II}
     \def \kerrwidth {0.95\linewidth}
     \begin{figure}[h!]
     \centering
@@ -1212,7 +1475,7 @@ How can a single-trail FC be developed to manage non-stationary EEG subject-spec
     \end{figure}
 \end{frame}
 
-\begin{frame}{Individual subject analysis III}
+\begin{frame}{Individual Subject Analysis III}
     \def \kerrwidth {0.95\linewidth}
     \begin{figure}[h!]
     \centering

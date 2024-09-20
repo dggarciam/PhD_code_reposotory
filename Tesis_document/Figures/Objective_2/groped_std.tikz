@@ -225,15 +225,15 @@ table {%
 5.25 6.30398053021414
 };
 
-\path [draw=green, opacity=0.2, line width=140pt]
+\path [draw=green, opacity=0.2, line width=90pt]
 (axis cs:1.5,0.1)
 --(axis cs:1.5,14);
 
-\path [draw=yellow, opacity=0.2, line width=140pt]
+\path [draw=yellow, opacity=0.2, line width=90pt]
 (axis cs:3.5,0.1)
 --(axis cs:3.5,14);
 
-\path [draw=red, opacity=0.2, line width=140pt]
+\path [draw=red, opacity=0.2, line width=90pt]
 (axis cs:5.5,0.1)
 --(axis cs:5.5,14);
 
@@ -243,4 +243,11 @@ table {%
 6.25 6
 };
 \end{axis}
+
+% Custom legend
+\matrix [draw, below right] at (7, 6.5) {
+    \node [rectangle, draw, fill=steelblue31119180, minimum width=0.8cm, minimum height=0.4cm] {}; & \node {EEGnet}; \\
+    \node [rectangle, draw, fill=yellowgreen, minimum width=0.8cm, minimum height=0.4cm] {}; & \node {KCS-FCnet}; \\
+};
+
 \end{tikzpicture}
