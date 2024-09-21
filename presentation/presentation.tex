@@ -114,8 +114,8 @@
 \institute{\includegraphics[width=0.15\textwidth]{../Tesis_document/Figures/EscudoUN2016.jpg}\\\scriptsize{
 Universidad Nacional de Colombia \\ Signal Processing and Recognition Group - SPRG
 \\
-Advisor: Andrés Marino Álvarez-Meza, Ph.D.\\
-Co-advisor: César Germán Castellanos-Domíguez, Ph.D.\\
+\textbf{Advisor:} Andrés Marino Álvarez-Meza, Ph.D.\\
+\textbf{Co-advisor:} César Germán Castellanos-Domíguez, Ph.D.\\
 \vspace{-0.3cm}
 }}
 
@@ -123,7 +123,7 @@ Co-advisor: César Germán Castellanos-Domíguez, Ph.D.\\
 % Department of Electrical, Electronic and Computer Engineering\\
 % Universidad Nacional de Colombia - Sede Manizales\\
 % 2024}}
-\date[]{\scriptsize{\today}}
+\date[]{\scriptsize{September 23, 2024}}
 
 
 
@@ -174,7 +174,7 @@ Co-advisor: César Germán Castellanos-Domíguez, Ph.D.\\
     \else
         \begin{frame}
         \frametitle{Outline II} %
-        \tableofcontents[currentsection, sections={7-9}]  
+        \tableofcontents[currentsection, sections={7-11}]  
         \end{frame}
     \fi
     \lattersubsectfalse
@@ -189,7 +189,7 @@ Co-advisor: César Germán Castellanos-Domíguez, Ph.D.\\
     \else
         \begin{frame}
         \frametitle{Outline II} %
-        \tableofcontents[currentsubsection, sections={7-9}]  
+        \tableofcontents[currentsubsection, sections={7-11}]  
         \end{frame}
     \fi
     \lattersubsectfalse
@@ -202,7 +202,7 @@ Co-advisor: César Germán Castellanos-Domíguez, Ph.D.\\
     BCI provides people with external world communication by translating brain signals.~\cite{khan2020review}
     \begin{figure}[!ht]
         \centering
-        \resizebox{0.8\linewidth}{!}{\includegraphics{figures/Motivation_BCI.png}}
+        \resizebox{0.7\linewidth}{!}{\includegraphics{figures/EEG-BCI-MI.png}}
         % \caption{Functional connectivity estimators classified based on direct or indirect, time or frequency domain and linear or nonlinear. The varying shades of orange represent different sensitivities to volume conduction.}
     \end{figure}
 
@@ -535,7 +535,7 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
 
 \section{Proposal and Results}
 
-\subsection{Single-Trial Kernel-based Functional Connectivity for Enhanced Feature Extraction in EEG-based MI-BCI}
+\subsection{Single-Trial Kernel-based Functional Connectivity}
 
 \begin{frame}[allowframebreaks]{Single-Trial Kernel-based Functional Connectivity}
     \begin{enumerate}
@@ -833,7 +833,7 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
 
 \end{frame}
 
-\subsection{KCS-FCnet: Kernel Cross-Spectral Functional Connectivity Network for Automatic EEG Representation in MI-BCI}
+\subsection{KCS-FCnet: Kernel Cross-Spectral Functional Connectivity Network}
 
 \begin{frame}[allowframebreaks]{Kernel Cross-Spectral Functional Connectivity Network}
     \begin{enumerate}
@@ -1194,7 +1194,7 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
 \end{frame}
 
 
-\subsection{IRKCS-FCnet: Interpretable Regularized Kernel Cross-Spectral Functional Connectivity Network with Qualitative and Quantitative Post-Hoc and Intrinsic Explainability}
+\subsection{IRKCS-FCnet: Interpretable Regularized Kernel Cross-Spectral Functional Connectivity Network}
 
 \begin{frame}[allowframebreaks]{Interpretable regularized kernel cross-spectral FC network}
     \begin{enumerate}
@@ -1422,89 +1422,139 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
 
 
 \begin{frame}{Intrinsic Interpretability III}
-\def \kerrwidth {0.3\linewidth}
-\begin{figure}[h!]
-\centering
-\scalebox{0.5}[0.5]{
-\begin{tabular}{ccccc}
-\centering
-& \textbf{G I} & \textbf{G II} & \textbf{G III} & \\
-{\rotatebox{90}{\hspace{15mm} \textbf{Left class}}} & 
-{\resizebox{\kerrwidth}{!}{\includegraphics[trim=80 10 80 10, clip]{../Tesis_document/Figures/Objective_3/class_Left_group_G I_GFC_renyi.pdf}}} & 
-{\resizebox{\kerrwidth}{!}{\includegraphics[trim=80 10 80 10, clip]{../Tesis_document/Figures/Objective_3/class_Left_group_G II_GFC_renyi.pdf}}} & {\resizebox{\kerrwidth}{!}{\includegraphics[trim=80 10 80 10, clip]{../Tesis_document/Figures/Objective_3/class_Left_group_G III_GFC_renyi.pdf}}} & \\
-{\rotatebox{90}{\hspace{15mm} \textbf{Right class}}} & 
-{\resizebox{\kerrwidth}{!}{\includegraphics[trim=80 10 80 10, clip]{../Tesis_document/Figures/Objective_3/class_Right_group_G I_GFC_renyi.pdf}}} & 
-{\resizebox{\kerrwidth}{!}{\includegraphics[trim=80 10 80 10, clip]{../Tesis_document/Figures/Objective_3/class_Right_group_G II_GFC_renyi.pdf}}} & {\resizebox{\kerrwidth}{!}{\includegraphics[trim=80 10 80 10, clip]{../Tesis_document/Figures/Objective_3/class_Right_group_G III_GFC_renyi.pdf}}} & \\
-&\multicolumn{3}{c}{\resizebox{0.69\linewidth}{!}{\includegraphics[trim=0 0 0 250, clip]{../Tesis_document/Figures/Objective_3/colorbar.pdf}}} \\
-\end{tabular}
-}
-\end{figure}
-
+    \begin{columns}
+        \column{0.6\textwidth}
+            \def \kerrwidth {0.3\linewidth}
+            \begin{figure}[h!]
+            \centering
+            \scalebox{0.77}[0.77]{
+            \begin{tabular}{ccccc}
+            \centering
+            & \textbf{G I} & \textbf{G II} & \textbf{G III} & \\
+            {\rotatebox{90}{\hspace{6mm} \textbf{Left class}}} & 
+            {\resizebox{\kerrwidth}{!}{\includegraphics[trim=80 10 80 10, clip]{../Tesis_document/Figures/Objective_3/class_Left_group_G I_GFC_renyi.pdf}}} & 
+            {\resizebox{\kerrwidth}{!}{\includegraphics[trim=80 10 80 10, clip]{../Tesis_document/Figures/Objective_3/class_Left_group_G II_GFC_renyi.pdf}}} & {\resizebox{\kerrwidth}{!}{\includegraphics[trim=80 10 80 10, clip]{../Tesis_document/Figures/Objective_3/class_Left_group_G III_GFC_renyi.pdf}}} & \\
+            {\rotatebox{90}{\hspace{6mm} \textbf{Right class}}} & 
+            {\resizebox{\kerrwidth}{!}{\includegraphics[trim=80 10 80 10, clip]{../Tesis_document/Figures/Objective_3/class_Right_group_G I_GFC_renyi.pdf}}} & 
+            {\resizebox{\kerrwidth}{!}{\includegraphics[trim=80 10 80 10, clip]{../Tesis_document/Figures/Objective_3/class_Right_group_G II_GFC_renyi.pdf}}} & {\resizebox{\kerrwidth}{!}{\includegraphics[trim=80 10 80 10, clip]{../Tesis_document/Figures/Objective_3/class_Right_group_G III_GFC_renyi.pdf}}} & \\
+            &\multicolumn{3}{c}{\resizebox{0.69\linewidth}{!}{\includegraphics[trim=0 0 0 250, clip]{../Tesis_document/Figures/Objective_3/colorbar.pdf}}} \\
+            \end{tabular}
+            }
+            \end{figure}
+        \column{0.4\textwidth}
+        \begin{itemize}
+            \item For GI and GII, positive values are seen in the contralateral region while negative for the ipsilateral region \cite{van2021frontal}.
+            \item GIII exhibits intriguing behavior, showing only faint significance in the contralateral region.
+            \item GIII also displays numerous activations outside motor-related areas, likely due to artifact interference.
+        \end{itemize}
+    \end{columns}
 \end{frame}
 
-\begin{frame}{Individual Subject Analysis I}
-\def \kerrwidth {0.95\linewidth}
-\begin{figure}[h!]
-\centering
-\scalebox{0.7}[0.7]{
-\begin{tabular}{ccc}
-\centering
-    &\hspace{10mm} \textbf{Direct label} \hspace{40mm} \textbf{Cross-label} & \\
-{\rotatebox{90}{\hspace{10mm} \textbf{Subject 4 - G I}}} &
-{\resizebox{\kerrwidth}{!}{\includegraphics{../Tesis_document/Figures/Objective_3/subject_4_group_GI.pdf}}} \\
+% \begin{frame}{Individual Subject Analysis I}
+% \def \kerrwidth {0.95\linewidth}
+% \begin{figure}[h!]
+% \centering
+% \scalebox{0.7}[0.7]{
+% \begin{tabular}{ccc}
+% \centering
+%     &\hspace{10mm} \textbf{Direct label} \hspace{40mm} \textbf{Cross-label} & \\
+% {\rotatebox{90}{\hspace{10mm} \textbf{Subject 4 - G I}}} &
+% {\resizebox{\kerrwidth}{!}{\includegraphics{../Tesis_document/Figures/Objective_3/subject_4_group_GI.pdf}}} \\
 
-& {\hspace{20mm}  \resizebox{0.5\linewidth}{!}{\includegraphics[trim=0 0 0 250, clip]{../Tesis_document/Figures/Objective_3/colorbar2.pdf}}} &\\
-\end{tabular}
-}
-\end{figure}
-\end{frame}
+% & {\hspace{20mm}  \resizebox{0.5\linewidth}{!}{\includegraphics[trim=0 0 0 250, clip]{../Tesis_document/Figures/Objective_3/colorbar2.pdf}}} &\\
+% \end{tabular}
+% }
+% \end{figure}
+% \end{frame}
 
-\begin{frame}{Individual Subject Analysis II}
-    \def \kerrwidth {0.95\linewidth}
-    \begin{figure}[h!]
-    \centering
-    \scalebox{0.7}[0.7]{
-    \begin{tabular}{ccc}
-    \centering
-        &\hspace{10mm} \textbf{Direct label} \hspace{40mm} \textbf{Cross-label} & \\   
-    {\rotatebox{90}{\hspace{10mm} \textbf{Subject 42 - G II}}} &
-    {\resizebox{\kerrwidth}{!}{\includegraphics{../Tesis_document/Figures/Objective_3/subject_42_group_GII.pdf}}} \\
-        & {\hspace{20mm}  \resizebox{0.5\linewidth}{!}{\includegraphics[trim=0 0 0 250, clip]{../Tesis_document/Figures/Objective_3/colorbar2.pdf}}} &\\
-    \end{tabular}
-    }
-    \end{figure}
-\end{frame}
+% \begin{frame}{Individual Subject Analysis II}
+%     \def \kerrwidth {0.95\linewidth}
+%     \begin{figure}[h!]
+%     \centering
+%     \scalebox{0.7}[0.7]{
+%     \begin{tabular}{ccc}
+%     \centering
+%         &\hspace{10mm} \textbf{Direct label} \hspace{40mm} \textbf{Cross-label} & \\   
+%     {\rotatebox{90}{\hspace{10mm} \textbf{Subject 42 - G II}}} &
+%     {\resizebox{\kerrwidth}{!}{\includegraphics{../Tesis_document/Figures/Objective_3/subject_42_group_GII.pdf}}} \\
+%         & {\hspace{20mm}  \resizebox{0.5\linewidth}{!}{\includegraphics[trim=0 0 0 250, clip]{../Tesis_document/Figures/Objective_3/colorbar2.pdf}}} &\\
+%     \end{tabular}
+%     }
+%     \end{figure}
+% \end{frame}
 
-\begin{frame}{Individual Subject Analysis III}
-    \def \kerrwidth {0.95\linewidth}
-    \begin{figure}[h!]
-    \centering
-    \scalebox{0.7}[0.7]{
-    \begin{tabular}{ccc}
-    \centering
-        &\hspace{10mm} \textbf{Direct label} \hspace{40mm} \textbf{Cross-label} & \\   
-    {\rotatebox{90}{\hspace{10mm} \textbf{Subject 51 - G III}}} &
-    {\resizebox{\kerrwidth}{!}{\includegraphics[trim=0 10 0 0, clip]{../Tesis_document/Figures/Objective_3/subject_51_group_GIII.pdf}}} \\
-        & {\hspace{20mm}  \resizebox{0.5\linewidth}{!}{\includegraphics[trim=0 0 0 250, clip]{../Tesis_document/Figures/Objective_3/colorbar2.pdf}}} &\\
-    \end{tabular}
-    }
-    \end{figure}
-\end{frame}
+% \begin{frame}{Individual Subject Analysis III}
+%     \def \kerrwidth {0.95\linewidth}
+%     \begin{figure}[h!]
+%     \centering
+%     \scalebox{0.7}[0.7]{
+%     \begin{tabular}{ccc}
+%     \centering
+%         &\hspace{10mm} \textbf{Direct label} \hspace{40mm} \textbf{Cross-label} & \\   
+%     {\rotatebox{90}{\hspace{10mm} \textbf{Subject 51 - G III}}} &
+%     {\resizebox{\kerrwidth}{!}{\includegraphics[trim=0 10 0 0, clip]{../Tesis_document/Figures/Objective_3/subject_51_group_GIII.pdf}}} \\
+%         & {\hspace{20mm}  \resizebox{0.5\linewidth}{!}{\includegraphics[trim=0 0 0 250, clip]{../Tesis_document/Figures/Objective_3/colorbar2.pdf}}} &\\
+%     \end{tabular}
+%     }
+%     \end{figure}
+% \end{frame}
 
 
 \section{Conclusions}
-\begin{frame}{Conclusions}
+\begin{frame}{Conclusions I}
     \begin{itemize}
-        \item conclusions
+        \item The proposed single-trial KCS-FC achieves competitive classifier performance while maintaining FC interpretability.
+        \vspace{2em}
+        \item KCS-FCnet automatically extracts spatio-temporal-spectral feature maps, outperforming other end-to-end architectures. Slightly more complex than EEGnet, it offers greater accuracy, especially compared to models with 25 times more parameters.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Conclusions II}
+    \begin{itemize}
+        \item The IRKCS-FCnet is an intrinsically interpretable model, providing valuable insights into spatial connections for MI tasks, particularly emphasizing the contralateral nature of motor-related neurological states within the brain network.
+        \vspace{2em}
+        \item The average drop score measures the relevance of interpretative results, aiding in the identification of transparent models and offering a quantitative comparative framework.
     \end{itemize}
 \end{frame}
 
 
 \section{Future work}
-\begin{frame}{Future work}
+\begin{frame}{Future work I}
     \begin{itemize}
-        \item Future work
+        \item The feature extraction process could be refined by using advanced methods for measuring multivariate similarity, such as centered kernel alignment \cite{brockmeier2014neural, Alvarez-Meza2014}.
+        \vspace{2em}
+        \item Extracting more information from time lags, rather than relying solely on instantaneous relationships, could help address volume conduction issues \cite{uribe2019correntropy, bakhshali2020eeg, de2019data}.
     \end{itemize}
+\end{frame}
+
+\begin{frame}{Future work II}
+    \begin{itemize}
+        \item The current method's reliance on pairwise relationships may overlook the influence of a third channel, suggesting the potential benefits of more complex multivariate approaches that account for information from other electrodes \cite{vidaurre2023novel}.
+        \vspace{2em}
+        \item Implement a cross-subject transfer learning strategy, where insights from different subjects could enhance the decoding of MI tasks in EEG recordings, especially for low-performing individuals \cite{wei2023sub}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Future work III}
+    \begin{itemize}
+        \item Incorporate Riemannian geometry to capture the internal relationships between different channels in the FC matrix's feature extraction process \cite{carrara2023classification}.
+        \vspace{2em}
+        \item Given recent advancements in graph neural networks, integrating this concept is feasible, as our work heavily relies on FC matrices, which naturally form a dynamic graph. This direction could lead to more nuanced and sophisticated EEG analysis frameworks \cite{ma2023double}.
+    \end{itemize}
+\end{frame}
+
+\section{Academic Products}
+
+\begin{frame}{Academic Products}
+    \begin{enumerate}
+        \item García-Murillo, D.G.; Alvarez-Meza, A.; Castellanos-Dominguez, G. Single-Trial Kernel-Based Functional Connectivity for Enhanced Feature Extraction in Motor-Related Tasks. Sensors 2021, 21, 2750. https://doi.org/10.3390/s21082750 (Q1-A1)
+    
+        \item García-Murillo, D.G.; Álvarez-Meza, A.M.; Castellanos-Dominguez, C.G. KCS-FCnet: Kernel Cross-Spectral Functional Connectivity Network for EEG-Based Motor Imagery Classification. Diagnostics 2023, 13, 1122. https://doi.org/10.3390/diagnostics13061122 (Q2-A2)
+    
+        \item García-Murillo, D.G.; Álvarez-Meza, A.M.; Castellanos-Dominguez, C.G. IRKCS-FCnet: Interpretable Regularized Kernel Cross-Spectral Functional Connectivity Network with Qualitative and Quantitative Post-Hoc and Intrinsic Explainability (Sent)
+    
+        \item Github repository containing all notebooks used in this study  \href{https://github.com/dggarciam/PhD_code_reposotory}{IRKCS-FCnet reporsitory}
+    \end{enumerate}
 \end{frame}
 
 \section{References}
