@@ -1,7 +1,7 @@
 
 \begin{tikzpicture}
 \draw[draw=black] (0,0) rectangle ++(4,2) node[pos=.5] {Motor Execution $\#1$};
-\draw[dashed,draw=black] (4,0) rectangle ++(4,2) node[pos=.5] {Random Break};
+\draw[dashed,draw=black] (4,0) rectangle ++(4,2) node[pos=.5, xshift=-0.5cm] {Random Break};
 \draw[dashed,draw=black] (7,0) -- (7,2) node[pos=1.5] {};
 
 

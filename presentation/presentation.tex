@@ -107,7 +107,7 @@
  }
 
 
-\title[]{Regularized Gaussian Functional Connectivity Network with Post-Hoc Interpretation for Improved EEG-based Motor Imagery-BCI Classification}
+\title[Regularized Gaussian FC network with post-hoc interpretation for Improved EEG-based Motor Imagery-BCI Classification - Daniel García M.]{Regularized Gaussian Functional Connectivity Network with Post-Hoc Interpretation for Improved EEG-based Motor Imagery-BCI Classification}
 \vskip -0.7cm
 \author{\normalsize{Daniel Guillermo Garc\'ia Murillo}\\ \scriptsize{dggarciam@unal.edu.co
 }}
@@ -264,22 +264,6 @@ Universidad Nacional de Colombia \\ Signal Processing and Recognition Group - SP
     \end{columns}
 \end{frame}
 
-\begin{frame}{Experimental Setup for MI-based BCIs}
-    \begin{columns}
-        \column{0.6\textwidth}
-            \begin{figure}[!ht]
-                \centering
-                \includegraphics[width=0.8\linewidth]{../Tesis_document/Figures/preliminaries/EEG-setup.png}
-            \end{figure}
-        \column{0.4\textwidth}
-            \begin{itemize}
-                \item EEG headsets are equipped with $1$ to $256$ electrodes \cite{grigorev2021bci}.
-                \item Visual cues are often used to guide MI tasks during EEG recordings \cite{hosseini2020review}.
-            \end{itemize}
-    \end{columns}
-    \footnotetext[1]{\textbf{{Image}:} {Adapted from} \cite{grigorev2021bci}}
-\end{frame}
-
 \begin{frame}{Sensorimotor Rhythms (SMRs)}
     \begin{columns}
         \column{0.46\textwidth}
@@ -426,9 +410,14 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
 \end{frame}
 
 
-\begin{frame}{Feature Extraction from FC}
+\begin{frame}{Feature Extraction from FC I}
     \centering
-    \resizebox{0.95\linewidth}{!}{\includegraphics{../Tesis_document/Figures/state_of_art/sota1_FE.pdf}}
+    \resizebox{0.95\linewidth}{!}{\includegraphics{figures/sota1V2_CSP.pdf}}
+\end{frame}
+
+\begin{frame}{Feature Extraction from FC II}
+    \centering
+    \resizebox{0.95\linewidth}{!}{\includegraphics{figures/sota1V2.pdf}}
 \end{frame}
 
 
@@ -447,7 +436,7 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
 \begin{frame}{Deep Learning Architectures}
     \begin{figure}[!ht]
         \centering
-        \resizebox{0.85\linewidth}{!}{\includegraphics{../Tesis_document/Figures/state_of_art/sota2_DLAV2.pdf}}
+        \resizebox{0.85\linewidth}{!}{\includegraphics{../Tesis_document/Figures/state_of_art/sota2_DLAV3.pdf}}
         % \caption{Functional connectivity estimators classified based on direct or indirect, time or frequency domain and linear or nonlinear. The varying shades of orange represent different sensitivities to volume conduction.}
     \end{figure}
 \end{frame}
@@ -465,6 +454,7 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
 \section{Aims}
 
 \begin{frame}{General Objective}
+    \centering
     To develop a \textbf{single-trial indirect functional connectivity} framework, accompanied by \textbf{regularized deep learning} approaches, to extract pertinent subject-specific non-linear \textbf{spatio-temporal-frequency patterns} from non-stationary EEG data, improving the MI-BCI system's accuracy and \textbf{interpretability}.
 \end{frame}
 
@@ -474,7 +464,7 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
     \setlength\itemsep{2em}
 	\item[1] To develop a \textbf{single-trial indirect FC} for enhanced nonlinear feature extraction, preserving the spatio-temporal-frequency interpretability while favoring the \textbf{classification performance} in MI-BCI and avoiding spurious connectivities.
  
-	\item[2] To extend the proposed single-trial FC within a \textbf{deep learning scheme} that handles artifacts and EEG representations, necessitating \textbf{minimal preprocessing} efforts from raw signals.
+	\item[2] To extend the proposed single-trial FC within a \textbf{deep learning scheme} that handles artifacts and EEG representations, requiring \textbf{minimal preprocessing} efforts from raw signals.
  
 	\item[3] To develop a \textbf{transparency and interpretability} strategy dedicated to MI-BCI classification that emphasizes spatial-temporal-spectral pattern domains, incorporating a \textbf{qualitative and quantitative} relevance analysis assessment.
 \end{itemize}
@@ -485,9 +475,11 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
 \begin{frame}{Contributions}
     \begin{figure}[h!]
         \centering
-        \includegraphics[scale=0.65]{../Tesis_document/Figures/outline_and_contributions/general_contributions.pdf}
+        \includegraphics[scale=0.6]{../Tesis_document/Figures/outline_and_contributions/general_contributions.pdf}
         % \caption{Schematic display of the main thesis contributions, including the single-trial FC estimator and feature extraction, an end-to-end approach from EEG representations to MI classification, and quantitative and qualitative strategies for model interpretation\label{fig:img_gen_outline}}
     \end{figure}
+    \centering
+    Regularized DL-based \textbf{single-trial indirect FC} framework for extracting subject-specific \textbf{spatio-temporal-spectral patterns} to improve MI-BCI system's \textbf{accuracy} and \textbf{interpretability}.
 \end{frame}
 
 \section{Datasets}
@@ -525,7 +517,7 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
             \centering
             \textbf{DBIII MI}
             \vspace{2em}
-            \includegraphics[width=0.9\linewidth]{../Tesis_document/Figures/preliminaries/protocol_giga.PNG}
+            \resizebox{0.9\linewidth}{!}{\input{../Tesis_document/Figures/preliminaries/procedure_giga.tikz}}
     \end{columns}
 
     \footnotetext[1]{\url{http://www.bbci.de/competition/iv}}
@@ -539,21 +531,21 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
 
 \begin{frame}[allowframebreaks]{Single-Trial Kernel-based Functional Connectivity}
     \begin{enumerate}
-        \item \textbf{Wiener-Khinchin's theorem:} 
+        \item \textbf{Wiener-Khinchin's theorem \cite{cohen1998generalization}:} 
         \[
         R^{c}_{r}(\tau) = \int_{\varpi \in \Omega} \exp(j2\pi \tau \varpi) \, dP^{c}_{r}(\varpi),
         \]
         where $P^{c}_{r}(\varpi) \in \mathbb{R}[0,1]$ is the spectral distribution function.
         
-        \item \textbf{Bochner's theorem:} 
+        \item \textbf{Bochner's theorem \cite{bochner2020harmonic}:} 
         \[
-        \kappa^{cc'}_{r}(\Delta_{x}) = \int_{\varpi \in \Omega} \exp(j2\pi \Delta_{x} \varpi) S^{cc'}_{r}(\varpi) \, d\varpi,
+        \kappa^{cc'}_{r}(\Delta_{x}) = \int_{\ve{\varpi} \in \Omega} \exp(j2\pi \Delta_{x}^{\top} \varpi) S^{cc'}_{r}(\ve{\varpi}) \, d\ve{\varpi},
         \]
-        where $\Delta_{x} = \mathbf{x}^{c}_{r} - \mathbf{x}^{c'}_{r}$ is the vector delay, $\varpi \subseteq \varOmega$ is the frequency domain that contains the bandwidth set of analysis $\varOmega$, and $S^{cc'}_{r}(\varpi)$ is the cross-spectral density.
+        where $\Delta_{x} = \mathbf{x}^{c}_{r} - \mathbf{x}^{c'}_{r}$ is the vector delay, $\ve{\varpi} \subseteq \varOmega$ is the frequency domain that contains the bandwidth set of analysis $\varOmega$, and $S^{cc'}_{r}(\ve{\varpi})$ is the cross-spectral density.
 
         \item \textbf{Cross-spectral distribution:} 
         \[
-        P^{cc'}_{r}(\varpi) = 2 \int_{\varpi \in \varOmega} \mathscr{F}\left\{\kappa(\mathbf{x}^{c}_{r}, \mathbf{x}^{c'}_{r}) \right\} \, d\varpi,
+        P^{cc'}_{r}(\ve{\varpi}) = 2 \int_{\ve{\varpi} \in \varOmega} \mathscr{F}\left\{\kappa(\mathbf{x}^{c}_{r}, \mathbf{x}^{c'}_{r}) \right\} \, d\ve{\varpi},
         \]
         where the notation $\mathscr{F}\{\cdot\}$ stands for the Fourier transform.
 
@@ -563,7 +555,7 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
         \]
         where $\mathbf{u}^{cc'} \in \mathbb{R}^{N_f N_t}$ is the spatio-temporal-frequency relevance vector.
 
-        \item \textbf{Optimization Formulation:}
+        \item \textbf{Supervised kernel-based spectral distribution estimation:}
         {\scriptsize
         \[
         \mathbf{u}^* = \arg \min_{\mathbf{u}} \sum_{r=1}^{R} \left\|\sum_{c,c'=1}^{N_c}\hat{P}^{cc'}_{r}(\mathbf{u}^{cc'},\kappa_x(\cdot;\sigma))-y_r\right\|^2_2 + \alpha \sum_{c,c'=1}^{N_c}\|\mathbf{u}^{cc'}\|_1 + \frac{1-\alpha}{2} \sum_{c,c'=1}^{N_c}\|\mathbf{u}^{cc'}\|_2 \quad :  \forall c < c',
@@ -625,33 +617,6 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
 % 	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_CSP_pearson_HG_ME.png}}}
 % 	{\resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_CSP_gauss_HG_ME.png}}}\\
 % \end{figure}
-
-\begin{frame}{Impact of Prior CSP Filtering}
-    \def \kerrwidth {.3\linewidth}
-    \begin{columns}
-        \column{0.35\textwidth}
-            \begin{itemize}
-                \item PLV shows high variance and low accuracy.
-                \item CSP accuracy drops at $\tau=0.5$ due to its reliance on FC estimation, where less information leads to poorer estimates.
-                \item KCS-FC (ours) outperforms other FC measures, with less variance in accuracy across subjects.
-            \end{itemize}
-        \column{0.65\textwidth}
-            \begin{figure}[h!]
-                \centering
-                \hbox{\hspace{1.7cm} {PLV}\hspace{2.2cm} {CCF}\hspace{2cm} {KCS-FC}}	
-                \rotatebox{90}{ \quad\, \textbf{\tiny DBIII MI}}
-                \rotatebox{90}{ \quad\,\tiny{Accuracy ($\%$)}}
-                \resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_plv_giga_MI.png}}
-                \resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_pearson_giga_MI.png}}
-                \resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_gauss_giga_MI.png}}\\
-                \rotatebox{90}{\quad \textbf{\tiny DBIII MI-CSP}}
-                \rotatebox{90}{ \quad\,\tiny{Accuracy ($\%$)}}
-                \resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_csp_plv_giga_MI.png}}
-                \resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_csp_pearson_giga_MI.png}}
-                \resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_csp_gauss_giga_MI.png}}\\
-            \end{figure}
-    \end{columns}
-\end{frame}
 
 
 \begin{frame}{Influence of Sliding Windows}
@@ -760,7 +725,7 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
             \begin{itemize}
                 % \item Pairwise FC links fulfilling the 99th percentile of normalized relevance weights.
                 \item PLV shows high background activity, CCF has fewer amplitudes, and KCS-FC shows localized activity over SMR hemispheres.
-                \item GII and GIII generate abnormally conenctions over the frontal and occipital lobe. 
+                \item GII and GIII generate abnormally connections over the frontal and occipital lobe. 
                 %This issue may be explained because of acquisition artifacts, which may introduce noise and distortions, severely damaging the EEG data quality.
             \end{itemize}
         \column{0.66\textwidth}
@@ -827,7 +792,7 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
         \end{tabular}
      }
     \vspace{3em}\\
-    KCS-FC (ours) achieves competitive classifier performance compared to state-of-the-art FC strategies.
+    KCS-FC (ours) achieves competitive classifier performance \\compared to state-of-the-art FC strategies.
     \end{table}
 
 
@@ -858,11 +823,11 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
         \[
             \overline{\ve{p}}_r = \left[\tilde{p}_r^{12}, \tilde{p}_r^{13}, \cdots, \tilde{p}_r^{cc'}, \cdots, \tilde{p}_r^{(N_c-1) N_c} \right]; \forall c<c',
         \]
-        \item \textbf{Optimization Formulation:}
+        \item \textbf{Optimization problem:}
         \[
             \Theta^{*} = \underset{\Theta}{\arg\,\min} \quad \promeddd{r}{\mathcal{L}(\ve{y}_r,\hat{\ve{y}}_r|\Theta); \forall r\in\{1,2,\dots,R\}},
         \]
-        where $\mathcal{L} \{\cdot\}$ is a given loss function, and $\hat{\ve{y}}_r = \mathrm{softmax}\left(\mat{V}\overline{\ve{p}}_r + \ve{b}\right)$
+        where $\mathcal{L} \{\cdot\}$ is a given loss function (i.e., cross-entropy) and $\hat{\ve{y}}_r = \mathrm{softmax}\left(\mat{V}\overline{\ve{p}}_r + \ve{b}\right)$
     \end{enumerate}
 \end{frame}
 
@@ -908,8 +873,9 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
         \item \textbf{KCS-FCnet Training \cite{lawhern2018eegnet, schirrmeister2017deep}:}
         \begin{itemize}
             \item Data split using 5-fold 80-20 scheme.
-            \item 1-D convolutional kernel length set to $20$ as in
+            \item 1-D convolutional kernel length set to $20$
             \item Number of filters were searched within the set $\{2,3,4\}$
+            \item Gaussian kernel $\sigma=\varsigma  Median( \mat{D} ) $ with $\mat{D}$ being the distance matrix. 
         \end{itemize}
         \item \textbf{Group-Level Analysis:}
         \begin{itemize}
@@ -924,12 +890,12 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
     \begin{columns}
         \column{0.7\textwidth}
             \centering
-            \resizebox{1.1\linewidth}{!}{\input{../Tesis_document/Figures/Objective_2/acc_eeg_gfc_net.tikz}}
+            \resizebox{1\linewidth}{!}{\input{../Tesis_document/Figures/Objective_2/acc_eeg_gfc_net.tikz}}
         \column{0.3\textwidth}
         \begin{itemize}
             \item KCS-FCnet (ours) shows strong impact on subjects in the third group.
             \item Seven subjects experienced a decrease in accuracy.
-            \item 47 subjects experience an increase of +five points in accuracy.
+            \item 47 subjects experience an increase of more tahn five points in accuracy.
         \end{itemize}
     \end{columns}
 
@@ -939,9 +905,9 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
     \begin{columns}
         \column{0.33\textwidth}
         \begin{itemize}
-            \item Eleven subjects significantly improved their performance, moving to the GII cluster.
-            \item Nine remained in GIII and six promoted to GI.
-            \item Subjects that were originally in the best group maintained their status.
+            \item Eleven subjects significantly improved their performance, transitioning to the GII cluster, while nine remained in GIII and six advanced to GI.
+            \item Subjects initially in the best group retained their status.
+            \item Our proposal boosts GII accuracy by $5.6\%$ and GIII by $12.4\%$.
         \end{itemize}
         \column{0.66\textwidth}
             \centering
@@ -949,51 +915,6 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
 
     \end{columns}
 \end{frame}
-
-\begin{frame}{Subject Dependent and Group Analysis Results III}
-    \centering
-    \begin{table}[h!] 
-        \newcolumntype{W}{>{\centering\arraybackslash}X}
-        \resizebox{0.9\linewidth}{!}{
-        \begin{tabularx}{\textwidth}{WWWW}
-            \toprule
-            \textbf{Approach} & \textbf{Group} & \textbf{Accuracy} & \textbf{KCS-FCnet Gain} \\ 
-            \midrule
-            \multirow{3}{*}{EEGnet} 
-            & G I & $90.6 \pm 4.3$ & $\cdot$ \\ 
-            \cline{2-4} 
-            & G II & $72.2 \pm 7.3$ & $\cdot$ \\ 
-            \cline{2-4} 
-            & G III & $54.3 \pm 6.6$ & $\cdot$ \\ 
-            \midrule
-            \multirow{3}{*}{KCS-FCnet} 
-            & G I & \textbf{$91.5 \pm 3.3$} & \textbf{0.9} \\ 
-            \cline{2-4} 
-            & G II & \textbf{$77.8 \pm 4.7$} & \textbf{5.6} \\ 
-            \cline{2-4} 
-            & G III & \textbf{$66.7 \pm 5.6$} & \textbf{12.4} \\ 
-            \bottomrule
-        \end{tabularx}
-        }
-    \end{table} 
-    \vspace{2em}
-    Our proposal not only outperforms EEGnet in terms of accuracy but also reduces the variability for all clusters.
-\end{frame}
-
-\begin{frame}{Subject Dependent and Group Analysis Results IV}
-    \begin{columns}
-        \column{0.66\textwidth}
-            \centering
-            \resizebox{1\linewidth}{!}{\input{../Tesis_document/Figures/Objective_2/groped_std.tikz}}
-    \column{0.33\textwidth}
-        \begin{itemize}
-            \item For GI, KCS-FCnet (ours) reduces variability.
-            \item For GII, KCS-FCnet (ours) lowers standard deviation, with similar variability proportion.
-            \item For GIII, both approaches behave similarly.
-        \end{itemize}
-    \end{columns}
-\end{frame}
-
 
 \begin{frame}{Functional Connectivity Analysis I}
     \begin{columns}
@@ -1010,73 +931,6 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
 \end{frame}
 
 \begin{frame}{Functional Connectivity Analysis II}
-    \begin{columns}
-        \column{0.6\textwidth}
-            \centering
-            \resizebox{1\linewidth}{!}{\input{../Tesis_document/Figures/Objective_2/renyi_boxplot.tikz}}
-        \column{0.4\textwidth}
-            \begin{itemize}
-                \item The Rényi's entropy $\alpha=2$ quantifies the interpretability performance from 2KS test matrices.
-                \item Higher entropy values indicates a higher class distribution separability. 
-                \item Groups that perform better show higher entropy values.
-            \end{itemize}
-    \end{columns}   
-\end{frame}
-
-
-\begin{frame}{Functional Connectivity Analysis III}
-    \begin{columns}
-        \column{0.4\textwidth}
-        \begin{itemize}
-            \item Relevant connections identified from 2KS test matrices.
-            \item In GI, most relevant connections are found in motor-related areas.
-            \item In GII lacks relevant connections.
-        \end{itemize}
-        \column{0.6\textwidth}
-        \begin{figure}
-            \centering
-            \resizebox{2\linewidth}{!}{%
-                \begin{minipage}{\linewidth}
-                    % Column headers
-                    \begin{subfigure}[b]{.13\linewidth}
-                        \centering
-                        \textbf{GI}
-                    \end{subfigure}
-                    ~
-                    \begin{subfigure}[b]{.13\linewidth}
-                        \centering
-                        \textbf{GII}
-                    \end{subfigure}
-                    ~
-                    \begin{subfigure}[b]{.13\linewidth}
-                        \centering
-                        \textbf{GIII}
-                    \end{subfigure}
-                    \\
-                    \begin{subfigure}[b]{.13\linewidth}
-                        \centering
-                        \resizebox{1.3\linewidth}{!}{\input{figures/circonnecitvity_good_2}}
-                    \end{subfigure}
-                    ~
-                    \begin{subfigure}[b]{.13\linewidth}
-                        \centering
-                        \resizebox{1.3\linewidth}{!}{\input{figures/circonnecitvity_medium_2}}    
-                    \end{subfigure}
-                    ~
-                    \begin{subfigure}[b]{.13\linewidth}
-                        \centering
-                        \resizebox{1.3\linewidth}{!}{\input{figures/circonnecitvity_bad_2}}    
-                    \end{subfigure}
-                    \\
-                \end{minipage}
-                }
-                \end{figure}
-                \end{columns}
-
-\end{frame}
-
-
-\begin{frame}{Functional Connectivity Analysis IV}
     \begin{columns}
         \column{0.6\textwidth}
 \begin{figure}
@@ -1154,38 +1008,13 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
 \end{columns}
 \end{frame}
 
-\begin{frame}{Classifier Accuracy Comparison of DL Approaches I}
-    \begin{table}[H]
-        \centering
-        \resizebox{0.8\linewidth}{!}{
-        \begin{tabular}{lccc}
-            \toprule
-            \textbf{Approach}         &  \textbf{Accuracy}  & \textbf{Kappa}  & \textbf{AUC}  \\ 
-            \midrule
-            Deepconvnet~\cite{schirrmeister2017deep}    & $62.5 \pm 13.0$  & $24.5 \pm 25.9$   & $68.9 \pm 17.8$  \\ 
-            EEGnet~\cite{lawhern2018eegnet}             & $69.0 \pm 14.6$  & $38.0 \pm 29.1$   & $75.4 \pm 16.6$  \\ 
-            TCNet-Fusion~\cite{musallam2021electroencephalography}   & $72.7 \pm 14.0$  & $45.0 \pm 28.2$   & $79.6 \pm 15.9$  \\ 
-            Shallowconvnet~\cite{schirrmeister2017deep} & $74.9 \pm 13.9$  & $49.5 \pm 27.8$   & $79.9 \pm 15.1$  \\ 
-            \midrule
-            KCS-FCnet                   & \textbf{$76.4 \pm 11.3$}  &  \textbf{$52.6 \pm 22.7$}  & \textbf{$82.2 \pm 12.2$}  \\ 
-            \bottomrule
-        \end{tabular}
-        }
-    \end{table}
-    \vspace{1em}
-    \begin{itemize}
-        \item DeepConvNet performs the worst, making it unsuitable for high intra-class variability.
-        \item CS-FCNet (ours) achieves the highest scores with the lowest standard deviation.
-    \end{itemize}
-\end{frame}
 
-
-\begin{frame}{Classifier Accuracy Comparison of DL Approaches II}
+\begin{frame}{Classifier Accuracy Comparison of DL Approaches}
     \begin{columns}
         \column{0.33\textwidth}
             \begin{itemize}
                 \item A higher number of trainable parameters does not guarantee better classification accuracy.
-                \item KCS-FCNet outperforms ShallowConvNet while using 20 times fewer parameters.
+                \item KCS-FCNet outperforms ShallowConvNet while using 25 times fewer parameters.
             \end{itemize}
         \column{0.67\textwidth}
             \centering
@@ -1196,7 +1025,7 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
 
 \subsection{IRKCS-FCnet: Interpretable Regularized Kernel Cross-Spectral Functional Connectivity Network}
 
-\begin{frame}[allowframebreaks]{Interpretable regularized kernel cross-spectral FC network}
+\begin{frame}[allowframebreaks]{Interpretable Regularized Kernel Cross-Spectral FC Network}
     \begin{enumerate}
         \item \textbf{Parzen density estimation:}
         \[
@@ -1214,21 +1043,29 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
             \hat{\zeta}(\chi) = \frac{1}{N_c} \sum_{c=1}^{N_c}  \kappa_{x}(\chi, \cdot ; \sigma) \circ \varphi(\ve{x}^c; \ve{w}_f), 
         \]
         where $\varphi(\cdot; \ve{w}_f )$ is a 1-D convolutional layer.
-        \item \textbf{Optimization Formulation with cross-information potential regularization:}
+        \item \textbf{Optimization problem with Renyi's-based regularization:}
         \[
-            \Theta^{*} = \underset{\Theta}{\arg\,\min} \quad \promeddd{r}{R} \left[ \mathcal{L}(\ve{y}_r, \hat{\ve{y}}_r | \Theta) - H(\tilde{\mat{P}}_r; \ve{w}_f, \sigma) \right]; \forall r \in \{1, 2, \dots, R\},
+            \Theta^{*} = \underset{\Theta}{\arg\,\min} \quad \promeddd{r}{\mathcal{L}(\ve{y}_r, \hat{\ve{y}}_r | \Theta) - \rho H(\tilde{\mat{P}}_r; \ve{w}_f, \sigma) }; \forall r \in \{1, 2, \dots, R\},
         \]
         where
         \[
             H(\tilde{\mat{P}}_r; \ve{w}_f, \sigma) = - \log \left( \frac{1}{N_c^2} \sum_{c, c'=1}^{N_c} \kappa_{x}(\cdot, \cdot; \sigma) \circ \left( \tilde{p}_r^{c'}(\ve{w}_f), \tilde{p}_r^{c}(\ve{w}_f) \right) \right).
         \]
     \end{enumerate}
+    \footnotetext[1]{\cite{yu2019multivariate, giraldo2014measures}}
 \end{frame}
 
 
-\begin{frame}{Interpretable Regularized Kernel Cross-Spectral FC Network Proposal}
+\begin{frame}{Interpretable Regularized KCS-FCnet Proposal I}
     \centering
     \includegraphics[scale=0.55]{../Tesis_document/Figures/outline_and_contributions/contribution3.pdf}
+\end{frame}
+
+\begin{frame}{Interpretable Regularized KCS-FCnet Proposal II}
+    \centering
+    \includegraphics[scale=0.5, trim={0 0 0 230},clip]{figures/averagedropimg.pdf}
+
+    Quantitative average drop interpretation comparison
 \end{frame}
 
 \begin{frame}{Experimental set-up}
@@ -1237,14 +1074,15 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
         \begin{itemize}
             \item Database used DBIII MI
             \item Donwsampling from $512$ Hz to $128$ Hz. 
-            \item Filtering from $4$ Hz to $40$ Hz. 
-            \item Records clipped from $0.5$ s to $2.5$ s post cue.
+            \item Filtering from $4$ Hz to $40$ Hz.
         \end{itemize}
         \item \textbf{IRKCS-FCnet Training \cite{lawhern2018eegnet, schirrmeister2017deep}:}
         \begin{itemize}
             \item Data split using 5-fold 80-20 scheme.
-            \item 1-D convolutional kernel length set to $20$ as in \cite{lawhern2018eegnet}
-            \item Number of filters were taken from the best results within the original model
+            \item 1-D convolutional kernel length set to $20$.
+            \item Number of filters were taken from the best results within the original model.
+            \item Gaussian kernel $\sigma=\varsigma  Median( \mat{D} ) $ with $\mat{D}$ being the distance matrix and $\varsigma$ a trainable parameter. 
+            \item Regularization hyperparamter $\rho$ is searched within the set $\{0,0.2,0.5,0.7,1,5,10\}$.
         \end{itemize}
         \item \textbf{Group-Level Analysis:}
         \begin{itemize}
@@ -1262,7 +1100,8 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
             \centering
             \resizebox{0.9\linewidth}{!}{\input{../Tesis_document/Figures/Objective_3/acc_windows}}
         \column{0.3\textwidth}
-            \begin{itemize}
+            \begin{itemize} 
+                \item Average performance comparison at different time windows.
                 \item All three models show reduced accuracy with no or insufficient MI information.
                 \item All models achieve peak accuracy in the [$2.5$~−~$5$]s window.
             \end{itemize}
@@ -1285,38 +1124,20 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
 
 \begin{frame}{Group Level Analysis I}
     \begin{columns}
-        \column{0.7\textwidth}
+        \column{0.6\textwidth}
             \centering
             \resizebox{1\linewidth}{!}{\input{figures/semaforo_3.tex}}
-        \column{0.3\textwidth}
+        \column{0.4\textwidth}
             \begin{itemize}
                 \item Light-colored symbols mark subjects who remain with same accuracy.
                 \item Subjects 14, 10, and 49 are promoted from the intermediate to the best group.
-                \item Subjects 13 and 18 moved up from the worst to the intermediate grou
+                \item Subjects 13 and 18 moved up from the worst to the intermediate Group
+                \item Accuracy improvement of GII from $72.15\%$ in EEGnet to nearly $80\%$ in IRKCS-FCnet (ours).
             \end{itemize}
     \end{columns}       
 \end{frame}
 
 \begin{frame}{Group Level Analysis II}
-    \begin{table}
-        \centering
-        \begin{tabular}{|c|c|c|c|}
-            \hline
-            Strategy & G I & G II  & G III \\
-            \hline
-            EEGnet & 90.55 $\pm$ 5.88 & 72.15 $\pm$ 4.87 & 54.27 $\pm$ 3.21 \\
-            KCS-FCnet & 91.46 $\pm$ 5.31   &  77.85 $\pm$ 4.76 & 66.66 $\pm$ 7.88 \\
-            IRKCS-FCnet & \textbf{92.28 $\pm$ 4.79}  & \textbf{79.26 $\pm$ 4.93}  & \textbf{67.77$\pm$ 7.83} \\
-            \hline
-        \end{tabular}
-    \end{table}
-    \begin{itemize}
-        \item The standard deviation for the regularized version decreases by over one percentage point, indicating enhanced performance consistency.
-        \item Accuracy improvement from $72.15\%$ in EEGnet to nearly $80\%$ in IRKCS-FCnet (ours).
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{Group Level Analysis III}
     \begin{columns}
         \column{0.3\textwidth}
         \begin{itemize}
@@ -1333,19 +1154,6 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
 \begin{frame}{Post-Hoc Interpretability}
     \begin{columns}
         \column{0.6\textwidth}
-            \begin{table}[h!]
-                \centering
-                \resizebox{\textwidth}{!}{%
-                \begin{tabular}{|c|c|c|}
-                \hline
-                \textbf{Group} & \textbf{KCS-FCnet vs. Random} & \textbf{RKCS-FCnet vs. Random} \\ \hline
-                \textbf{G I} & 0.00077* & 0.00230* \\
-                \textbf{G II} & 0.00368* & 0.00434* \\
-                \textbf{G III} & 0.00108* & 0.00074* \\ \hline
-                \end{tabular}
-                }
-                \end{table}
-        
                 \begin{table}[h!]
                     \centering
                     \resizebox{\textwidth}{!}{%
@@ -1363,12 +1171,11 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
                     \end{table}
         \column{0.4\textwidth}
         \begin{itemize}
-            \item The accuracy drop upon important feature removal in both models is statistically different from the random drop.
-            \item Plain model drops $17.12$ accuracy points, while the regularized model drops $22.46$ points, a difference of over 5 points.
+            \item The highest difference per group is indicated by (\legend{GI!80}) for GI, (\legend{GII!80}) for GII, and (\legend{GIII!80}) for GIII.
+            \item Plain model drops $17.12$ accuracy points, while the regularized model drops $22.46$ points for $5\%$ case.
             \item As feature removal increases, the accuracy drop discrepancy diminishes, plateauing around $40\%$ from $15\%$ to $25\%$ removal.
         \end{itemize}
     \end{columns}  
-  
 \end{frame}
 
 \begin{frame}{Intrinsic Interpretability I}
@@ -1387,9 +1194,9 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
 \end{figure}
 \centering
     \begin{itemize}
+        \item Ten most relevant channels for each group based on the last layer weights of IRKCS-FCnet.
         \item For GI, the best-performing group, most channels are located in the sensorimotor cortex (CP3, CP4, CP6), central sulcus (C1, C2, C3, C4, C6), and motor cortex (FC2, FC4).
-        \item For GII, $60\%$ of the most relevant channels are in the motor-related brain area.
-        \item For GIII, only $30\%$ of the most relevant channels are in the motor-related area.
+        \item In GII, $60\%$ of the most relevant channels are located in the motor-related brain area, while in GIII, this value drops to only $30\%$.
     \end{itemize}
 \end{frame}
 
@@ -1503,17 +1310,12 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
 \section{Conclusions}
 \begin{frame}{Conclusions I}
     \begin{itemize}
-        \item The proposed single-trial KCS-FC achieves competitive classifier performance while maintaining FC interpretability.
-        \vspace{2em}
-        \item KCS-FCnet automatically extracts spatio-temporal-spectral feature maps, outperforming other end-to-end architectures. Slightly more complex than EEGnet, it offers greater accuracy, especially compared to models with 25 times more parameters.
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{Conclusions II}
-    \begin{itemize}
-        \item The IRKCS-FCnet is an intrinsically interpretable model, providing valuable insights into spatial connections for MI tasks, particularly emphasizing the contralateral nature of motor-related neurological states within the brain network.
-        \vspace{2em}
-        \item The average drop score measures the relevance of interpretative results, aiding in the identification of transparent models and offering a quantitative comparative framework.
+        \item The proposed \textbf{single-trial KCS-FC} achieves \textbf{competitive classifier performance} while maintaining FC \textbf{interpretability} (Objective 1).
+        \vspace{1em}
+        \item \textbf{KCS-FCnet} automatically extracts \textbf{spatio-temporal-spectral feature} maps, outperforming other end-to-end architectures. Slightly more complex than EEGnet, it offers \textbf{greater accuracy}, especially compared to models with 25 times more parameters (Objective 2).
+        \vspace{1em}
+        \item The \textbf{IRKCS-FCnet} is an \textbf{intrinsically interpretable model}, providing valuable insights into spatial connections for MI tasks, particularly emphasizing the \textbf{contralateral nature of motor-related} neurological states within the brain network (Objective 3).
+        
     \end{itemize}
 \end{frame}
 
@@ -1521,25 +1323,17 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
 \section{Future work}
 \begin{frame}{Future work I}
     \begin{itemize}
-        \item The feature extraction process could be refined by using advanced methods for measuring multivariate similarity, such as centered kernel alignment \cite{brockmeier2014neural, Alvarez-Meza2014}.
-        \vspace{2em}
         \item Extracting more information from time lags, rather than relying solely on instantaneous relationships, could help address volume conduction issues \cite{uribe2019correntropy, bakhshali2020eeg, de2019data}.
+        \vspace{2em}
+        \item The current method's reliance on pairwise relationships may overlook the influence of a third channel, suggesting the potential benefits of more complex multivariate approaches that account for information from other electrodes \cite{vidaurre2023novel}.
     \end{itemize}
 \end{frame}
 
 \begin{frame}{Future work II}
     \begin{itemize}
-        \item The current method's reliance on pairwise relationships may overlook the influence of a third channel, suggesting the potential benefits of more complex multivariate approaches that account for information from other electrodes \cite{vidaurre2023novel}.
-        \vspace{2em}
-        \item Implement a cross-subject transfer learning strategy, where insights from different subjects could enhance the decoding of MI tasks in EEG recordings, especially for low-performing individuals \cite{wei2023sub}.
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{Future work III}
-    \begin{itemize}
         \item Incorporate Riemannian geometry to capture the internal relationships between different channels in the FC matrix's feature extraction process \cite{carrara2023classification}.
         \vspace{2em}
-        \item Given recent advancements in graph neural networks, integrating this concept is feasible, as our work heavily relies on FC matrices, which naturally form a dynamic graph. This direction could lead to more nuanced and sophisticated EEG analysis frameworks \cite{ma2023double}.
+        \item To compare with state-of-the-art methods we employ a 5-fold cross-validation (80-20 split) for our proposals, which may lead to hyperparameter overfitting. Future work could explore subject-independent or cross-dataset approaches to mitigate this risk \cite{wei2023sub}..
     \end{itemize}
 \end{frame}
 
@@ -1557,6 +1351,11 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
     \end{enumerate}
 \end{frame}
 
+\begin{frame}{Acknowledgements}
+    \centering
+    I recognize that this research would not have been possible without the support given by the projects: “Alianza científica con enfoque comunitario para mitigar brechas de atención y manejo de trastornos mentales y epilepsia en Colombia (ACEMATE).” (Code 111091991908, Hermes Code 56118 ) funded by MINCIENCIAS, and “ Sistema de visión artificial para el monitoreo y seguimiento de efectos analgésicos y anestésicos administrados vía neuroaxial epidural en población obstétrica durante labores de parto para el fortalecimiento de servicios de salud materna del Hospital Universitario de Caldas - SES HUC.” (Hermes Code 57661 ), funded by Universidad Nacional de Colombia.
+\end{frame}
+
 \section{References}
 % ------------------------------------------------------------------------
 \begin{frame}[allowframebreaks]%,noframenumbering]
@@ -1565,6 +1364,241 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
 \bibliographystyle{apalike}
 \bibliography{../Tesis_document/References}
 }
+\end{frame}
+
+
+\begin{frame}
+    \begin{columns}
+        \column{0.6\textwidth}
+            \begin{table}[h!]
+                \centering
+                \resizebox{\textwidth}{!}{%
+                \begin{tabular}{|c|c|c|}
+                \hline
+                \textbf{Group} & \textbf{KCS-FCnet vs. Random} & \textbf{RKCS-FCnet vs. Random} \\ \hline
+                \textbf{G I} & 0.00077* & 0.00230* \\
+                \textbf{G II} & 0.00368* & 0.00434* \\
+                \textbf{G III} & 0.00108* & 0.00074* \\ \hline
+                \end{tabular}
+                }
+                \end{table}
+        
+                \begin{table}[h!]
+                    \centering
+                    \resizebox{\textwidth}{!}{%
+                    \begin{tabular}{|l|l|c|c|c|c|c|}
+                    \hline
+                    \textbf{Strategy} & \textbf{Group} & \textbf{25\%} & \textbf{20\%} & \textbf{15\%} & \textbf{10\%} & \textbf{5\%} \\ \hline
+                    \multirow{3}{*}{\textbf{KCS-FCnet}} & \textbf{G I} & 40.51 & 37.93 & 35.97 & 30.25 & 17.12 \\
+                    & \textbf{G II} & 40.10 & 39.00 & 36.46 & \cellcolor{GII!80}28.60 & 17.72 \\
+                    & \textbf{G III} & 39.05 & 36.98 & 31.99 & 25.28 & 15.02 \\ \hline
+                    \multirow{3}{*}{\textbf{RKCS-FCnet}} & \textbf{G I} &  44.80 & 39.21 &  37.79 &  30.55 & \cellcolor{GI!80} 22.46 \\
+                    & \textbf{G II} & 41.08 & 40.01 & 36.77 & 27.28 & 18.84 \\
+                    & \textbf{G III} & 39.65 & 37.30 & 33.12 & \cellcolor{GIII!70}27.10 & 16.80 \\ \hline
+                    \end{tabular}
+                }
+                    \end{table}
+        \column{0.4\textwidth}
+        \begin{itemize}
+            \item The accuracy drop upon important feature removal in both models is statistically different from the random drop.
+            \item Plain model drops $17.12$ accuracy points, while the regularized model drops $22.46$ points, a difference of over 5 points.
+            \item As feature removal increases, the accuracy drop discrepancy diminishes, plateauing around $40\%$ from $15\%$ to $25\%$ removal.
+        \end{itemize}
+    \end{columns}  
+\end{frame}
+
+\begin{frame}{Group Level Analysis II}
+    \begin{table}
+        \centering
+        \begin{tabular}{|c|c|c|c|}
+            \hline
+            Strategy & G I & G II  & G III \\
+            \hline
+            EEGnet & 90.55 $\pm$ 5.88 & 72.15 $\pm$ 4.87 & 54.27 $\pm$ 3.21 \\
+            KCS-FCnet & 91.46 $\pm$ 5.31   &  77.85 $\pm$ 4.76 & 66.66 $\pm$ 7.88 \\
+            IRKCS-FCnet & \textbf{92.28 $\pm$ 4.79}  & \textbf{79.26 $\pm$ 4.93}  & \textbf{67.77$\pm$ 7.83} \\
+            \hline
+        \end{tabular}
+    \end{table}
+    \begin{itemize}
+        \item The standard deviation for the regularized version decreases by over one percentage point, indicating enhanced performance consistency.
+        \item Accuracy improvement of GII from $72.15\%$ in EEGnet to nearly $80\%$ in IRKCS-FCnet (ours).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Classifier Accuracy Comparison of DL Approaches I}
+    \begin{table}[H]
+        \centering
+        \resizebox{0.8\linewidth}{!}{
+        \begin{tabular}{lccc}
+            \toprule
+            \textbf{Approach}         &  \textbf{Accuracy}  & \textbf{Kappa}  & \textbf{AUC}  \\ 
+            \midrule
+            Deepconvnet~\cite{schirrmeister2017deep}    & $62.5 \pm 13.0$  & $24.5 \pm 25.9$   & $68.9 \pm 17.8$  \\ 
+            EEGnet~\cite{lawhern2018eegnet}             & $69.0 \pm 14.6$  & $38.0 \pm 29.1$   & $75.4 \pm 16.6$  \\ 
+            TCNet-Fusion~\cite{musallam2021electroencephalography}   & $72.7 \pm 14.0$  & $45.0 \pm 28.2$   & $79.6 \pm 15.9$  \\ 
+            Shallowconvnet~\cite{schirrmeister2017deep} & $74.9 \pm 13.9$  & $49.5 \pm 27.8$   & $79.9 \pm 15.1$  \\ 
+            \midrule
+            KCS-FCnet                   & \textbf{$76.4 \pm 11.3$}  &  \textbf{$52.6 \pm 22.7$}  & \textbf{$82.2 \pm 12.2$}  \\ 
+            \bottomrule
+        \end{tabular}
+        }
+    \end{table}
+    \vspace{1em}
+    \begin{itemize}
+        \item DeepConvNet performs the worst, making it unsuitable for high intra-class variability.
+        \item KCS-FCNet (ours) achieves the highest scores with the lowest standard deviation.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Functional Connectivity Analysis II}
+    \begin{columns}
+        \column{0.6\textwidth}
+            \centering
+            \resizebox{1\linewidth}{!}{\input{../Tesis_document/Figures/Objective_2/renyi_boxplot.tikz}}
+        \column{0.4\textwidth}
+            \begin{itemize}
+                \item The Rényi's entropy $\alpha=2$ quantifies the interpretability performance from 2KS test matrices.
+                \item Higher entropy values indicates a higher class distribution separability. 
+                \item Groups that perform better show higher entropy values.
+            \end{itemize}
+    \end{columns}   
+\end{frame}
+
+\begin{frame}{Functional Connectivity Analysis III}
+    \begin{columns}
+        \column{0.4\textwidth}
+        \begin{itemize}
+            \item Relevant connections identified from 2KS test matrices.
+            \item In GI, most relevant connections are found in motor-related areas.
+            \item In GII lacks relevant connections.
+        \end{itemize}
+        \column{0.6\textwidth}
+        \begin{figure}
+            \centering
+            \resizebox{2\linewidth}{!}{%
+                \begin{minipage}{\linewidth}
+                    % Column headers
+                    \begin{subfigure}[b]{.13\linewidth}
+                        \centering
+                        \textbf{GI}
+                    \end{subfigure}
+                    ~
+                    \begin{subfigure}[b]{.13\linewidth}
+                        \centering
+                        \textbf{GII}
+                    \end{subfigure}
+                    ~
+                    \begin{subfigure}[b]{.13\linewidth}
+                        \centering
+                        \textbf{GIII}
+                    \end{subfigure}
+                    \\
+                    \begin{subfigure}[b]{.13\linewidth}
+                        \centering
+                        \resizebox{1.3\linewidth}{!}{\input{figures/circonnecitvity_good_2}}
+                    \end{subfigure}
+                    ~
+                    \begin{subfigure}[b]{.13\linewidth}
+                        \centering
+                        \resizebox{1.3\linewidth}{!}{\input{figures/circonnecitvity_medium_2}}    
+                    \end{subfigure}
+                    ~
+                    \begin{subfigure}[b]{.13\linewidth}
+                        \centering
+                        \resizebox{1.3\linewidth}{!}{\input{figures/circonnecitvity_bad_2}}    
+                    \end{subfigure}
+                    \\
+                \end{minipage}
+                }
+                \end{figure}
+                \end{columns}
+
+\end{frame}
+
+\begin{frame}{Subject Dependent and Group Analysis Results IV}
+    \begin{columns}
+        \column{0.66\textwidth}
+            \centering
+            \resizebox{1\linewidth}{!}{\input{../Tesis_document/Figures/Objective_2/groped_std.tikz}}
+    \column{0.33\textwidth}
+        \begin{itemize}
+            \item For GI, KCS-FCnet (ours) reduces variability.
+            \item For GII, KCS-FCnet (ours) lowers standard deviation, with similar variability proportion.
+            \item For GIII, both approaches behave similarly.
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Subject Dependent and Group Analysis Results III}
+    \centering
+    \begin{table}[h!] 
+        \newcolumntype{W}{>{\centering\arraybackslash}X}
+        \resizebox{0.9\linewidth}{!}{
+        \begin{tabularx}{\textwidth}{WWWW}
+            \toprule
+            \textbf{Approach} & \textbf{Group} & \textbf{Accuracy} & \textbf{KCS-FCnet Gain} \\ 
+            \midrule
+            \multirow{3}{*}{EEGnet} 
+            & G I & $90.6 \pm 4.3$ & $\cdot$ \\ 
+            \cline{2-4} 
+            & G II & $72.2 \pm 7.3$ & $\cdot$ \\ 
+            \cline{2-4} 
+            & G III & $54.3 \pm 6.6$ & $\cdot$ \\ 
+            \midrule
+            \multirow{3}{*}{KCS-FCnet} 
+            & G I & \textbf{$91.5 \pm 3.3$} & \textbf{0.9} \\ 
+            \cline{2-4} 
+            & G II & \textbf{$77.8 \pm 4.7$} & \textbf{5.6} \\ 
+            \cline{2-4} 
+            & G III & \textbf{$66.7 \pm 5.6$} & \textbf{12.4} \\ 
+            \bottomrule
+        \end{tabularx}
+        }
+    \end{table} 
+    \vspace{2em}
+    Our proposal not only outperforms EEGnet in terms of accuracy but also reduces the variability for all clusters.
+\end{frame}
+\begin{frame}{Impact of Prior CSP Filtering}
+    \def \kerrwidth {.3\linewidth}
+    \begin{columns}
+        \column{0.35\textwidth}
+            \begin{itemize}
+                \item PLV shows high variance and low accuracy.
+                \item CSP accuracy drops at $\tau=0.5$ due to its reliance on FC estimation, where less information leads to poorer estimates.
+                \item KCS-FC (ours) outperforms other FC measures, with less variance in accuracy across subjects.
+            \end{itemize}
+        \column{0.65\textwidth}
+            \begin{figure}[h!]
+                \centering
+                \hbox{\hspace{1.7cm} {PLV}\hspace{2.2cm} {CCF}\hspace{2cm} {KCS-FC}}	
+                \rotatebox{90}{ \quad\, \textbf{\tiny DBIII MI}}
+                \rotatebox{90}{ \quad\,\tiny{Accuracy ($\%$)}}
+                \resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_plv_giga_MI.png}}
+                \resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_pearson_giga_MI.png}}
+                \resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_gauss_giga_MI.png}}\\
+                \rotatebox{90}{\quad \textbf{\tiny DBIII MI-CSP}}
+                \rotatebox{90}{ \quad\,\tiny{Accuracy ($\%$)}}
+                \resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_csp_plv_giga_MI.png}}
+                \resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_csp_pearson_giga_MI.png}}
+                \resizebox{\kerrwidth}{!}{\includegraphics[trim=85 100 80 80, clip]{../Tesis_document/Figures/Objective_1/taus_csp_gauss_giga_MI.png}}\\
+            \end{figure}
+    \end{columns}
+\end{frame}
+\begin{frame}{Experimental Setup for MI-based BCIs}
+    \begin{columns}
+        \column{0.6\textwidth}
+            \begin{figure}[!ht]
+                \centering
+                \includegraphics[width=0.8\linewidth]{../Tesis_document/Figures/preliminaries/EEG-setup.png}
+            \end{figure}
+        \column{0.4\textwidth}
+            \begin{itemize}
+                \item EEG headsets are equipped with $1$ to $256$ electrodes \cite{grigorev2021bci}.
+                \item Visual cues are often used to guide MI tasks during EEG recordings \cite{hosseini2020review}.
+            \end{itemize}
+    \end{columns}
+    \footnotetext[1]{\textbf{{Image}:} {Adapted from} \cite{grigorev2021bci}}
 \end{frame}
 
 \end{document}
