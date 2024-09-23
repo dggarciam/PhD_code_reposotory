@@ -346,7 +346,7 @@ Universidad Nacional de Colombia \\ Signal Processing and Recognition Group - SP
     \centering
     The SPRG designs Machine Learning (ML) and Deep Learning (DL) models to improve\\ the performance and explainability of EEG-based MI-BCIs \cite{collazos2023posthoc}.
     \centering
-    \includegraphics[width=0.7\linewidth]{figures/bcisoft.jpeg}
+    \includegraphics[width=0.3\linewidth]{figures/group_img.jpeg}
 \end{frame}
 
 \section{Problem statement}
@@ -679,7 +679,7 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
     \begin{itemize}
         \item CSP algorithm reduces the effectiveness of KCS-FC (ours) in handling subject variability.
         \item Both versions of the PLV algorithm achieve the lowest accuracy.
-        \item KCS-FC (ours) ensures several subjects exceed the BCI-inefficiency threshold (below 60\%).
+        \item KCS-FC (ours) ensures several subjects exceed the BCI-inefficiency threshold (below 70\%).
     \end{itemize}
 \end{frame}
 
@@ -895,7 +895,7 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
         \begin{itemize}
             \item KCS-FCnet (ours) shows strong impact on subjects in the third group.
             \item Seven subjects experienced a decrease in accuracy.
-            \item 47 subjects experience an increase of more tahn five points in accuracy.
+            \item 47 subjects experience an increase of more than five points in accuracy.
         \end{itemize}
     \end{columns}
 
@@ -1154,6 +1154,7 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
 \begin{frame}{Post-Hoc Interpretability}
     \begin{columns}
         \column{0.6\textwidth}
+        Average accuracy drop across feature removal percentage
                 \begin{table}[h!]
                     \centering
                     \resizebox{\textwidth}{!}{%
@@ -1163,12 +1164,13 @@ How can a \textbf{single-trail FC} be developed to manage non-stationary EEG sub
                     \multirow{3}{*}{\textbf{KCS-FCnet}} & \textbf{G I} & 40.51 & 37.93 & 35.97 & 30.25 & 17.12 \\
                     & \textbf{G II} & 40.10 & 39.00 & 36.46 & \cellcolor{GII!80}28.60 & 17.72 \\
                     & \textbf{G III} & 39.05 & 36.98 & 31.99 & 25.28 & 15.02 \\ \hline
-                    \multirow{3}{*}{\textbf{RKCS-FCnet}} & \textbf{G I} &  44.80 & 39.21 &  37.79 &  30.55 & \cellcolor{GI!80} 22.46 \\
+                    \multirow{3}{*}{\textbf{IRKCS-FCnet}} & \textbf{G I} &  44.80 & 39.21 &  37.79 &  30.55 & \cellcolor{GI!80} 22.46 \\
                     & \textbf{G II} & 41.08 & 40.01 & 36.77 & 27.28 & 18.84 \\
                     & \textbf{G III} & 39.65 & 37.30 & 33.12 & \cellcolor{GIII!70}27.10 & 16.80 \\ \hline
                     \end{tabular}
                 }
                     \end{table}
+
         \column{0.4\textwidth}
         \begin{itemize}
             \item The highest difference per group is indicated by (\legend{GI!80}) for GI, (\legend{GII!80}) for GII, and (\legend{GIII!80}) for GIII.
